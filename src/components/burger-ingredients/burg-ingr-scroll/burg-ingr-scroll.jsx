@@ -5,7 +5,7 @@ import { data } from "../../../utils/data";
 import { sortData } from "../../../utils/utils";
 
 const BurgIngrScroll = ({ menu }) => {
-  const cnCards = cn(styles.cards, "pr-4", "pl-4");
+  const cnCards = cn(styles.cards, "pr-2", "pl-4");
   const cnBlockTitle = cn(
     styles.block__title,
     "mt-10",

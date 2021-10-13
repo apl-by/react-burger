@@ -214,7 +214,7 @@ export const data = [
 ];
 
 export const menuSection = [
-  { title: "Булки", id: 1 },
-  { title: "Соусы", id: 2 },
-  { title: "Начинки", id: 3 },
+  { id: 1, title: "Булки" },
+  { id: 2, title: "Соусы" },
+  { id: 3, title: "Начинки" },
 ];

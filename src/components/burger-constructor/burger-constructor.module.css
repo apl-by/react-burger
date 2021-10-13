@@ -1,0 +1,57 @@
+.constructor {
+  display: flex;
+  flex-direction: column;
+  min-width: 600px;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.constructor__container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  max-height: calc(100% - 100px);
+}
+
+.constructor__scroll {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.constructor__scroll::-webkit-scrollbar {
+    width: 8px; 
+    background-color: #2F2F37;
+}
+
+.constructor__scroll::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+    border: 3px solid #8585AD;
+    box-sizing: border-box;
+}
+
+.constructor__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.constructor__confirm {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.constructor__price {
+  display: flex;
+  align-items: center;
+}
+
+.constructor__price-value {
+  margin-right: 8px;
+}
