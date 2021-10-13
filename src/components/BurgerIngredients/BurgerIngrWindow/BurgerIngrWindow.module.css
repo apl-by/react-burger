@@ -1,0 +1,44 @@
+.window {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.window::-webkit-scrollbar {
+    width: 8px; 
+    background-color: #2F2F37;
+}
+
+.window::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+    border: 3px solid #8585AD;
+    box-sizing: border-box;
+}
+
+.block {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.block__item {
+  display: flex;
+  flex-direction: column;
+}
+
+.block__title {
+  display: flex;
+}
+
+.cards {
+ list-style: none;
+ margin: 0;
+ display: grid;
+ grid-template-columns: repeat(2, min-content);
+ row-gap: 32px;
+ column-gap: 24px;
+}
+
+.cards__card { 
+  display: flex;
+}
+
