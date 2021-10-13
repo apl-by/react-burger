@@ -1,10 +1,10 @@
-import styles from "./BurgerIngrWindow.module.css";
-import BurgerIngrCard from "./BurgerIngrCard/BurgerIngrCard";
+import styles from "./burg-ingr-scroll.module.css";
+import BurgIngrCard from "./burg-ingr-card/burg-ingr-card";
 import cn from "classnames";
 import { data } from "../../../utils/data";
 import { sortData } from "../../../utils/utils";
 
-const BurgerIngrWindow = ({ menu }) => {
+const BurgIngrScroll = ({ menu }) => {
   const cnCards = cn(styles.cards, "pr-4", "pl-4");
   const cnBlockTitle = cn(
     styles.block__title,
@@ -35,7 +35,7 @@ const BurgerIngrWindow = ({ menu }) => {
             <ul className={cnCards}>
               {setCardsList(i.title).map((item) => (
                 <li className={styles.cards__card} key={item._id}>
-                  <BurgerIngrCard cardData={item} />
+                  <BurgIngrCard cardData={item} />
                 </li>
               ))}
             </ul>
@@ -46,4 +46,4 @@ const BurgerIngrWindow = ({ menu }) => {
   );
 };
 
-export default BurgerIngrWindow;
+export default BurgIngrScroll;

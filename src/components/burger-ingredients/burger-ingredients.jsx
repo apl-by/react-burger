@@ -1,6 +1,6 @@
-import styles from "./BurgerIngredients.module.css";
-import BurgerIngrTabs from "./BurgerIngrTabs/BurgerIngrTabs";
-import BurgerIngrWindow from "./BurgerIngrWindow/BurgerIngrWindow";
+import styles from "./burger-ingredients.module.css";
+import BurgIngrTabs from "./burg-ingr-tabs/burg-ingr-tabs";
+import BurgIngrScroll from "./burg-ingr-scroll/burg-ingr-scroll";
 import {menuSection} from "../../utils/data"
 import cn from "classnames";
 
@@ -15,8 +15,8 @@ const BurgerIngredients = () => {
   return (
     <section className={styles.ingridients}>
       <h1 className={cnIngridientsTitle}>Соберите бургер</h1>
-      <BurgerIngrTabs menu={menuSection} />
-      <BurgerIngrWindow menu={menuSection} />
+      <BurgIngrTabs menu={menuSection} />
+      <BurgIngrScroll menu={menuSection} />
     </section>
   );
 };

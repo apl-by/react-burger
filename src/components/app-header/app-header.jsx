@@ -1,5 +1,5 @@
 import { Component } from "react";
-import styles from "./AppHeader.module.css";
+import styles from "./app-header.module.css";
 import {
   BurgerIcon,
   ListIcon,

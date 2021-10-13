@@ -1,12 +1,12 @@
 import { useState } from "react";
-import styles from "./BurgerIngrCard.module.css";
+import styles from "./burg-ingr-card.module.css";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
 
-const BurgerIngrCard = ({ cardData }) => {
+const BurgIngrCard = ({ cardData }) => {
   // Временно для ревью. После реализации логики,
   //  исправить на useState(null)
   const [count, setCount] = useState(1);
@@ -39,4 +39,4 @@ const BurgerIngrCard = ({ cardData }) => {
   );
 };
 
-export default BurgerIngrCard;
+export default BurgIngrCard;
