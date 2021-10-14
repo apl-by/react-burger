@@ -15,3 +15,13 @@ export const sortData = (data) => {
     [[], [], []]
   );
 };
+
+ export const setCardsList = (title, array) => {
+   return title === "Булки"
+     ? array[0]
+     : title === "Соусы"
+     ? array[1]
+     : title === "Начинки"
+     ? array[2]
+     : [];
+ };

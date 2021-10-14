@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burg-ingr-tabs.module.css";
 
-const BurgIngrTabs = ({ menu }) => {
-  const [current, setCurrent] = useState(menu[0].id);
+const BurgIngrTabs = ({ sections }) => {
+  const [current, setCurrent] = useState(sections[0].id);
   return (
     <div className={styles.tabs}>
-      {menu.map((i) => (
+      {sections.map((i) => (
         <Tab
           value={i.id}
           active={current === i.id}
