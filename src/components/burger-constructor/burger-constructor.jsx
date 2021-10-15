@@ -1,4 +1,6 @@
 import styles from "./burger-constructor.module.css";
+import Modal from "../modal/modal";
+import useModal from "../../hoocs/use-modal";
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -6,8 +8,13 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
+// Временная заглушка
+import image from "../../images/modal-done.png";
 
 const BurgerConstructor = ({ order }) => {
+  const { isOpen, info, openModal, closeModal } = useModal({});
+  console.log(info);
+
   const cnConstructor = cn(
     styles.constructor,
     "pt-25",
@@ -23,6 +30,11 @@ const BurgerConstructor = ({ order }) => {
     "text",
     "text_type_digits-default"
   );
+
+  const handleBtnClick = () => {
+    // Передать объект ответа с сервера
+    openModal({});
+  };
 
   return (
     <section className={cnConstructor}>
@@ -61,10 +73,36 @@ const BurgerConstructor = ({ order }) => {
               <span className={cnConstructorPriceValue}>620</span>
               <CurrencyIcon type="primary" />
             </div>
-            <Button type="primary" size="medium">
+            <Button type="primary" size="medium" onClick={handleBtnClick}>
               Оформить заказ
             </Button>
           </div>
+          {isOpen && (
+            // Заменить тестовые данные при получении ответа с сервера
+            <Modal onClick={closeModal} mod="pb-30">
+              <p
+                className={`${styles.modal__order} text text_type_digits-large`}
+              >
+                034536
+              </p>
+              <p
+                className={`${styles.modal__text} mt-8 mb-15 text text_type_main-medium`}
+              >
+                идентификатор заказа
+              </p>
+              <img src={image} alt="Заказ подтвержден" />
+              <p
+                className={`${styles.modal__text} mt-15 mb-2 text text_type_main-default`}
+              >
+                Ваш заказ начали готовить
+              </p>
+              <p
+                className={`${styles.modal__text} text text_type_main-default text_color_inactive`}
+              >
+                Дождитесь готовности на орбитальной станции
+              </p>
+            </Modal>
+          )}
         </>
       )}
     </section>

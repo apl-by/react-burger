@@ -11,16 +11,14 @@ const App = () => {
   const [order, setOrder] = useState({ bun: {}, ingridients: [], empty: true });
 
   // Захардкодил заполнение order для ревью.
-  // В дальнейшем заполнять order после drag&drop 
+  // В дальнейшем заполнять order после drag&drop
   useEffect(() => {
-    setOrder((order) => {
-      return {
-        ...order,
-        bun: sortedMenu[0].length === 0 ? {} : sortedMenu[0][0],
-        ingridients: [...order.ingridients, ...sortedMenu[1], ...sortedMenu[2]],
-        empty: sortedMenu[0].length === 0 ? true : false,
-      };
-    });
+    if (sortedMenu[0].length)
+      setOrder({
+        bun: sortedMenu[0][0],
+        ingridients: [...sortedMenu[1], ...sortedMenu[2]],
+        empty: false,
+      });
   }, [sortedMenu]);
 
   useEffect(() => {

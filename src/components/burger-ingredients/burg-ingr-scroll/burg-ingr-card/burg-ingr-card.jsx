@@ -6,7 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
 
-const BurgIngrCard = ({ cardData }) => {
+const BurgIngrCard = ({ cardData, onClick }) => {
   // Временно для ревью. После реализации логики,
   //  исправить на useState(null)
   const [count, setCount] = useState(1);
@@ -26,8 +26,12 @@ const BurgIngrCard = ({ cardData }) => {
     "text_type_main-default"
   );
 
+  const handleClick = () => {
+    onClick(cardData);
+  }
+
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={handleClick}>
       {count && <Counter count={count} size="default" />}
       <img src={cardData.image} alt={cardData.name} className={cnCardImg} />
       <div className={cnCardBox}>

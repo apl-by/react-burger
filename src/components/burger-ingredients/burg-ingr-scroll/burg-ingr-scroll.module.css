@@ -4,14 +4,14 @@
 }
 
 .window::-webkit-scrollbar {
-    width: 8px; 
-    background-color: #2F2F37;
+  width: 8px;
+  background-color: #2f2f37;
 }
 
 .window::-webkit-scrollbar-thumb {
-    background-color: #8585AD;
-    border: 3px solid #8585AD;
-    box-sizing: border-box;
+  background-color: #8585ad;
+  border: 3px solid #8585ad;
+  box-sizing: border-box;
 }
 
 .block {
@@ -30,15 +30,44 @@
 }
 
 .cards {
- list-style: none;
- margin: 0;
- display: grid;
- grid-template-columns: repeat(2, min-content);
- row-gap: 32px;
- column-gap: 24px;
+  list-style: none;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, min-content);
+  row-gap: 32px;
+  column-gap: 24px;
 }
 
-.cards__card { 
+.cards__card {
   display: flex;
 }
+
+.modal__img {
+  max-width: 520px;
+  max-height: 240px;
+  object-fit: contain;
+  object-position: center;
+  display: flex;
+}
+
+.modal__name {
+  text-align: center;
+}
+
+.modal__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.modal__item {
+  text-align: center;
+  min-width: 112px;
+}
+
+.modal__item:last-child {
+  margin: 0;
+}
+
 
