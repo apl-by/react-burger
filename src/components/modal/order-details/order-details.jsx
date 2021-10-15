@@ -5,7 +5,7 @@ import styles from "./order-details.module.css";
 import image from "../../../images/modal-done.png";
 
 const OrderDetails = ({ info }) => {
-  // Заменить тестовые данные на данные из info 
+  // Заменить тестовые данные на данные из info
   return (
     <div className={styles.details}>
       <p className={`${styles.details__order} text text_type_digits-large`}>

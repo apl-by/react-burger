@@ -5,7 +5,6 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
 const Modal = ({ children, title, onClick, mod = "pb-15" }) => {
-
   return createPortal(
     <ModalOverlay onClick={onClick}>
       <div

@@ -24,13 +24,15 @@ const BurgerConstructor = ({ order }) => {
       {!order.empty && (
         <>
           <div className={styles.constructor__container}>
-            {order.bun && <ConstructorElement
-              type="top"
-              isLocked={true}
-              text={`${order.bun.name} (верх)`}
-              price={200}
-              thumbnail={order.bun.image_mobile}
-            />}
+            {order.bun && (
+              <ConstructorElement
+                type="top"
+                isLocked={true}
+                text={`${order.bun.name} (верх)`}
+                price={200}
+                thumbnail={order.bun.image_mobile}
+              />
+            )}
             <ul className={`${styles.constructor__scroll} mt-4 mb-4`}>
               {order.ingridients.map((i) => (
                 <li className={styles.constructor__item} key={i._id}>
@@ -43,13 +45,15 @@ const BurgerConstructor = ({ order }) => {
                 </li>
               ))}
             </ul>
-            {order.bun && <ConstructorElement
-              type="bottom"
-              isLocked={true}
-              text={`${order.bun.name} (низ)`}
-              price={200}
-              thumbnail={order.bun.image_mobile}
-            />}
+            {order.bun && (
+              <ConstructorElement
+                type="bottom"
+                isLocked={true}
+                text={`${order.bun.name} (низ)`}
+                price={200}
+                thumbnail={order.bun.image_mobile}
+              />
+            )}
           </div>
           <div className={`${styles.constructor__confirm} mt-10`}>
             <div className={`${styles.constructor__price} mr-10`}>

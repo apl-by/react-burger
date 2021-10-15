@@ -10,7 +10,7 @@ import { menuSectionPropType, cardPropTypes } from "../../../utils/prop-types";
 
 const BurgIngrScroll = ({ sections, menu }) => {
   const { isOpen, info, openModal, closeModal } = useModal({});
-  
+
   return (
     <div className={styles.window}>
       <ul className={styles.block}>
@@ -33,7 +33,7 @@ const BurgIngrScroll = ({ sections, menu }) => {
       </ul>
       {isOpen && (
         <Modal title="Детали ингредиента" onClick={closeModal}>
-          <IngredientDetails info={info}/>
+          <IngredientDetails info={info} />
         </Modal>
       )}
     </div>
@@ -44,6 +44,5 @@ export default BurgIngrScroll;
 
 BurgIngrScroll.propTypes = {
   sections: PropTypes.arrayOf(menuSectionPropType),
-  menu: PropTypes.arrayOf(PropTypes.arrayOf(cardPropTypes))
+  menu: PropTypes.arrayOf(PropTypes.arrayOf(cardPropTypes)),
 };
-

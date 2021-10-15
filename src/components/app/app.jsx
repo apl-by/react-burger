@@ -8,7 +8,7 @@ import { sortData } from "../../utils/utils";
 
 const App = () => {
   const [sortedMenu, setSortedMenu] = useState([[], [], []]);
-  const [order, setOrder] = useState({ingridients: [], empty: true });
+  const [order, setOrder] = useState({ ingridients: [], empty: true });
 
   // Захардкодил заполнение order для ревью.
   // В дальнейшем заполнять order после drag&drop

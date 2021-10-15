@@ -4,14 +4,11 @@ const useModal = (value = "", state = false) => {
   const [info, setInfo] = useState(value);
   const [isOpen, setIsOpen] = useState(state);
 
-  const closeByEsc = useCallback(
-    (e) => {
-      if (e.key === "Escape") {
-        setIsOpen(false);
-      }
-    },
-    []
-  );
+  const closeByEsc = useCallback((e) => {
+    if (e.key === "Escape") {
+      setIsOpen(false);
+    }
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
