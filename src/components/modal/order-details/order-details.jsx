@@ -1,4 +1,6 @@
 import styles from "./order-details.module.css";
+// import PropTypes from "prop-types";
+
 // Временная заглушка
 import image from "../../../images/modal-done.png";
 
@@ -30,3 +32,7 @@ const OrderDetails = ({ info }) => {
 };
 
 export default OrderDetails;
+
+// OrderDetails.propTypes = {
+//   info: формат данных ещё не известен,
+// };

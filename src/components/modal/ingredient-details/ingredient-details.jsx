@@ -1,5 +1,6 @@
 import styles from "./ingredient-details.module.css";
 import { modalCardTemplate } from "../../../utils/data";
+import { cardPropTypes } from "../../../utils/prop-types";
 
 const IngredientDetails = ({ info }) => {
   return (
@@ -35,3 +36,7 @@ const IngredientDetails = ({ info }) => {
 };
 
 export default IngredientDetails;
+
+IngredientDetails.propTypes = {
+  info: cardPropTypes,
+};

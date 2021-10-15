@@ -7,11 +7,10 @@ const useModal = (value = "", state = false) => {
   const closeByEsc = useCallback(
     (e) => {
       if (e.key === "Escape") {
-        setInfo(value);
         setIsOpen(false);
       }
     },
-    [value]
+    []
   );
 
   useEffect(() => {
@@ -29,7 +28,6 @@ const useModal = (value = "", state = false) => {
   };
 
   const closeModal = () => {
-    setInfo(value);
     setIsOpen(false);
   };
 

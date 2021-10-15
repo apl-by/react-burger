@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burg-ingr-tabs.module.css";
+import PropTypes from "prop-types";
+import { menuSectionPropType } from "../../../utils/prop-types";
 
 const BurgIngrTabs = ({ sections }) => {
   const [current, setCurrent] = useState(sections[0].id);
@@ -21,3 +23,7 @@ const BurgIngrTabs = ({ sections }) => {
 };
 
 export default BurgIngrTabs;
+
+BurgIngrTabs.propTypes = {
+  sections: PropTypes.arrayOf(menuSectionPropType),
+};

@@ -4,6 +4,10 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
+import { cardPropTypes } from "../../../../utils/prop-types";
+
+
 
 const BurgIngrCard = ({ cardData, onClick }) => {
   // Временно для ревью. После реализации логики,
@@ -38,3 +42,8 @@ const BurgIngrCard = ({ cardData, onClick }) => {
 };
 
 export default BurgIngrCard;
+
+BurgIngrCard.propTypes = {
+  cardData: cardPropTypes,
+  onClick: PropTypes.func.isRequired,
+};

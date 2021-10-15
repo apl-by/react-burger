@@ -5,6 +5,8 @@ import BurgIngrCard from "./burg-ingr-card/burg-ingr-card";
 import Modal from "../../modal/modal";
 import IngredientDetails from "../../modal/ingredient-details/ingredient-details";
 import { setCardsList } from "../../../utils/utils";
+import PropTypes from "prop-types";
+import { menuSectionPropType, cardPropTypes } from "../../../utils/prop-types";
 
 const BurgIngrScroll = ({ sections, menu }) => {
   const { isOpen, info, openModal, closeModal } = useModal({});
@@ -39,3 +41,9 @@ const BurgIngrScroll = ({ sections, menu }) => {
 };
 
 export default BurgIngrScroll;
+
+BurgIngrScroll.propTypes = {
+  sections: PropTypes.arrayOf(menuSectionPropType),
+  menu: PropTypes.arrayOf(PropTypes.arrayOf(cardPropTypes))
+};
+

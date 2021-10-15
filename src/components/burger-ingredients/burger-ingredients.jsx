@@ -2,6 +2,8 @@ import styles from "./burger-ingredients.module.css";
 import BurgIngrTabs from "./burg-ingr-tabs/burg-ingr-tabs";
 import BurgIngrScroll from "./burg-ingr-scroll/burg-ingr-scroll";
 import { menuSections } from "../../utils/data";
+import PropTypes from "prop-types";
+import { cardPropTypes } from "../../utils/prop-types";
 
 const BurgerIngredients = ({ menu }) => {
   return (
@@ -18,3 +20,7 @@ const BurgerIngredients = ({ menu }) => {
 };
 
 export default BurgerIngredients;
+
+BurgerIngredients.propTypes = {
+  menu: PropTypes.arrayOf(PropTypes.arrayOf(cardPropTypes)),
+};

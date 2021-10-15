@@ -8,6 +8,8 @@ import {
   DragIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
+import { cardPropTypes } from "../../utils/prop-types";
 
 const BurgerConstructor = ({ order }) => {
   const { isOpen, info, openModal, closeModal } = useModal({});
@@ -22,13 +24,13 @@ const BurgerConstructor = ({ order }) => {
       {!order.empty && (
         <>
           <div className={styles.constructor__container}>
-            <ConstructorElement
+            {order.bun && <ConstructorElement
               type="top"
               isLocked={true}
               text={`${order.bun.name} (верх)`}
               price={200}
               thumbnail={order.bun.image_mobile}
-            />
+            />}
             <ul className={`${styles.constructor__scroll} mt-4 mb-4`}>
               {order.ingridients.map((i) => (
                 <li className={styles.constructor__item} key={i._id}>
@@ -41,13 +43,13 @@ const BurgerConstructor = ({ order }) => {
                 </li>
               ))}
             </ul>
-            <ConstructorElement
+            {order.bun && <ConstructorElement
               type="bottom"
               isLocked={true}
               text={`${order.bun.name} (низ)`}
               price={200}
               thumbnail={order.bun.image_mobile}
-            />
+            />}
           </div>
           <div className={`${styles.constructor__confirm} mt-10`}>
             <div className={`${styles.constructor__price} mr-10`}>
@@ -76,3 +78,11 @@ const BurgerConstructor = ({ order }) => {
 };
 
 export default BurgerConstructor;
+
+BurgerConstructor.propTypes = {
+  order: PropTypes.shape({
+    bun: cardPropTypes,
+    ingridients: PropTypes.arrayOf(cardPropTypes),
+    empty: PropTypes.bool,
+  }),
+};
