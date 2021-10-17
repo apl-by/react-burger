@@ -1,0 +1,27 @@
+.card {
+  position: relative;
+  max-width: 272px;
+  width: 100%;
+  min-height: 208px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.card__img {
+  display: flex;
+  width: 240px;
+  height: 120px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.card__box {
+  display: flex;
+}
+
+.card__name {
+  margin: 0;
+  text-align: center;
+}
