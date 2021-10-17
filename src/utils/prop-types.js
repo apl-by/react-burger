@@ -16,7 +16,8 @@ export const cardPropTypes = PropTypes.shape({
 
 export const menuSectionPropType = PropTypes.shape({
   id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
+  section: PropTypes.string.isRequired,
+  key: PropTypes.string.isRequired,
 });
 
 

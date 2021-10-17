@@ -16,17 +16,17 @@ const IngredientDetails = ({ info }) => {
         {info.name}
       </p>
       <ul className={styles.details__list}>
-        {modalCardTemplate.map((i, ind) => (
+        {modalCardTemplate.map(i => (
           <li
             className={`${styles.details__item} mr-5 text text_type_main-default text_color_inactive`}
-            key={ind}
+            key={i.id}
           >
-            {i[0]}
+            {i.sign}
             <br />
             <span
               className={`mt-2 text text_type_digits-default text_color_inactive`}
             >
-              {info[`${i[1]}`]}
+              {info[i.key]}
             </span>
           </li>
         ))}

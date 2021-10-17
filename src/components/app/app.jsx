@@ -7,23 +7,32 @@ import { BASE_URL_API } from "../../utils/data";
 import { sortData } from "../../utils/utils";
 
 const App = () => {
-  const [sortedMenu, setSortedMenu] = useState([[], [], []]);
-  const [order, setOrder] = useState({ ingridients: [], empty: true });
+  const [sortedMenu, setSortedMenu] = useState({
+    bun: [],
+    sauce: [],
+    main: [],
+  });
+  const [order, setOrder] = useState({ empty: true });
 
   // Захардкодил заполнение order для ревью.
   // В дальнейшем заполнять order после drag&drop
   useEffect(() => {
-    if (sortedMenu[0].length)
+    if (sortedMenu.bun)
       setOrder({
-        bun: sortedMenu[0][0],
-        ingridients: [...sortedMenu[1], ...sortedMenu[2]],
+        bun: sortedMenu.bun[0],
+        ingridients: [...sortedMenu.sauce, ...sortedMenu.main],
         empty: false,
       });
   }, [sortedMenu]);
 
   useEffect(() => {
     fetch(BASE_URL_API)
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка ${res.status}`);
+      })
       .then((res) => setSortedMenu(sortData(res.data)))
       .catch((err) => console.log(err));
   }, []);

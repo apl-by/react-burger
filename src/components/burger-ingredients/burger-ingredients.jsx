@@ -22,5 +22,9 @@ const BurgerIngredients = ({ menu }) => {
 export default BurgerIngredients;
 
 BurgerIngredients.propTypes = {
-  menu: PropTypes.arrayOf(PropTypes.arrayOf(cardPropTypes)),
+  menu: PropTypes.shape({
+    bun: PropTypes.arrayOf(cardPropTypes),
+    sauce: PropTypes.arrayOf(cardPropTypes),
+    main: PropTypes.arrayOf(cardPropTypes),
+  }),
 };
