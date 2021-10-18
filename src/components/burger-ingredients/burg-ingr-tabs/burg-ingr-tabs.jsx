@@ -15,7 +15,7 @@ const BurgIngrTabs = ({ sections }) => {
           onClick={setCurrent}
           key={i.id}
         >
-          {i.title}
+          {i.section}
         </Tab>
       ))}
     </div>
