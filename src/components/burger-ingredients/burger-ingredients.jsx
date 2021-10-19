@@ -4,8 +4,9 @@ import BurgIngrScroll from "./burg-ingr-scroll/burg-ingr-scroll";
 import { menuSections } from "../../utils/data";
 import PropTypes from "prop-types";
 import { cardPropTypes } from "../../utils/prop-types";
+import { memo } from "react";
 
-const BurgerIngredients = ({ menu }) => {
+const BurgerIngredients = memo(({ menu }) => {
   return (
     <section className={styles.ingridients}>
       <h1
@@ -17,7 +18,7 @@ const BurgerIngredients = ({ menu }) => {
       <BurgIngrScroll sections={menuSections} menu={menu} />
     </section>
   );
-};
+});
 
 export default BurgerIngredients;
 
