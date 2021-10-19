@@ -6,10 +6,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import { cardPropTypes } from "../../../../utils/prop-types";
+import { memo } from "react";
 
 
-
-const BurgIngrCard = ({ cardData, onClick }) => {
+const BurgIngrCard = memo(({ cardData, onClick }) => {
   // Временно для ревью. После реализации логики,
   //  исправить на useState(null)
   const [count, setCount] = useState(1);
@@ -39,7 +39,7 @@ const BurgIngrCard = ({ cardData, onClick }) => {
       </p>
     </div>
   );
-};
+});
 
 export default BurgIngrCard;
 

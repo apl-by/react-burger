@@ -10,8 +10,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import { cardPropTypes } from "../../utils/prop-types";
+import { memo } from "react";
 
-const BurgerConstructor = ({ order }) => {
+const BurgerConstructor = memo(({ order }) => {
   const { isOpen, info, openModal, closeModal } = useModal({});
 
   const handleBtnClick = () => {
@@ -79,7 +80,7 @@ const BurgerConstructor = ({ order }) => {
       )}
     </section>
   );
-};
+});
 
 export default BurgerConstructor;
 

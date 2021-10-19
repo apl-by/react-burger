@@ -16,17 +16,17 @@ const useModal = (value = "", state = false) => {
     return () => document.removeEventListener("keyup", closeByEsc);
   }, [isOpen, closeByEsc]);
 
-  const openModal = (data) => {
+  const openModal = useCallback((data) => {
     if (data === undefined) {
       console.log("Не передан или не корректен аргумент ф-ии openModal");
     }
     setInfo(data);
     setIsOpen(true);
-  };
+  }, []);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setIsOpen(false);
-  };
+  }, []);
 
   return { isOpen, info, openModal, closeModal };
 };
