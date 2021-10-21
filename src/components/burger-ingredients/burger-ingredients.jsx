@@ -8,9 +8,9 @@ import { memo } from "react";
 
 const BurgerIngredients = memo(({ menu }) => {
   return (
-    <section className={styles.ingridients}>
+    <section className={styles.ingredients}>
       <h1
-        className={`${styles.ingridients__title} text text_type_main-large mt-10 mb-5`}
+        className={`${styles.ingredients__title} text text_type_main-large mt-10 mb-5`}
       >
         Соберите бургер
       </h1>
