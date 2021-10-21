@@ -1,10 +1,14 @@
+import { BASE_URL_API } from "./data";
+
 const options = {
   headers: { "Content-type": "application/json" },
+  baseUrl: BASE_URL_API,
 };
 
 class ApiRequests {
   constructor(options) {
     this._headers = options.headers;
+    this._baseUrl = options.baseUrl;
   }
 
   _handleResponse(res) {
@@ -14,17 +18,16 @@ class ApiRequests {
     return Promise.reject(`Ошибка ${res.status}`);
   }
 
-  getMenu(url) {
-    return fetch(url).then(this._handleResponse);
+  getMenu() {
+    return fetch(`${this._baseUrl}/ingredients`).then(this._handleResponse);
   }
 
-  postOrder(url, data) {
-    return fetch(url, {
+  postOrder(data) {
+    return fetch(`${this._baseUrl}/orders`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(data),
-    })
-      .then(this._handleResponse);
+    }).then(this._handleResponse);
   }
 }
 

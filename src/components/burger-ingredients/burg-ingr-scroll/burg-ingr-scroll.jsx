@@ -1,14 +1,16 @@
 import styles from "./burg-ingr-scroll.module.css";
-// import { useEffect, useState } from "react";
-import useModal from "../../../hoocs/use-modal";
+import { useContext } from "react";
+import useModal from "../../../hooks/use-modal";
 import BurgIngrCard from "./burg-ingr-card/burg-ingr-card";
 import Modal from "../../modal/modal";
 import IngredientDetails from "../../modal/ingredient-details/ingredient-details";
 import PropTypes from "prop-types";
-import { menuSectionPropType, cardPropTypes } from "../../../utils/prop-types";
+import { menuSectionPropType } from "../../../utils/prop-types";
+import { BurgerContext } from "../../../contexts/burger-context";
 
-const BurgIngrScroll = ({ sections, menu }) => {
+const BurgIngrScroll = ({ sections }) => {
   const { isOpen, info, openModal, closeModal } = useModal({});
+  const menu = useContext(BurgerContext);
 
   return (
     <div className={styles.window}>
@@ -43,9 +45,4 @@ export default BurgIngrScroll;
 
 BurgIngrScroll.propTypes = {
   sections: PropTypes.arrayOf(menuSectionPropType),
-  menu: PropTypes.shape({
-    bun: PropTypes.arrayOf(cardPropTypes),
-    sauce: PropTypes.arrayOf(cardPropTypes),
-    main: PropTypes.arrayOf(cardPropTypes),
-  }),
 };

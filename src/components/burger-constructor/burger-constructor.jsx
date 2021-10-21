@@ -1,6 +1,6 @@
 import styles from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
-import useModal from "../../hoocs/use-modal";
+import useModal from "../../hooks/use-modal";
 import OrderDetails from "../modal/order-details/order-details";
 import {
   ConstructorElement,
@@ -8,17 +8,29 @@ import {
   DragIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { memo, useEffect, useContext, useReducer } from "react";
-import { URL_POST_ORDER } from "../../utils/data";
+import { memo, useEffect, useContext, useReducer, useState } from "react";
 import { apiRequests } from "../../utils/api-requests";
 import { setOrderRequestBody } from "../../utils/utils";
-import { OrderContext } from "../../contexts/order-context";
+import { BurgerContext } from "../../contexts/burger-context";
 import { orderReducer } from "../../services/reducers/reducers";
 
 const BurgerConstructor = memo(() => {
   const { isOpen, info, openModal, closeModal } = useModal({});
-  const order = useContext(OrderContext);
+  const menu = useContext(BurgerContext);
   const [totalPrice, dispatch] = useReducer(orderReducer, null);
+  const [order, setOrder] = useState({ ingredients: [], empty: true });
+
+  // Захардкодил заполнение order для ревью.
+  // В дальнейшем заполнять order после drag&drop
+  useEffect(() => {
+    if (menu.bun)
+      setOrder((order) => ({
+        ...order,
+        bun: menu.bun[0],
+        ingredients: [...menu.sauce, ...menu.main],
+        empty: false,
+      }));
+  }, [menu]);
 
   // Временная логика для ревью ==> удалить позже
   useEffect(() => {
@@ -30,14 +42,14 @@ const BurgerConstructor = memo(() => {
 
   const handleBtnClick = () => {
     apiRequests
-      .postOrder(URL_POST_ORDER, setOrderRequestBody(order))
+      .postOrder(setOrderRequestBody(order))
       .then((res) => {
         if (res.success) {
-          return openModal({number: res.order.number});
+          return openModal({ number: res.order.number });
         }
-        throw new Error("Увы, заказ не принят:(")
+        throw new Error("Увы, заказ не принят:(");
       })
-      .catch(err => alert(err.message));
+      .catch((err) => alert(err.message));
   };
 
   return (

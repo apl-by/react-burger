@@ -2,11 +2,9 @@ import styles from "./burger-ingredients.module.css";
 import BurgIngrTabs from "./burg-ingr-tabs/burg-ingr-tabs";
 import BurgIngrScroll from "./burg-ingr-scroll/burg-ingr-scroll";
 import { menuSections } from "../../utils/data";
-import PropTypes from "prop-types";
-import { cardPropTypes } from "../../utils/prop-types";
 import { memo } from "react";
 
-const BurgerIngredients = memo(({ menu }) => {
+const BurgerIngredients = memo(() => {
   return (
     <section className={styles.ingredients}>
       <h1
@@ -15,17 +13,9 @@ const BurgerIngredients = memo(({ menu }) => {
         Соберите бургер
       </h1>
       <BurgIngrTabs sections={menuSections} />
-      <BurgIngrScroll sections={menuSections} menu={menu} />
+      <BurgIngrScroll sections={menuSections} />
     </section>
   );
 });
 
 export default BurgerIngredients;
-
-BurgerIngredients.propTypes = {
-  menu: PropTypes.shape({
-    bun: PropTypes.arrayOf(cardPropTypes),
-    sauce: PropTypes.arrayOf(cardPropTypes),
-    main: PropTypes.arrayOf(cardPropTypes),
-  }),
-};
