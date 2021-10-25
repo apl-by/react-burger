@@ -1,4 +1,4 @@
-export const BASE_URL_API = "https://norma.nomoreparties.space/api/ingredients";
+export const BASE_URL_API = "https://norma.nomoreparties.space/api";
 
 export const menuSections = [
   { id: 1, section: "Булки", key: "bun" },

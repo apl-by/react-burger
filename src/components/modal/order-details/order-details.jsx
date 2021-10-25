@@ -1,15 +1,12 @@
 import styles from "./order-details.module.css";
-// import PropTypes from "prop-types";
-
-// Временная заглушка
+import PropTypes from "prop-types";
 import image from "../../../images/modal-done.png";
 
 const OrderDetails = ({ info }) => {
-  // Заменить тестовые данные на данные из info
   return (
     <div className={styles.details}>
       <p className={`${styles.details__order} text text_type_digits-large`}>
-        034536
+        {info.number}
       </p>
       <p
         className={`${styles.details__text} mt-8 mb-15 text text_type_main-medium`}
@@ -33,6 +30,8 @@ const OrderDetails = ({ info }) => {
 
 export default OrderDetails;
 
-// OrderDetails.propTypes = {
-//   info: формат данных ещё не известен,
-// };
+OrderDetails.propTypes = {
+  info: PropTypes.shape({
+    number: PropTypes.number.isRequired,
+  }),
+};

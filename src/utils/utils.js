@@ -14,3 +14,12 @@ export const sortData = (data) => {
     { bun: [], sauce: [], main: [] }
   );
 };
+
+export const setOrderRequestBody = (order) => {
+  const body = { ingredients: [] };
+  order.bun ? body.ingredients.push(order.bun._id) : void 0;
+  order.ingredients.length
+    ? body.ingredients.push(...order.ingredients.map((i) => i._id))
+    : void 0;
+  return body;
+};

@@ -1,6 +1,6 @@
 import styles from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
-import useModal from "../../hoocs/use-modal";
+import useModal from "../../hooks/use-modal";
 import OrderDetails from "../modal/order-details/order-details";
 import {
   ConstructorElement,
@@ -8,16 +8,48 @@ import {
   DragIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import { cardPropTypes } from "../../utils/prop-types";
-import { memo } from "react";
+import { memo, useEffect, useContext, useReducer, useState } from "react";
+import { apiRequests } from "../../utils/api-requests";
+import { setOrderRequestBody } from "../../utils/utils";
+import { BurgerContext } from "../../contexts/burger-context";
+import { orderReducer } from "../../services/reducers/reducers";
 
-const BurgerConstructor = memo(({ order }) => {
+const BurgerConstructor = memo(() => {
   const { isOpen, info, openModal, closeModal } = useModal({});
+  const menu = useContext(BurgerContext);
+  const [totalPrice, dispatch] = useReducer(orderReducer, null);
+  const [order, setOrder] = useState({ ingredients: [], empty: true });
+
+  // Захардкодил заполнение order для ревью.
+  // В дальнейшем заполнять order после drag&drop
+  useEffect(() => {
+    if (menu.bun)
+      setOrder((order) => ({
+        ...order,
+        bun: menu.bun[0],
+        ingredients: [...menu.sauce, ...menu.main],
+        empty: false,
+      }));
+  }, [menu]);
+
+  // Временная логика для ревью ==> удалить позже
+  useEffect(() => {
+    if (order.empty) return;
+    if (order.bun) dispatch({ type: "bun", bun: order.bun });
+    if (order.ingredients.length)
+      dispatch({ type: "ingredients", ingredients: order.ingredients });
+  }, [order]);
 
   const handleBtnClick = () => {
-    // Передать объект ответа с сервера
-    openModal({});
+    apiRequests
+      .postOrder(setOrderRequestBody(order))
+      .then((res) => {
+        if (res.success) {
+          return openModal({ number: res.order.number });
+        }
+        throw new Error("Увы, заказ не принят:(");
+      })
+      .catch((err) => alert(err.message));
   };
 
   return (
@@ -30,12 +62,12 @@ const BurgerConstructor = memo(({ order }) => {
                 type="top"
                 isLocked={true}
                 text={`${order.bun.name} (верх)`}
-                price={200}
+                price={order.bun.price}
                 thumbnail={order.bun.image_mobile}
               />
             )}
             <ul className={`${styles.constructor__scroll} mt-4 mb-4`}>
-              {order.ingridients.map((i) => (
+              {order.ingredients.map((i) => (
                 <li className={styles.constructor__item} key={i._id}>
                   <DragIcon />
                   <ConstructorElement
@@ -51,7 +83,7 @@ const BurgerConstructor = memo(({ order }) => {
                 type="bottom"
                 isLocked={true}
                 text={`${order.bun.name} (низ)`}
-                price={200}
+                price={order.bun.price}
                 thumbnail={order.bun.image_mobile}
               />
             )}
@@ -63,7 +95,7 @@ const BurgerConstructor = memo(({ order }) => {
                   styles[`constructor__price-value`]
                 } text text_type_digits-default`}
               >
-                620
+                {totalPrice}
               </span>
               <CurrencyIcon type="primary" />
             </div>
@@ -83,11 +115,3 @@ const BurgerConstructor = memo(({ order }) => {
 });
 
 export default BurgerConstructor;
-
-BurgerConstructor.propTypes = {
-  order: PropTypes.shape({
-    bun: cardPropTypes,
-    ingridients: PropTypes.arrayOf(cardPropTypes),
-    empty: PropTypes.bool,
-  }),
-};
