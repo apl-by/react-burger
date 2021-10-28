@@ -4,18 +4,20 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import { cardPropTypes } from "../../../../utils/prop-types";
 import { memo } from "react";
+import { useDispatch } from "react-redux";
+import { SHOW_INGR_DETAILS } from "../../../../services/actions";
 
+const BurgIngrCard = memo(({ cardData }) => {
+  const dispatch = useDispatch();
 
-const BurgIngrCard = memo(({ cardData, onClick }) => {
   // Временно для ревью. После реализации логики,
   //  исправить на useState(null)
   const [count, setCount] = useState(1);
 
   const handleClick = () => {
-    onClick(cardData);
+    dispatch({ type: SHOW_INGR_DETAILS, payload: { ingredient: cardData } });
   };
 
   return (
@@ -45,5 +47,4 @@ export default BurgIngrCard;
 
 BurgIngrCard.propTypes = {
   cardData: cardPropTypes,
-  onClick: PropTypes.func.isRequired,
 };
