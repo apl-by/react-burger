@@ -7,20 +7,26 @@ import { useMemo } from "react";
 import { menuSectionPropType } from "../../../utils/prop-types";
 import { useSelector } from "react-redux";
 import { sortData } from "../../../utils/utils";
+import  throttle  from "lodash/throttle";
 
-const BurgIngrScroll = ({ sections }) => {
-  const { menu } = useSelector(store => store.menu);
-  const { isModalOpen } = useSelector(store => store.ingrDetails);
+const BurgIngrScroll = ({ sections, sectionAnchor, containerAnchor, onScroll }) => {
+  const { menu } = useSelector((store) => store.menu);
+  const { isModalOpen } = useSelector((store) => store.ingrDetails);
 
   const sortedMenu = useMemo(() => sortData(menu), [menu]);
 
   return (
-    <div className={styles.window}>
+    <div
+      className={styles.window}
+      onScroll={throttle(onScroll, 150)}
+      ref={containerAnchor}
+    >
       <ul className={styles.block}>
-        {sections.map((i) => (
+        {sections.map((i, ind) => (
           <li className={styles.block__item} key={i.id}>
             <h2
               className={`${styles.block__title} mt-10 mb-6 text text_type_main-medium`}
+              ref={(el) => (sectionAnchor.current[ind] = el)}
             >
               {i.section}
             </h2>
@@ -47,4 +53,11 @@ export default BurgIngrScroll;
 
 BurgIngrScroll.propTypes = {
   sections: PropTypes.arrayOf(menuSectionPropType),
+  sectionAnchor: PropTypes.shape({
+    current: PropTypes.any,
+  }),
+  containerAnchor: PropTypes.shape({
+    current: PropTypes.any,
+  }),
+  onScroll: PropTypes.func.isRequired,
 };
