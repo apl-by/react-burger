@@ -1,10 +1,10 @@
 import styles from "./burger-constructor.module.css";
+import Bun from "./bun/bun";
+import Ingredient from "./ingredient/ingredient";
 import Modal from "../modal/modal";
 import OrderDetails from "../modal/order-details/order-details";
 import {
-  ConstructorElement,
   CurrencyIcon,
-  DragIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { memo, useMemo } from "react";
@@ -13,7 +13,6 @@ import { useDrop } from "react-dnd";
 import {
   ADD_BUN,
   ADD_INGREDIENT,
-  REMOVE_INGREDIENT,
 } from "../../services/actions";
 import { setTotalPrice } from "../../utils/utils";
 
@@ -37,10 +36,6 @@ const BurgerConstructor = memo(() => {
       : dispatch({ type: ADD_INGREDIENT, payload: cardData });
   };
 
-  const removeIngredient = (ind) => {
-    dispatch({ type: REMOVE_INGREDIENT, payload: ind });
-  };
-
   const totalPrice = useMemo(
     () => setTotalPrice(bun, ingredients),
     [bun, ingredients]
@@ -49,10 +44,10 @@ const BurgerConstructor = memo(() => {
   const handleBtnClick = (e) => {
     e.preventDefault();
     if (!bun) {
-      alert("Выберите булку")
+      alert("Выберите булку");
       return;
     }
-    
+
     // apiRequests
     //   .postOrder(setOrderRequestBody(order))
     //   .then((res) => {
@@ -72,37 +67,13 @@ const BurgerConstructor = memo(() => {
       {!empty && (
         <>
           <div className={styles.constructor__container}>
-            {bun && (
-              <ConstructorElement
-                type="top"
-                isLocked={true}
-                text={`${bun.name} (верх)`}
-                price={bun.price}
-                thumbnail={bun.image_mobile}
-              />
-            )}
+            {bun && <Bun type="top" text="верх" />}
             <ul className={`${styles.constructor__scroll} mt-4 mb-4`}>
               {ingredients.map((i, ind) => (
-                <li className={styles.constructor__item} key={ind}>
-                  <DragIcon />
-                  <ConstructorElement
-                    text={i.name}
-                    price={i.price}
-                    thumbnail={i.image_mobile}
-                    handleClose={() => removeIngredient(ind)}
-                  />
-                </li>
+                <Ingredient key={ind} data={i} ind={ind} />
               ))}
             </ul>
-            {bun && (
-              <ConstructorElement
-                type="bottom"
-                isLocked={true}
-                text={`${bun.name} (низ)`}
-                price={bun.price}
-                thumbnail={bun.image_mobile}
-              />
-            )}
+            {bun && <Bun type="bottom" text="низ" />}
           </div>
           <div className={`${styles.constructor__confirm} mt-10`}>
             <div className={`${styles.constructor__price} mr-10`}>
