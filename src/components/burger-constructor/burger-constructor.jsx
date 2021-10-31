@@ -7,41 +7,52 @@ import {
   DragIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { memo, useEffect, useReducer, useState } from "react";
-import { apiRequests } from "../../utils/api-requests";
-import { setOrderRequestBody } from "../../utils/utils";
-import { orderReducer } from "../../services/reducers/reducers";
-
-import { useSelector } from "react-redux";
+import { memo, useMemo } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useDrop } from "react-dnd";
+import {
+  ADD_BUN,
+  ADD_INGREDIENT,
+  REMOVE_INGREDIENT,
+} from "../../services/actions";
+import { setTotalPrice } from "../../utils/utils";
 
 const BurgerConstructor = memo(() => {
-  const { ingredients, bun, empty } = useSelector(store => store.burgConstructor);
+  const { ingredients, bun, empty } = useSelector(
+    (store) => store.burgConstructor
+  );
   const { isModalOpen } = useSelector((store) => store.orderDetails);
+  const dispatch = useDispatch();
 
-  // const [totalPrice, dispatch] = useReducer(orderReducer, null);
-  // const [order, setOrder] = useState({ ingredients: [], empty: true });
+  const [, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(cardData) {
+      handleDrop(cardData);
+    },
+  });
 
-  // Захардкодил заполнение order для ревью.
-  // В дальнейшем заполнять order после drag&drop
-  // useEffect(() => {
-  //   if (menu.bun)
-  //     setOrder((order) => ({
-  //       ...order,
-  //       bun: menu.bun[0],
-  //       ingredients: [...menu.sauce, ...menu.main],
-  //       empty: false,
-  //     }));
-  // }, [menu]);
+  const handleDrop = (cardData) => {
+    cardData.type === "bun"
+      ? dispatch({ type: ADD_BUN, payload: cardData })
+      : dispatch({ type: ADD_INGREDIENT, payload: cardData });
+  };
 
-  // Временная логика для ревью ==> удалить позже
-  // useEffect(() => {
-  //   if (order.empty) return;
-  //   if (order.bun) dispatch({ type: "bun", bun: order.bun });
-  //   if (order.ingredients.length)
-  //     dispatch({ type: "ingredients", ingredients: order.ingredients });
-  // }, [order]);
+  const removeIngredient = (ind) => {
+    dispatch({ type: REMOVE_INGREDIENT, payload: ind });
+  };
 
-  const handleBtnClick = () => {
+  const totalPrice = useMemo(
+    () => setTotalPrice(bun, ingredients),
+    [bun, ingredients]
+  );
+
+  const handleBtnClick = (e) => {
+    e.preventDefault();
+    if (!bun) {
+      alert("Выберите булку")
+      return;
+    }
+    
     // apiRequests
     //   .postOrder(setOrderRequestBody(order))
     //   .then((res) => {
@@ -54,7 +65,10 @@ const BurgerConstructor = memo(() => {
   };
 
   return (
-    <section className={`${styles.constructor} pt-25 pr-2 pl-4 ml-10`}>
+    <section
+      className={`${styles.constructor} pt-25 pr-2 pl-4 ml-10`}
+      ref={dropTarget}
+    >
       {!empty && (
         <>
           <div className={styles.constructor__container}>
@@ -68,13 +82,14 @@ const BurgerConstructor = memo(() => {
               />
             )}
             <ul className={`${styles.constructor__scroll} mt-4 mb-4`}>
-              {ingredients.map((i) => (
-                <li className={styles.constructor__item} key={i._id}>
+              {ingredients.map((i, ind) => (
+                <li className={styles.constructor__item} key={ind}>
                   <DragIcon />
                   <ConstructorElement
                     text={i.name}
                     price={i.price}
                     thumbnail={i.image_mobile}
+                    handleClose={() => removeIngredient(ind)}
                   />
                 </li>
               ))}
@@ -96,8 +111,7 @@ const BurgerConstructor = memo(() => {
                   styles[`constructor__price-value`]
                 } text text_type_digits-default`}
               >
-                777
-                {/* {totalPrice} */}
+                {totalPrice}
               </span>
               <CurrencyIcon type="primary" />
             </div>

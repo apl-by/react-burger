@@ -1,27 +1,40 @@
-import { useState } from "react";
 import styles from "./burg-ingr-card.module.css";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { cardPropTypes } from "../../../../utils/prop-types";
-import { memo } from "react";
-import { useDispatch } from "react-redux";
+import { memo, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useDrag } from "react-dnd";
 import { SHOW_INGR_DETAILS } from "../../../../services/actions";
 
 const BurgIngrCard = memo(({ cardData }) => {
+  const bunId = useSelector((store) => store.burgConstructor.bun?._id);
+  const ingrCount = useSelector(
+    (store) => store.burgConstructor.ingrCounter?.[`${cardData._id}`]
+  );
   const dispatch = useDispatch();
 
-  // Временно для ревью. После реализации логики,
-  //  исправить на useState(null)
-  const [count, setCount] = useState(1);
+  const [, dragRef] = useDrag({
+    type: "ingredient",
+    item: { ...cardData },
+  });
+
+  const count = useMemo(() => {
+    if (cardData.type === "bun") {
+      return bunId === cardData._id ? 1 : undefined;
+    } else {
+      return ingrCount;
+    }
+  }, [bunId, ingrCount, cardData._id, cardData.type]);
 
   const handleClick = () => {
-    dispatch({ type: SHOW_INGR_DETAILS, payload: { ingredient: cardData } });
+    dispatch({ type: SHOW_INGR_DETAILS, payload: { ...cardData } });
   };
 
   return (
-    <div className={styles.card} onClick={handleClick}>
+    <div className={styles.card} onClick={handleClick} ref={dragRef}>
       {count && <Counter count={count} size="default" />}
       <img
         src={cardData.image}

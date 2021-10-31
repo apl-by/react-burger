@@ -18,7 +18,7 @@ const BurgIngrScroll = ({ sections, sectionAnchor, containerAnchor, onScroll }) 
   return (
     <div
       className={styles.window}
-      onScroll={throttle(onScroll, 150)}
+      onScroll={throttle(onScroll, 100)}
       ref={containerAnchor}
     >
       <ul className={styles.block}>

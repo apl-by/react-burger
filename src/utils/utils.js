@@ -23,3 +23,8 @@ export const setOrderRequestBody = (order) => {
     : void 0;
   return body;
 };
+
+export const setTotalPrice = (bun, ingrArr) => {
+  const ingrSum = ingrArr.reduce((prev, i) => prev + i.price, 0);
+  return bun ? (bun.price * 2) + ingrSum : ingrSum;
+}

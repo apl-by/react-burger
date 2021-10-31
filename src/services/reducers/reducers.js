@@ -1,16 +1,3 @@
-//Реализация логики суммирования при добавлении сразу всех элементов.
-// При реализации drag&drop логика будет другая
-export const orderReducer = (state, action) => {
-  switch (action.type) {
-    case "bun":
-      return state + action.bun.price * 2;
-    case "ingredients":
-      return state + action.ingredients.reduce((prev, i) => prev + i.price, 0);
-    default:
-      return null;
-  }
-};
-// ---------------------------------------------------------
 const initialMenu = {
   menu: [],
   menuRequest: false,
@@ -21,6 +8,7 @@ const initialConstructor = {
   ingredients: [],
   bun: null,
   empty: true,
+  ingrCounter: {},
 };
 
 const initialIngrDetails = {
@@ -66,29 +54,42 @@ export const burgConstructor = (state = initialConstructor, action) => {
     case "ADD_BUN":
       return {
         ...state,
-        bun: action.payload.bun,
+        bun: action.payload,
         empty: false,
       };
     case "REMOVE_BUN":
       return {
         ...state,
         bun: null,
-        empty: !state.ingredients.length,
+        empty: state.ingredients.length === 0,
       };
-    case "ADD_INGREDIENT":
+    case "ADD_INGREDIENT": {
+      const ingrCounterKey = action.payload._id;
+      const ingrCounterValue = state.ingrCounter[`${ingrCounterKey}`];
       return {
         ...state,
-        ingredients: [...state.ingredients, action.payload.ingredient],
+        ingredients: [...state.ingredients, action.payload],
         empty: false,
+        ingrCounter: {
+          ...state.ingrCounter,
+          [`${ingrCounterKey}`]: ingrCounterValue ? ingrCounterValue + 1 : 1,
+        },
       };
+    }
     case "REMOVE_INGREDIENT": {
-      const newList = state.orderList.filter(
-        (i) => i.id !== action.payload.ingredient.id
-      );
+      const newList = [...state.ingredients];
+      const removedIngr = newList.splice(action.payload, 1);
+      const ingrCounterKey = removedIngr[0]._id;
+      const ingrCounterValue = state.ingrCounter[`${ingrCounterKey}`];
       return {
         ...state,
-        orderList: [...newList],
-        empty: !newList.length && !state.bun,
+        ingredients: [...newList],
+        empty: newList.length === 0 && !state.bun,
+        ingrCounter: {
+          ...state.ingrCounter,
+          [`${ingrCounterKey}`]:
+            ingrCounterValue > 1 ? ingrCounterValue - 1 : undefined,
+        },
       };
     }
     case "CLEAR_CONSTRUCTOR":
@@ -103,7 +104,7 @@ export const ingrDetails = (state = initialIngrDetails, action) => {
     case "SHOW_INGR_DETAILS":
       return {
         ...state,
-        ingredient: { ...action.payload.ingredient },
+        ingredient: { ...action.payload },
         isModalOpen: true,
       };
     case "CLOSE_INGR_DETAILS":
@@ -142,5 +143,3 @@ export const orderDetails = (state = initialOrderDetails, action) => {
       return state;
   }
 };
-
-
