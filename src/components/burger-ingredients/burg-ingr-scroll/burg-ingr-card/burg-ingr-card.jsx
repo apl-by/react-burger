@@ -4,6 +4,7 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { cardPropTypes } from "../../../../utils/prop-types";
+import { dndTypes } from "../../../../utils/data";
 import { memo, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
@@ -17,7 +18,7 @@ const BurgIngrCard = memo(({ cardData }) => {
   const dispatch = useDispatch();
 
   const [, dragRef] = useDrag({
-    type: "ingredient",
+    type: dndTypes.burgIngredient,
     item: { ...cardData },
   });
 

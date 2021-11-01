@@ -13,6 +13,7 @@ import { postOrder } from "../../services/thunks";
 import { useDrop } from "react-dnd";
 import { ADD_BUN, ADD_INGREDIENT } from "../../services/actions";
 import { setTotalPrice, generateId } from "../../utils/utils";
+import { dndTypes } from "../../utils/data";
 
 const BurgerConstructor = memo(() => {
   const { ingredients, bun, empty } = useSelector(
@@ -22,7 +23,7 @@ const BurgerConstructor = memo(() => {
   const dispatch = useDispatch();
 
   const [, dropTarget] = useDrop({
-    accept: "ingredient",
+    accept: dndTypes.burgIngredient,
     drop(cardData) {
       handleDrop(cardData);
     },

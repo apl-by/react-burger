@@ -14,3 +14,8 @@ export const modalCardTemplate = [
   { id: 2, sign: "Жиры, г", key: "fat" },
   { id: 3, sign: "Углеводы, г", key: "carbohydrates" },
 ];
+
+export const dndTypes = {
+  burgIngredient: "burgIngredient",
+  ingrConstructor: "ingrConstructor",
+};

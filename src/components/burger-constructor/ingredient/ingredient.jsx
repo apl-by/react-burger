@@ -6,6 +6,7 @@ import {
 import PropTypes from "prop-types";
 import { useRef } from "react";
 import { cardPropTypes } from "../../../utils/prop-types";
+import { dndTypes } from "../../../utils/data";
 import { useDispatch, useSelector } from "react-redux";
 import { REMOVE_INGREDIENT, MOVE_INGREDIENT } from "../../../services/actions";
 import { useDrop, useDrag } from "react-dnd";
@@ -21,7 +22,7 @@ const Ingredient = ({ ind, data }) => {
   };
 
   const [, drop] = useDrop({
-    accept: "ingrConstructor",
+    accept: dndTypes.ingrConstructor,
     hover(item) {
       if (!ingrRef.current) {
         return;
@@ -37,7 +38,7 @@ const Ingredient = ({ ind, data }) => {
   });
 
   const [{ isDragging }, drag] = useDrag({
-    type: "ingrConstructor",
+    type: dndTypes.ingrConstructor,
     item: {
       index: ind,
     },
