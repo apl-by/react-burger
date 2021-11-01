@@ -9,12 +9,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { memo, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { postOrder } from "../../services/thunks";
 import { useDrop } from "react-dnd";
-import {
-  ADD_BUN,
-  ADD_INGREDIENT,
-} from "../../services/actions";
-import { setTotalPrice } from "../../utils/utils";
+import { ADD_BUN, ADD_INGREDIENT } from "../../services/actions";
+import { setTotalPrice, generateId } from "../../utils/utils";
 
 const BurgerConstructor = memo(() => {
   const { ingredients, bun, empty } = useSelector(
@@ -33,7 +31,10 @@ const BurgerConstructor = memo(() => {
   const handleDrop = (cardData) => {
     cardData.type === "bun"
       ? dispatch({ type: ADD_BUN, payload: cardData })
-      : dispatch({ type: ADD_INGREDIENT, payload: cardData });
+      : dispatch({
+          type: ADD_INGREDIENT,
+          payload: { ...cardData, uniqueId: generateId() },
+        });
   };
 
   const totalPrice = useMemo(
@@ -41,22 +42,15 @@ const BurgerConstructor = memo(() => {
     [bun, ingredients]
   );
 
-  const handleBtnClick = (e) => {
+  const submitOrder = (e) => {
     e.preventDefault();
+
     if (!bun) {
       alert("Выберите булку");
       return;
     }
 
-    // apiRequests
-    //   .postOrder(setOrderRequestBody(order))
-    //   .then((res) => {
-    //     if (res.success) {
-    //       return openModal({ number: res.order.number });
-    //     }
-    //     throw new Error("Увы, заказ не принят:(");
-    //   })
-    //   .catch((err) => alert(err.message));
+    dispatch(postOrder([bun, ...ingredients]));
   };
 
   return (
@@ -70,7 +64,7 @@ const BurgerConstructor = memo(() => {
             {bun && <Bun type="top" text="верх" />}
             <ul className={`${styles.constructor__scroll} mt-4 mb-4`}>
               {ingredients.map((i, ind) => (
-                <Ingredient key={ind} data={i} ind={ind} />
+                <Ingredient key={i.uniqueId} data={i} ind={ind} />
               ))}
             </ul>
             {bun && <Bun type="bottom" text="низ" />}
@@ -86,7 +80,7 @@ const BurgerConstructor = memo(() => {
               </span>
               <CurrencyIcon type="primary" />
             </div>
-            <Button type="primary" size="medium" onClick={handleBtnClick}>
+            <Button type="primary" size="medium" onClick={submitOrder}>
               Оформить заказ
             </Button>
           </div>

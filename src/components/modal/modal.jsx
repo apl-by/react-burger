@@ -1,7 +1,7 @@
 import styles from "./modal.module.css";
 import ModalOverlay from "./modal-overlay/modal-overlay";
 import { createPortal } from "react-dom";
-import { useEffect, useCallback, useMemo} from "react";
+import { useEffect, useCallback, useMemo } from "react";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -12,7 +12,7 @@ import {
 
 const Modal = ({ children, title, type, mod = "pb-15" }) => {
   const dispatch = useDispatch();
-  
+
   const action = useMemo(
     () =>
       type === "ingredient"
@@ -26,7 +26,7 @@ const Modal = ({ children, title, type, mod = "pb-15" }) => {
   const closeByEsc = useCallback(
     (e) => {
       if (e.key === "Escape") {
-       action ? dispatch(action) : void 0;
+        action ? dispatch(action) : void 0;
       }
     },
     [action, dispatch]
@@ -43,9 +43,7 @@ const Modal = ({ children, title, type, mod = "pb-15" }) => {
 
   return createPortal(
     <ModalOverlay onClick={(e) => e.target !== e.currentTarget || closeModal()}>
-      <div
-        className={`${styles.modal} pt-10 pr-10 pl-10 ${mod}`}
-      >
+      <div className={`${styles.modal} pt-10 pr-10 pl-10 ${mod}`}>
         <div className={styles.modal__container}>
           {title && (
             <h2 className={`${styles.modal__title} text text_type_main-large`}>

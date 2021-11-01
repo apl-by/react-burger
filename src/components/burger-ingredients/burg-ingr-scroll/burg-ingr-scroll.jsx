@@ -7,9 +7,14 @@ import { useMemo } from "react";
 import { menuSectionPropType } from "../../../utils/prop-types";
 import { useSelector } from "react-redux";
 import { sortData } from "../../../utils/utils";
-import  throttle  from "lodash/throttle";
+import throttle from "lodash/throttle";
 
-const BurgIngrScroll = ({ sections, sectionAnchor, containerAnchor, onScroll }) => {
+const BurgIngrScroll = ({
+  sections,
+  sectionAnchor,
+  containerAnchor,
+  onScroll,
+}) => {
   const { menu } = useSelector((store) => store.menu);
   const { isModalOpen } = useSelector((store) => store.ingrDetails);
 

@@ -26,11 +26,11 @@ const BurgerIngredients = memo(() => {
     const containerPos = containerRef.current.getBoundingClientRect().top;
     const sectionPos = sectionsRef.current[ind].getBoundingClientRect().top;
     const scrollValue = sectionPos - containerPos - SECTION_TOP_MARGIN;
-     containerRef.current.scrollBy({
-       top: scrollValue,
-       behavior: "smooth",
-     });
-  }
+    containerRef.current.scrollBy({
+      top: scrollValue,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <section className={styles.ingredients}>

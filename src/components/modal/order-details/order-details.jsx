@@ -3,7 +3,9 @@ import image from "../../../images/modal-done.png";
 import { useSelector } from "react-redux";
 
 const OrderDetails = () => {
-  const number = useSelector((store) => store.orderDetails.orderRes.order.number);
+  const number = useSelector(
+    (store) => store.orderDetails.orderRes.order.number
+  );
 
   return (
     <div className={styles.details}>

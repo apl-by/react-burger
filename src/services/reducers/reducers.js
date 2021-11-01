@@ -25,7 +25,6 @@ const initialOrderDetails = {
 };
 
 export const menu = (state = initialMenu, action) => {
-  console.log(state);
   switch (action.type) {
     case "MENU_REQUEST":
       return {
@@ -37,7 +36,7 @@ export const menu = (state = initialMenu, action) => {
       return {
         ...state,
         menuRequest: false,
-        menu: action.payload.menu,
+        menu: action.payload,
       };
     case "MENU_ERROR":
       return {
@@ -92,6 +91,11 @@ export const burgConstructor = (state = initialConstructor, action) => {
         },
       };
     }
+    case "MOVE_INGREDIENT":
+      return {
+        ...state,
+        ingredients: action.payload,
+      };
     case "CLEAR_CONSTRUCTOR":
       return initialConstructor;
     default:
@@ -104,7 +108,7 @@ export const ingrDetails = (state = initialIngrDetails, action) => {
     case "SHOW_INGR_DETAILS":
       return {
         ...state,
-        ingredient: { ...action.payload },
+        ingredient: action.payload,
         isModalOpen: true,
       };
     case "CLOSE_INGR_DETAILS":
@@ -119,7 +123,7 @@ export const orderDetails = (state = initialOrderDetails, action) => {
     case "ORDER_REQUEST":
       return {
         ...initialOrderDetails,
-        orderList: [...action.payload.order],
+        orderList: action.payload,
         orderRequest: true,
         orderFailed: false,
       };
@@ -128,7 +132,7 @@ export const orderDetails = (state = initialOrderDetails, action) => {
         ...state,
         isModalOpen: true,
         orderRequest: false,
-        orderRes: { ...action.payload.res },
+        orderRes: action.payload,
       };
     case "ORDER_ERROR":
       return {

@@ -2,10 +2,8 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-const Bun = ({type, text}) => {
-  const bun = useSelector(
-    (store) => store.burgConstructor.bun
-  );
+const Bun = ({ type, text }) => {
+  const bun = useSelector((store) => store.burgConstructor.bun);
   return (
     <ConstructorElement
       type={type}
@@ -15,10 +13,9 @@ const Bun = ({type, text}) => {
       thumbnail={bun.image_mobile}
     />
   );
-}
+};
 
 export default Bun;
-
 
 Bun.propTypes = {
   type: PropTypes.string.isRequired,

@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { menuSectionPropType } from "../../../utils/prop-types";
 
 const BurgIngrTabs = ({ sections, tabIndex, onClick }) => {
-  
   return (
     <div className={styles.tabs}>
       {sections.map((i) => (
