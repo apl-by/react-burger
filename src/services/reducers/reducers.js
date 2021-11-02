@@ -64,14 +64,14 @@ export const burgConstructor = (state = initialConstructor, action) => {
       };
     case "ADD_INGREDIENT": {
       const ingrCounterKey = action.payload._id;
-      const ingrCounterValue = state.ingrCounter[`${ingrCounterKey}`];
+      const ingrCounterValue = state.ingrCounter[ingrCounterKey];
       return {
         ...state,
         ingredients: [...state.ingredients, action.payload],
         empty: false,
         ingrCounter: {
           ...state.ingrCounter,
-          [`${ingrCounterKey}`]: ingrCounterValue ? ingrCounterValue + 1 : 1,
+          [ingrCounterKey]: ingrCounterValue ? ingrCounterValue + 1 : 1,
         },
       };
     }
@@ -79,14 +79,14 @@ export const burgConstructor = (state = initialConstructor, action) => {
       const newList = [...state.ingredients];
       const removedIngr = newList.splice(action.payload, 1);
       const ingrCounterKey = removedIngr[0]._id;
-      const ingrCounterValue = state.ingrCounter[`${ingrCounterKey}`];
+      const ingrCounterValue = state.ingrCounter[ingrCounterKey];
       return {
         ...state,
         ingredients: [...newList],
         empty: newList.length === 0 && !state.bun,
         ingrCounter: {
           ...state.ingrCounter,
-          [`${ingrCounterKey}`]:
+          [ingrCounterKey]:
             ingrCounterValue > 1 ? ingrCounterValue - 1 : undefined,
         },
       };
