@@ -1,3 +1,20 @@
+import {
+  MENU_REQUEST,
+  MENU_SUCCESS,
+  MENU_ERROR,
+  ADD_BUN,
+  REMOVE_BUN,
+  ADD_INGREDIENT,
+  REMOVE_INGREDIENT,
+  MOVE_INGREDIENT,
+  SHOW_INGR_DETAILS,
+  CLOSE_INGR_DETAILS,
+  ORDER_REQUEST,
+  ORDER_SUCCESS,
+  ORDER_ERROR,
+  CLOSE_ORDER_DETAILS
+} from "../actions/index";
+
 const initialMenu = {
   menu: [],
   menuRequest: false,
@@ -26,19 +43,19 @@ const initialOrderDetails = {
 
 export const menu = (state = initialMenu, action) => {
   switch (action.type) {
-    case "MENU_REQUEST":
+    case MENU_REQUEST:
       return {
         ...state,
         menuRequest: true,
         menuFailed: false,
       };
-    case "MENU_SUCCESS":
+    case MENU_SUCCESS:
       return {
         ...state,
         menuRequest: false,
         menu: action.payload,
       };
-    case "MENU_ERROR":
+    case MENU_ERROR:
       return {
         ...initialMenu,
         menuFailed: true,
@@ -50,19 +67,19 @@ export const menu = (state = initialMenu, action) => {
 
 export const burgConstructor = (state = initialConstructor, action) => {
   switch (action.type) {
-    case "ADD_BUN":
+    case ADD_BUN:
       return {
         ...state,
         bun: action.payload,
         empty: false,
       };
-    case "REMOVE_BUN":
+    case REMOVE_BUN:
       return {
         ...state,
         bun: null,
         empty: state.ingredients.length === 0,
       };
-    case "ADD_INGREDIENT": {
+    case ADD_INGREDIENT: {
       const ingrCounterKey = action.payload._id;
       const ingrCounterValue = state.ingrCounter[ingrCounterKey];
       return {
@@ -75,7 +92,7 @@ export const burgConstructor = (state = initialConstructor, action) => {
         },
       };
     }
-    case "REMOVE_INGREDIENT": {
+    case REMOVE_INGREDIENT: {
       const newList = [...state.ingredients];
       const removedIngr = newList.splice(action.payload, 1);
       const ingrCounterKey = removedIngr[0]._id;
@@ -91,13 +108,11 @@ export const burgConstructor = (state = initialConstructor, action) => {
         },
       };
     }
-    case "MOVE_INGREDIENT":
+    case MOVE_INGREDIENT:
       return {
         ...state,
         ingredients: action.payload,
       };
-    case "CLEAR_CONSTRUCTOR":
-      return initialConstructor;
     default:
       return state;
   }
@@ -105,13 +120,13 @@ export const burgConstructor = (state = initialConstructor, action) => {
 
 export const ingrDetails = (state = initialIngrDetails, action) => {
   switch (action.type) {
-    case "SHOW_INGR_DETAILS":
+    case SHOW_INGR_DETAILS:
       return {
         ...state,
         ingredient: action.payload,
         isModalOpen: true,
       };
-    case "CLOSE_INGR_DETAILS":
+    case CLOSE_INGR_DETAILS:
       return initialIngrDetails;
     default:
       return state;
@@ -120,26 +135,26 @@ export const ingrDetails = (state = initialIngrDetails, action) => {
 
 export const orderDetails = (state = initialOrderDetails, action) => {
   switch (action.type) {
-    case "ORDER_REQUEST":
+    case ORDER_REQUEST:
       return {
         ...initialOrderDetails,
         orderList: action.payload,
         orderRequest: true,
         orderFailed: false,
       };
-    case "ORDER_SUCCESS":
+    case ORDER_SUCCESS:
       return {
         ...state,
         isModalOpen: true,
         orderRequest: false,
         orderRes: action.payload,
       };
-    case "ORDER_ERROR":
+    case ORDER_ERROR:
       return {
         ...initialOrderDetails,
         orderFailed: true,
       };
-    case "CLOSE_ORDER_DETAILS":
+    case CLOSE_ORDER_DETAILS:
       return {
         isModalOpen: false,
       };

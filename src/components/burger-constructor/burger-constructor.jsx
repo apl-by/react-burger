@@ -7,11 +7,11 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { memo, useMemo } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { postOrder } from "../../services/thunks";
 import { useDrop } from "react-dnd";
-import { ADD_BUN, ADD_INGREDIENT } from "../../services/actions";
+import { ADD_BUN, ADD_INGREDIENT, CLOSE_ORDER_DETAILS } from "../../services/actions";
 import { setTotalPrice, generateId } from "../../utils/utils";
 import { dndTypes } from "../../utils/data";
 
@@ -54,6 +54,10 @@ const BurgerConstructor = memo(() => {
     dispatch(postOrder([bun, ...ingredients]));
   };
 
+  const closeModal = useCallback(() => {
+    dispatch({ type: CLOSE_ORDER_DETAILS });
+  }, [dispatch]);
+
   return (
     <section
       className={`${styles.constructor} pt-25 pr-2 pl-4 ml-10`}
@@ -86,7 +90,7 @@ const BurgerConstructor = memo(() => {
             </Button>
           </div>
           {isModalOpen && (
-            <Modal type="order" mod="pb-30">
+            <Modal sendDispatch={closeModal} mod="pb-30">
               <OrderDetails />
             </Modal>
           )}

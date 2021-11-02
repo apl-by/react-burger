@@ -1,35 +1,19 @@
 import styles from "./modal.module.css";
 import ModalOverlay from "./modal-overlay/modal-overlay";
 import { createPortal } from "react-dom";
-import { useEffect, useCallback, useMemo } from "react";
+import { useEffect, useCallback } from "react";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import {
-  CLOSE_INGR_DETAILS,
-  CLOSE_ORDER_DETAILS,
-} from "../../services/actions";
 
-const Modal = ({ children, title, type, mod = "pb-15" }) => {
-  const dispatch = useDispatch();
-
-  const action = useMemo(
-    () =>
-      type === "ingredient"
-        ? { type: CLOSE_INGR_DETAILS }
-        : type === "order"
-        ? { type: CLOSE_ORDER_DETAILS }
-        : undefined,
-    [type]
-  );
+const Modal = ({ children, title, sendDispatch, mod = "pb-15" }) => {
 
   const closeByEsc = useCallback(
     (e) => {
       if (e.key === "Escape") {
-        action ? dispatch(action) : void 0;
+        sendDispatch();
       }
     },
-    [action, dispatch]
+    [sendDispatch]
   );
 
   useEffect(() => {
@@ -38,7 +22,7 @@ const Modal = ({ children, title, type, mod = "pb-15" }) => {
   }, [closeByEsc]);
 
   const closeModal = () => {
-    action ? dispatch(action) : void 0;
+    sendDispatch();
   };
 
   return createPortal(
