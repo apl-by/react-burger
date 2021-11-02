@@ -7,6 +7,7 @@ import {
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
   MOVE_INGREDIENT,
+  CLEAR_CONSTRUCTOR,
   SHOW_INGR_DETAILS,
   CLOSE_INGR_DETAILS,
   ORDER_REQUEST,
@@ -113,6 +114,8 @@ export const burgConstructor = (state = initialConstructor, action) => {
         ...state,
         ingredients: action.payload,
       };
+    case CLEAR_CONSTRUCTOR:
+      return initialConstructor;
     default:
       return state;
   }

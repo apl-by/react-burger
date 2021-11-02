@@ -24,7 +24,7 @@ const BurgIngrCard = memo(({ cardData }) => {
 
   const count = useMemo(() => {
     if (cardData.type === "bun") {
-      return bunId === cardData._id ? 1 : undefined;
+      return bunId === cardData._id ? 2 : undefined;
     } else {
       return ingrCount;
     }

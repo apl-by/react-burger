@@ -5,15 +5,14 @@ import { useEffect, useCallback } from "react";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
-const Modal = ({ children, title, sendDispatch, mod = "pb-15" }) => {
-
+const Modal = ({ children, title, dispatchAction, mod = "pb-15" }) => {
   const closeByEsc = useCallback(
     (e) => {
       if (e.key === "Escape") {
-        sendDispatch();
+        dispatchAction();
       }
     },
-    [sendDispatch]
+    [dispatchAction]
   );
 
   useEffect(() => {
@@ -22,7 +21,7 @@ const Modal = ({ children, title, sendDispatch, mod = "pb-15" }) => {
   }, [closeByEsc]);
 
   const closeModal = () => {
-    sendDispatch();
+    dispatchAction();
   };
 
   return createPortal(
@@ -48,6 +47,6 @@ export default Modal;
 Modal.propTypes = {
   children: PropTypes.element.isRequired,
   title: PropTypes.string,
-  type: PropTypes.string.isRequired,
+  dispatchAction: PropTypes.func.isRequired,
   mod: PropTypes.string,
 };

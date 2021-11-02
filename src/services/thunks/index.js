@@ -5,6 +5,7 @@ import {
   ORDER_REQUEST,
   ORDER_SUCCESS,
   ORDER_ERROR,
+  CLEAR_CONSTRUCTOR,
 } from "../actions";
 import { apiRequests } from "../../utils/api-requests";
 import { setOrderRequestBody } from "../../utils/utils";
@@ -30,6 +31,7 @@ export const postOrder = (order) => (dispatch) => {
     .then((res) => {
       if (res.success) {
         dispatch({ type: ORDER_SUCCESS, payload: res });
+        dispatch({ type: CLEAR_CONSTRUCTOR });
       } else {
         dispatch({ type: ORDER_ERROR });
       }

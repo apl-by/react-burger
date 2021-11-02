@@ -52,7 +52,7 @@ const BurgIngrScroll = ({
         ))}
       </ul>
       {isModalOpen && (
-        <Modal title="Детали ингредиента" sendDispatch={closeModal}>
+        <Modal title="Детали ингредиента" dispatchAction={closeModal}>
           <IngredientDetails />
         </Modal>
       )}

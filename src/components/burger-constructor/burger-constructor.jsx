@@ -11,7 +11,11 @@ import { memo, useCallback, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { postOrder } from "../../services/thunks";
 import { useDrop } from "react-dnd";
-import { ADD_BUN, ADD_INGREDIENT, CLOSE_ORDER_DETAILS } from "../../services/actions";
+import {
+  ADD_BUN,
+  ADD_INGREDIENT,
+  CLOSE_ORDER_DETAILS,
+} from "../../services/actions";
 import { setTotalPrice, generateId } from "../../utils/utils";
 import { dndTypes } from "../../utils/data";
 
@@ -89,12 +93,12 @@ const BurgerConstructor = memo(() => {
               Оформить заказ
             </Button>
           </div>
-          {isModalOpen && (
-            <Modal sendDispatch={closeModal} mod="pb-30">
-              <OrderDetails />
-            </Modal>
-          )}
         </>
+      )}
+      {isModalOpen && (
+        <Modal dispatchAction={closeModal} mod="pb-30">
+          <OrderDetails />
+        </Modal>
       )}
     </section>
   );
