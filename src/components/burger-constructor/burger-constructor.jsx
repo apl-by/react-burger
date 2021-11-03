@@ -20,10 +20,10 @@ import { setTotalPrice, generateId } from "../../utils/utils";
 import { dndTypes } from "../../utils/data";
 
 const BurgerConstructor = memo(() => {
-  const { ingredients, bun, empty, canSubmit } = useSelector(
+  const { ingredients, bun, empty } = useSelector(
     (store) => store.burgConstructor
   );
-  const { isModalOpen } = useSelector((store) => store.orderDetails);
+  const { isModalOpen, canSubmit } = useSelector((store) => store.orderDetails);
   const dispatch = useDispatch();
 
   const [, dropTarget] = useDrop({

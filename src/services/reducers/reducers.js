@@ -27,7 +27,6 @@ const initialConstructor = {
   bun: null,
   empty: true,
   ingrCounter: {},
-  canSubmit: true,
 };
 
 const initialIngrDetails = {
@@ -41,6 +40,7 @@ const initialOrderDetails = {
   orderRes: {},
   orderRequest: false,
   orderFailed: false,
+  canSubmit: true,
 };
 
 export const menu = (state = initialMenu, action) => {
@@ -162,6 +162,7 @@ export const orderDetails = (state = initialOrderDetails, action) => {
       };
     case CLOSE_ORDER_DETAILS:
       return {
+        ...state,
         isModalOpen: false,
       };
     default:
