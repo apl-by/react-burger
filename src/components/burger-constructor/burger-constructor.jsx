@@ -20,7 +20,7 @@ import { setTotalPrice, generateId } from "../../utils/utils";
 import { dndTypes } from "../../utils/data";
 
 const BurgerConstructor = memo(() => {
-  const { ingredients, bun, empty } = useSelector(
+  const { ingredients, bun, empty, canSubmit } = useSelector(
     (store) => store.burgConstructor
   );
   const { isModalOpen } = useSelector((store) => store.orderDetails);
@@ -49,7 +49,7 @@ const BurgerConstructor = memo(() => {
 
   const submitOrder = (e) => {
     e.preventDefault();
-
+    if(!canSubmit) return;
     if (!bun) {
       alert("Выберите булку");
       return;

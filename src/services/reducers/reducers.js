@@ -27,6 +27,7 @@ const initialConstructor = {
   bun: null,
   empty: true,
   ingrCounter: {},
+  canSubmit: true,
 };
 
 const initialIngrDetails = {
@@ -144,6 +145,7 @@ export const orderDetails = (state = initialOrderDetails, action) => {
         orderList: action.payload,
         orderRequest: true,
         orderFailed: false,
+        canSubmit: false,
       };
     case ORDER_SUCCESS:
       return {
@@ -151,6 +153,7 @@ export const orderDetails = (state = initialOrderDetails, action) => {
         isModalOpen: true,
         orderRequest: false,
         orderRes: action.payload,
+        canSubmit: true,
       };
     case ORDER_ERROR:
       return {
