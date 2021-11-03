@@ -1,92 +1,82 @@
 import styles from "./burger-constructor.module.css";
+import Bun from "./bun/bun";
+import Ingredient from "./ingredient/ingredient";
 import Modal from "../modal/modal";
-import useModal from "../../hooks/use-modal";
 import OrderDetails from "../modal/order-details/order-details";
 import {
-  ConstructorElement,
   CurrencyIcon,
-  DragIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { memo, useEffect, useContext, useReducer, useState } from "react";
-import { apiRequests } from "../../utils/api-requests";
-import { setOrderRequestBody } from "../../utils/utils";
-import { BurgerContext } from "../../contexts/burger-context";
-import { orderReducer } from "../../services/reducers/reducers";
+import { memo, useCallback, useMemo } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { postOrder } from "../../services/thunks";
+import { useDrop } from "react-dnd";
+import {
+  ADD_BUN,
+  ADD_INGREDIENT,
+  CLOSE_ORDER_DETAILS,
+} from "../../services/actions";
+import { setTotalPrice, generateId } from "../../utils/utils";
+import { dndTypes } from "../../utils/data";
 
 const BurgerConstructor = memo(() => {
-  const { isOpen, info, openModal, closeModal } = useModal({});
-  const menu = useContext(BurgerContext);
-  const [totalPrice, dispatch] = useReducer(orderReducer, null);
-  const [order, setOrder] = useState({ ingredients: [], empty: true });
+  const { ingredients, bun, empty } = useSelector(
+    (store) => store.burgConstructor
+  );
+  const { isModalOpen, canSubmit } = useSelector((store) => store.orderDetails);
+  const dispatch = useDispatch();
 
-  // Захардкодил заполнение order для ревью.
-  // В дальнейшем заполнять order после drag&drop
-  useEffect(() => {
-    if (menu.bun)
-      setOrder((order) => ({
-        ...order,
-        bun: menu.bun[0],
-        ingredients: [...menu.sauce, ...menu.main],
-        empty: false,
-      }));
-  }, [menu]);
+  const [, dropTarget] = useDrop({
+    accept: dndTypes.burgIngredient,
+    drop(cardData) {
+      handleDrop(cardData);
+    },
+  });
 
-  // Временная логика для ревью ==> удалить позже
-  useEffect(() => {
-    if (order.empty) return;
-    if (order.bun) dispatch({ type: "bun", bun: order.bun });
-    if (order.ingredients.length)
-      dispatch({ type: "ingredients", ingredients: order.ingredients });
-  }, [order]);
-
-  const handleBtnClick = () => {
-    apiRequests
-      .postOrder(setOrderRequestBody(order))
-      .then((res) => {
-        if (res.success) {
-          return openModal({ number: res.order.number });
-        }
-        throw new Error("Увы, заказ не принят:(");
-      })
-      .catch((err) => alert(err.message));
+  const handleDrop = (cardData) => {
+    cardData.type === "bun"
+      ? dispatch({ type: ADD_BUN, payload: cardData })
+      : dispatch({
+          type: ADD_INGREDIENT,
+          payload: { ...cardData, uniqueId: generateId() },
+        });
   };
 
+  const totalPrice = useMemo(
+    () => setTotalPrice(bun, ingredients),
+    [bun, ingredients]
+  );
+
+  const submitOrder = (e) => {
+    e.preventDefault();
+    if(!canSubmit) return;
+    if (!bun) {
+      alert("Выберите булку");
+      return;
+    }
+
+    dispatch(postOrder([bun, ...ingredients]));
+  };
+
+  const closeModal = useCallback(() => {
+    dispatch({ type: CLOSE_ORDER_DETAILS });
+  }, [dispatch]);
+
   return (
-    <section className={`${styles.constructor} pt-25 pr-2 pl-4 ml-10`}>
-      {!order.empty && (
+    <section
+      className={`${styles.constructor} pt-25 pr-2 pl-4 ml-10`}
+      ref={dropTarget}
+    >
+      {!empty && (
         <>
           <div className={styles.constructor__container}>
-            {order.bun && (
-              <ConstructorElement
-                type="top"
-                isLocked={true}
-                text={`${order.bun.name} (верх)`}
-                price={order.bun.price}
-                thumbnail={order.bun.image_mobile}
-              />
-            )}
+            {bun && <Bun type="top" text="верх" />}
             <ul className={`${styles.constructor__scroll} mt-4 mb-4`}>
-              {order.ingredients.map((i) => (
-                <li className={styles.constructor__item} key={i._id}>
-                  <DragIcon />
-                  <ConstructorElement
-                    text={i.name}
-                    price={i.price}
-                    thumbnail={i.image_mobile}
-                  />
-                </li>
+              {ingredients.map((i, ind) => (
+                <Ingredient key={i.uniqueId} data={i} ind={ind} />
               ))}
             </ul>
-            {order.bun && (
-              <ConstructorElement
-                type="bottom"
-                isLocked={true}
-                text={`${order.bun.name} (низ)`}
-                price={order.bun.price}
-                thumbnail={order.bun.image_mobile}
-              />
-            )}
+            {bun && <Bun type="bottom" text="низ" />}
           </div>
           <div className={`${styles.constructor__confirm} mt-10`}>
             <div className={`${styles.constructor__price} mr-10`}>
@@ -99,16 +89,16 @@ const BurgerConstructor = memo(() => {
               </span>
               <CurrencyIcon type="primary" />
             </div>
-            <Button type="primary" size="medium" onClick={handleBtnClick}>
+            <Button type="primary" size="medium" onClick={submitOrder}>
               Оформить заказ
             </Button>
           </div>
-          {isOpen && (
-            <Modal onClick={closeModal} mod="pb-30">
-              <OrderDetails info={info} />
-            </Modal>
-          )}
         </>
+      )}
+      {isModalOpen && (
+        <Modal dispatchAction={closeModal} mod="pb-30">
+          <OrderDetails />
+        </Modal>
       )}
     </section>
   );

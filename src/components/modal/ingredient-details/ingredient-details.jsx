@@ -1,22 +1,23 @@
 import styles from "./ingredient-details.module.css";
 import { modalCardTemplate } from "../../../utils/data";
-import { cardPropTypes } from "../../../utils/prop-types";
+import { useSelector } from "react-redux";
 
-const IngredientDetails = ({ info }) => {
+const IngredientDetails = () => {
+  const ingredient = useSelector(store => store.ingrDetails.ingredient)
   return (
     <div className={styles.details}>
       <img
-        src={info.image_large}
-        alt={info.name}
+        src={ingredient.image_large}
+        alt={ingredient.name}
         className={styles.details__img}
       />
       <p
         className={`${styles.details__name} mt-4 mb-8 text text_type_main-medium`}
       >
-        {info.name}
+        {ingredient.name}
       </p>
       <ul className={styles.details__list}>
-        {modalCardTemplate.map(i => (
+        {modalCardTemplate.map((i) => (
           <li
             className={`${styles.details__item} mr-5 text text_type_main-default text_color_inactive`}
             key={i.id}
@@ -26,7 +27,7 @@ const IngredientDetails = ({ info }) => {
             <span
               className={`mt-2 text text_type_digits-default text_color_inactive`}
             >
-              {info[i.key]}
+              {ingredient[i.key]}
             </span>
           </li>
         ))}
@@ -37,6 +38,3 @@ const IngredientDetails = ({ info }) => {
 
 export default IngredientDetails;
 
-IngredientDetails.propTypes = {
-  info: cardPropTypes,
-};

@@ -1,0 +1,9 @@
+.ingredient {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ingredient_hidden {
+  opacity: 0;
+}

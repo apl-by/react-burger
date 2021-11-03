@@ -15,11 +15,13 @@ export const sortData = (data) => {
   );
 };
 
-export const setOrderRequestBody = (order) => {
-  const body = { ingredients: [] };
-  order.bun ? body.ingredients.push(order.bun._id) : void 0;
-  order.ingredients.length
-    ? body.ingredients.push(...order.ingredients.map((i) => i._id))
-    : void 0;
-  return body;
+export const setOrderRequestBody = (order) => ({
+  ingredients: [...order.map((i) => i._id)],
+});
+
+export const setTotalPrice = (bun, ingrArr) => {
+  const ingrSum = ingrArr.reduce((prev, i) => prev + i.price, 0);
+  return bun ? bun.price * 2 + ingrSum : ingrSum;
 };
+
+export const generateId = () => Math.random().toString(36).substr(2, 12);
