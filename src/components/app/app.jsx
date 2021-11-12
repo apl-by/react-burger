@@ -1,12 +1,9 @@
-import styles from "./app.module.css";
 import { useEffect } from "react";
-import AppHeader from "../app-header/app-header";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
+import Layout from "../layout/layout";
+import MainPage from "../../pages/main-page";
 import { useDispatch } from "react-redux";
 import { getMenu } from "../../services/thunks";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { Routes, Route } from "react-router-dom";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -16,15 +13,11 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <div className={styles.app}>
-      <AppHeader />
-      <DndProvider backend={HTML5Backend}>
-        <main className={styles.main}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </main>
-      </DndProvider>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<MainPage />} />
+      </Route>
+    </Routes>
   );
 };
 

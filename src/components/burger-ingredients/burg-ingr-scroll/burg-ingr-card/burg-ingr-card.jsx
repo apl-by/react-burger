@@ -13,7 +13,7 @@ import { SHOW_INGR_DETAILS } from "../../../../services/actions";
 const BurgIngrCard = memo(({ cardData }) => {
   const bunId = useSelector((store) => store.burgConstructor.bun?._id);
   const ingrCount = useSelector(
-    (store) => store.burgConstructor.ingrCounter?.[`${cardData._id}`]
+    (store) => store.burgConstructor.ingrCounter?.[cardData._id]
   );
   const dispatch = useDispatch();
 

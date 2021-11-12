@@ -9,6 +9,7 @@ import {
 } from "../actions";
 import { apiRequests } from "../../utils/api-requests";
 import { setOrderRequestBody } from "../../utils/utils";
+import { batch } from "react-redux";
 
 export const getMenu = () => (dispatch) => {
   dispatch({ type: MENU_REQUEST });
@@ -30,8 +31,12 @@ export const postOrder = (order) => (dispatch) => {
     .postOrder(setOrderRequestBody(order))
     .then((res) => {
       if (res.success) {
-        dispatch({ type: ORDER_SUCCESS, payload: res });
-        dispatch({ type: CLEAR_CONSTRUCTOR });
+
+        batch(() => {
+          dispatch({ type: ORDER_SUCCESS, payload: res });
+          dispatch({ type: CLEAR_CONSTRUCTOR });
+        });
+        
       } else {
         dispatch({ type: ORDER_ERROR });
       }
