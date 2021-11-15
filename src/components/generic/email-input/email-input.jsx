@@ -22,7 +22,10 @@ const EmailInput = ({
   const inputRef = useRef(null);
 
   useEffect(
-    () => setIsError((prev) => ({ ...prev, [name]: error })),
+    () => {
+      if (setIsError === undefined) return;
+      setIsError((prev) => ({ ...prev, [name]: error }))
+    },
     [error, name, setIsError]
   );
 

@@ -17,10 +17,11 @@ const PasswordInput = ({
   const [error, setError] = useState(false);
   const inputRef = useRef(null);
 
-  useEffect(
-    () => setIsError((prev) => ({ ...prev, [name]: error })),
-    [error, name, setIsError]
-  );
+   useEffect(() => {
+     if (setIsError === undefined) return;
+     setIsError((prev) => ({ ...prev, [name]: error }));
+   }, [error, name, setIsError]);
+
 
 
   const iconType = useMemo(() => {

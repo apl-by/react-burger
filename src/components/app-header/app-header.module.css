@@ -41,6 +41,13 @@
 
 .nav__link {
   text-decoration: none;
-  color: inherit;
   display: flex;
+}
+
+.nav__link_active {
+  color: #f2f2f3;
+}
+
+.nav__text {
+  color: inherit;
 }

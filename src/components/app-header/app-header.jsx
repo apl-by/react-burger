@@ -6,9 +6,14 @@ import {
   ProfileIcon,
   Logo,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { NavLink } from "react-router-dom";
+
+const setClassName = ({ isActive }) =>
+  `${styles.nav__link} ${
+    isActive ? styles.nav__link_active : "text_color_inactive"
+  }`;
 
 const AppHeader = memo(() => {
-
   return (
     <header className={`${styles.header} pt-4 pb-4`}>
       <div className={styles.header__logo}>
@@ -17,49 +22,34 @@ const AppHeader = memo(() => {
       <nav className={styles.nav}>
         <ul className={styles.nav__list}>
           <li className={`${styles.nav__item} mr-2 pt-4 pb-4 pr-5 pl-5`}>
-            <a
-              href="#top"
-              className={styles.nav__link}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <NavLink to="/" className={setClassName}>
               <BurgerIcon type="primary" />
               <span
                 className={`${styles.nav__text} ml-2 text text_type_main-default`}
               >
                 Конструктор
               </span>
-            </a>
+            </NavLink>
           </li>
           <li className={`${styles.nav__item} mr-2 pt-4 pb-4 pr-5 pl-5`}>
-            <a
-              href="#top"
-              className={styles.nav__link}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <NavLink to="/feed" className={setClassName}>
               <ListIcon type="primary" />
               <span
-                className={`${styles.nav__text} ml-2 text text_type_main-default text_color_inactive`}
+                className={`${styles.nav__text} ml-2 text text_type_main-default`}
               >
                 Лента заказа
               </span>
-            </a>
+            </NavLink>
           </li>
           <li className={`${styles.nav__item} mr-2 pt-4 pb-4 pr-5 pl-5`}>
-            <a
-              href="#top"
-              className={styles.nav__link}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <NavLink to="/profile" className={setClassName}>
               <ProfileIcon type="primary" />
               <span
-                className={`${styles.nav__text} ml-2 text text_type_main-default text_color_inactive`}
+                className={`${styles.nav__text} ml-2 text text_type_main-default`}
               >
                 Личный кабинет
               </span>
-            </a>
+            </NavLink>
           </li>
         </ul>
       </nav>
@@ -67,4 +57,4 @@ const AppHeader = memo(() => {
   );
 });
 
-export default  AppHeader;
+export default AppHeader;
