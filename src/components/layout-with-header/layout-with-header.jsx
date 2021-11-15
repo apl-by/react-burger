@@ -1,10 +1,10 @@
-import styles from "./layout.module.css";
+import styles from "./layout-with-header.module.css";
 import AppHeader from "../app-header/app-header";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Outlet } from "react-router";
 
-const Layout = () => {
+const LayoutWithHeader = () => {
   return (
     <div className={styles.layout}>
       <AppHeader />
@@ -17,4 +17,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default LayoutWithHeader;

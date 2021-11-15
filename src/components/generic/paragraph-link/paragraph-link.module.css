@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+}
+
+.paragraph-link {
+  margin: 0;
+  margin-right: 8px;
+}
+
+.link {
+  text-decoration: none;
+  color: #4C4CFF;
+}

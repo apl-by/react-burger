@@ -11,4 +11,7 @@
 .main {
   display: flex;
   height: calc(100vh - 100px);
+  width: 100%;
+  max-width: 1280px;
+  justify-content: center;
 }

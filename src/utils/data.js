@@ -19,3 +19,9 @@ export const dndTypes = {
   burgIngredient: "burgIngredient",
   ingrConstructor: "ingrConstructor",
 };
+
+export const profileNavLinks = [
+  { id: 0, link: "Профиль", to: "/profile" },
+  { id: 1, link: "История заказов", to: "/profile/orders" },
+  { id: 2, link: "Выход", to: "/login" },
+];
