@@ -22,7 +22,7 @@ const ProfileNav = () => {
         ))}
       </ul>
       <p
-        className={`${styles.description} text_color_inactive text text_type_main-small mt-20`}
+        className={`${styles.description} text_color_inactive text text_type_main-default mt-20`}
       >
         В этом разделе вы можете изменить свои персональные данные
       </p>

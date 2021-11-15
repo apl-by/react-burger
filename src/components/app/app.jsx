@@ -6,6 +6,7 @@ import RegisterPage from "../../pages/register-page/register-page";
 import ForgotPasswordPage from "../../pages/forgot-password-page/forgot-password-page";
 import ResetPasswordPage from "../../pages/reset-password-page/reset-password-page";
 import ProfilePage from "../../pages/profile-page/profile-page";
+import Page404 from "../../pages/page-404/page-404";
 import { useDispatch } from "react-redux";
 import { getMenu } from "../../services/thunks";
 import { Routes, Route } from "react-router-dom";
@@ -25,10 +26,12 @@ const App = () => {
         <Route path="register" element={<RegisterPage />} />
         <Route path="forgot-password" element={<ForgotPasswordPage />} />
         <Route path="reset-password" element={<ResetPasswordPage />} />
-        <Route path="profile" element={<ProfilePage/>} />
+        <Route path="profile" element={<ProfilePage />} />
+        <Route path="profile/orders" element={null} />
+        <Route path="profile/orders/:id" element={null} />
         <Route path="ingredients/:id" element={null} />
       </Route>
-      <Route path="*" element={null} />
+      <Route path="*" element={<Page404 />} />
     </Routes>
   );
 };

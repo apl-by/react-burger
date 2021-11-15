@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 100px;
+  box-sizing: border-box;
+}
+
+.text {
+  margin: 60px 0 80px 0;
+}
+
+.link {
+  text-decoration: none;
+  color: #8585AD;
+  transition: color 0.5s;
+}
+
+.link:hover {
+  color: #F2F2F3;
+}
