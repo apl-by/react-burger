@@ -4,6 +4,14 @@
   padding-top: 120px;
 }
 
-.form__list_mod {
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
   margin: 0;
+}
+
+.list__input {
+  list-style: none;
 }

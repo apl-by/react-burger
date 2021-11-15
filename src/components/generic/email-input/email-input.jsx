@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
@@ -15,12 +15,16 @@ const EmailInput = ({
   placeholder = "E-mail",
   size = "default",
   disabled = false,
+  setIsError,
 }) => {
   const [fieldDisabled, setDisabled] = useState(disabled);
-
   const [error, setError] = useState(false);
-
   const inputRef = useRef(null);
+
+  useEffect(
+    () => setIsError((prev) => ({ ...prev, [name]: error })),
+    [error, name, setIsError]
+  );
 
   const onIconClick = () => {
     setDisabled(false);
@@ -75,4 +79,5 @@ EmailInput.propTypes = {
   placeholder: PropTypes.string,
   size: PropTypes.string,
   disabled: PropTypes.bool,
+  setIsError: PropTypes.func,
 };

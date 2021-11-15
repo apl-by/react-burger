@@ -25,3 +25,7 @@ export const setTotalPrice = (bun, ingrArr) => {
 };
 
 export const generateId = () => Math.random().toString(36).substr(2, 12);
+
+export const findEmptyInput = (data) => Object.values(data).some(i => i === "");
+
+export const findErrorInput = (data) => Object.values(data).some(i => i);

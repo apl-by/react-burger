@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
@@ -7,13 +7,21 @@ const PasswordInput = ({
   onChange,
   name,
   icon,
+  placeholder = "Пароль",
   disabled = false,
   size = "default",
+  setIsError,
 }) => {
   const [fieldDisabled, setDisabled] = useState(disabled);
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState(false);
   const inputRef = useRef(null);
+
+  useEffect(
+    () => setIsError((prev) => ({ ...prev, [name]: error })),
+    [error, name, setIsError]
+  );
+
 
   const iconType = useMemo(() => {
     if (icon) {
@@ -60,7 +68,7 @@ const PasswordInput = ({
   return (
     <Input
       type={visible ? "text" : "password"}
-      placeholder="Пароль"
+      placeholder={placeholder}
       onChange={onChange}
       icon={iconType}
       value={value}
@@ -84,6 +92,8 @@ PasswordInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   icon: PropTypes.string,
+  placeholder: PropTypes.string,
   size: PropTypes.string,
   disabled: PropTypes.bool,
+  setIsError: PropTypes.func,
 };

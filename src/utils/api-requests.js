@@ -29,6 +29,22 @@ class ApiRequests {
       body: JSON.stringify(data),
     }).then(this._handleResponse);
   }
+
+  confirmEmail(email) {
+    return fetch(`${this._baseUrl}/password-reset`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify(email),
+    }).then(this._handleResponse);
+  }
+
+  resetPassword(data) {
+    return fetch(`${this._baseUrl}/password-reset/reset`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify(data),
+    }).then(this._handleResponse);
+  }
 }
 
 export const apiRequests = new ApiRequests(options);
