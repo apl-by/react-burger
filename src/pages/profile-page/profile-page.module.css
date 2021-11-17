@@ -4,14 +4,17 @@
   padding-top: 120px;
 }
 
-.list {
+.form {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.form__list {
   padding: 0;
   margin: 0;
 }
 
-.list__input {
+.form__input {
   list-style: none;
 }

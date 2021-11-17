@@ -9,13 +9,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { memo, useCallback, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { postOrder } from "../../services/thunks";
+import { postOrder } from "../../services/thunks/main";
 import { useDrop } from "react-dnd";
 import {
   ADD_BUN,
   ADD_INGREDIENT,
   CLOSE_ORDER_DETAILS,
-} from "../../services/actions";
+} from "../../services/actions/main";
 import { setTotalPrice, generateId } from "../../utils/utils";
 import { dndTypes } from "../../utils/data";
 

@@ -25,3 +25,18 @@ export const profileNavLinks = [
   { id: 1, link: "История заказов", to: "/profile/orders" },
   { id: 2, link: "Выход", to: "/login" },
 ];
+
+export const cookiesSettings = {
+  accessToken: {
+    name: "accessToken",
+    options: {
+      "max-age": 3600,
+    },
+  },
+  refreshToken: {
+    name: "refreshToken",
+    options: {
+      "max-age": 604_800,
+    },
+  },
+};

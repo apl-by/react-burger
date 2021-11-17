@@ -4,11 +4,17 @@ import Form from "../../components/generic/form/form";
 import ParagraphLink from "../../components/generic/paragraph-link/paragraph-link";
 import EmailInput from "../../components/generic/email-input/email-input";
 import PasswordInput from "../../components/generic/password-input/password-input";
-import { findEmptyInput, findErrorInput } from "../../utils/utils";
+import {
+  hasEmptyInput,
+  hasErrorInput,
+  setErrInEmptyInput,
+} from "../../utils/utils";
 
 const LoginPage = () => {
   const [inputValue, setInputValue] = useState({ email: "", password: "" });
-  const [isError, setIsError] = useState({});
+  const [error, setError] = useState({ email: false, password: false });
+  const [wasSubmit, setWasSubmit] = useState(false);
+  
   const onChange = (e) => {
     const { name, value } = e.target;
     setInputValue({ ...inputValue, [name]: value });
@@ -16,8 +22,20 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setWasSubmit(true);
+    if (hasEmptyInput(inputValue)) {
+      setWasSubmit(false);
+      setError((prev) => ({
+        ...prev,
+        ...setErrInEmptyInput(inputValue),
+      }));
+      return;
+    }
+    if (wasSubmit || hasErrorInput(error)) {
+       return setWasSubmit(false);
+     }
+     
     
-    if (findEmptyInput(inputValue) || findErrorInput(isError)) return;
     console.log(777)
   };
 
@@ -28,13 +46,15 @@ const LoginPage = () => {
           onChange={onChange}
           value={inputValue.email}
           name={"email"}
-          setIsError={setIsError}
+          error={error.email}
+          setError={setError}
         />
         <PasswordInput
           onChange={onChange}
           value={inputValue.password}
           name={"password"}
-          setIsError={setIsError}
+          error={error.password}
+          setError={setError}
         />
       </Form>
       <ParagraphLink link="Зарегистрироваться" to="/register" mod="mb-4">

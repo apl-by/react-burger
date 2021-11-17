@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
@@ -10,19 +10,12 @@ const PasswordInput = ({
   placeholder = "Пароль",
   disabled = false,
   size = "default",
-  setIsError,
+  error,
+  setError,
 }) => {
   const [fieldDisabled, setDisabled] = useState(disabled);
   const [visible, setVisible] = useState(false);
-  const [error, setError] = useState(false);
   const inputRef = useRef(null);
-
-   useEffect(() => {
-     if (setIsError === undefined) return;
-     setIsError((prev) => ({ ...prev, [name]: error }));
-   }, [error, name, setIsError]);
-
-
 
   const iconType = useMemo(() => {
     if (icon) {
@@ -45,18 +38,18 @@ const PasswordInput = ({
   };
 
   const validateField = (value) => {
-    setError(value.length < 6);
+    setError((prev) => ({ ...prev, [name]: value.length < 6 }));
   };
 
   const onFocus = () => {
-    setError(false);
+    setError((prev) => ({ ...prev, [name]: false }));
   };
 
   const onBlur = (e) => {
     if (e.target.value) {
       validateField(e.target.value);
     } else {
-      setError(false);
+      setError((prev) => ({ ...prev, [name]: false }));
     }
     if (iconType === "EditIcon") {
       setDisabled(true);
@@ -80,7 +73,7 @@ const PasswordInput = ({
       error={error}
       disabled={fieldDisabled}
       onIconClick={onIconClick}
-      errorText={"Некорректный пароль"}
+      errorText={value === "" ? "Введите пароль" : "Некорректный пароль"}
       size={size}
     />
   );
@@ -96,5 +89,6 @@ PasswordInput.propTypes = {
   placeholder: PropTypes.string,
   size: PropTypes.string,
   disabled: PropTypes.bool,
-  setIsError: PropTypes.func,
+  error: PropTypes.bool.isRequired,
+  setError: PropTypes.func.isRequired,
 };

@@ -2,17 +2,12 @@ import { useRef, useState } from "react";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
-const validateEmail = (email) => {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
-};
-
-const EmailInput = ({
+const TextInput = ({
   value,
   onChange,
   name,
   icon,
-  placeholder = "E-mail",
+  placeholder = "Имя",
   size = "default",
   disabled = false,
   error,
@@ -26,27 +21,19 @@ const EmailInput = ({
     setTimeout(() => inputRef.current?.focus(), 0);
   };
 
-  const validateField = (value) => {
-    setError((prev) => ({ ...prev, [name]: !validateEmail(value) }));
-  };
-
   const onFocus = () => {
     setError((prev) => ({ ...prev, [name]: false }));
   };
 
   const onBlur = (e) => {
-    if (e.target.value) {
-      validateField(e.target.value);
-    } else {
-      setError((prev) => ({ ...prev, [name]: false }));
-    }
     if (disabled) {
       setDisabled(true);
     }
   };
+
   return (
     <Input
-      type="email"
+      type="text"
       placeholder={placeholder}
       onChange={onChange}
       icon={icon}
@@ -59,16 +46,16 @@ const EmailInput = ({
       disabled={fieldDisabled}
       onIconClick={onIconClick}
       errorText={
-        value === "" ? "Укажите Ваш email" : "Ой, произошла ошибка!"
+        value === "" ? "Заполните поле ввода" : "Ой, произошла ошибка!"
       }
       size={size}
     />
   );
 };
 
-export default EmailInput;
+export default TextInput;
 
-EmailInput.propTypes = {
+TextInput.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,

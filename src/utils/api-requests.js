@@ -11,15 +11,26 @@ class ApiRequests {
     this._baseUrl = options.baseUrl;
   }
 
+  _handleResToJson(res) {
+    return res
+      .json()
+      .then((result) => ({ ok: res.ok, status: res.status, body: result }));
+  }
+
   _handleResponse(res) {
     if (res.ok) {
-      return res.json();
+      return res.body;
     }
-    return Promise.reject(`Ошибка ${res.status}`);
+    return Promise.reject({
+      status: res.status,
+      message: res.body.message,
+    });
   }
 
   getMenu() {
-    return fetch(`${this._baseUrl}/ingredients`).then(this._handleResponse);
+    return fetch(`${this._baseUrl}/ingredients`)
+      .then(this._handleResToJson)
+      .then(this._handleResponse);
   }
 
   postOrder(data) {
@@ -27,7 +38,9 @@ class ApiRequests {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(data),
-    }).then(this._handleResponse);
+    })
+      .then(this._handleResToJson)
+      .then(this._handleResponse);
   }
 
   confirmEmail(email) {
@@ -35,7 +48,9 @@ class ApiRequests {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(email),
-    }).then(this._handleResponse);
+    })
+      .then(this._handleResToJson)
+      .then(this._handleResponse);
   }
 
   resetPassword(data) {
@@ -43,7 +58,60 @@ class ApiRequests {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(data),
-    }).then(this._handleResponse);
+    })
+      .then(this._handleResToJson)
+      .then(this._handleResponse);
+  }
+
+  login(data) {
+    return fetch(`${this._baseUrl}/auth/login`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify(data),
+    })
+      .then(this._handleResToJson)
+      .then(this._handleResponse);
+  }
+
+  register(data) {
+    return fetch(`${this._baseUrl}/auth/register`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify(data),
+    })
+      .then(this._handleResToJson)
+      .then(this._handleResponse);
+  }
+
+  logout(data) {
+    return fetch(`${this._baseUrl}/auth/logout`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify(data),
+    })
+      .then(this._handleResToJson)
+      .then(this._handleResponse);
+  }
+
+  refreshToken(token) {
+    return fetch(`${this._baseUrl}/auth/token`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({ token }),
+    })
+      .then(this._handleResToJson)
+      .then(this._handleResponse);
+  }
+
+  getUser(token) {
+    return fetch(`${this._baseUrl}/auth/user`, {
+      headers: {
+        ...this._headers,
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then(this._handleResToJson)
+      .then(this._handleResponse);
   }
 }
 

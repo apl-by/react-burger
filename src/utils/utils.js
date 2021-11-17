@@ -26,6 +26,56 @@ export const setTotalPrice = (bun, ingrArr) => {
 
 export const generateId = () => Math.random().toString(36).substr(2, 12);
 
-export const findEmptyInput = (data) => Object.values(data).some(i => i === "");
+export const hasEmptyInput = (data) =>
+  Object.values(data).some((i) => i === "");
 
-export const findErrorInput = (data) => Object.values(data).some(i => i);
+export const setErrInEmptyInput = (data) =>
+  Object.fromEntries(
+    Object.entries(data)
+      .map(([k, v]) => (v === "" ? [k, true] : undefined))
+      .filter((i) => i)
+  );
+  
+export const hasErrorInput = (data) => Object.values(data).some((i) => i);
+
+export const getCookie = (name) => {
+  let matches = document.cookie.match(
+    new RegExp(
+      "(?:^|; )" +
+        // eslint-disable-next-line no-useless-escape
+        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+        "=([^;]*)"
+    )
+  );
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+};
+
+export const setCookie = (name, value, options = {}) => {
+  options = {
+    path: "/",
+    ...options,
+  };
+
+  if (options.expires instanceof Date) {
+    options.expires = options.expires.toUTCString();
+  }
+
+  let updatedCookie =
+    encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+  for (let optionKey in options) {
+    updatedCookie += "; " + optionKey;
+    let optionValue = options[optionKey];
+    if (optionValue !== true) {
+      updatedCookie += "=" + optionValue;
+    }
+  }
+
+  document.cookie = updatedCookie;
+};
+
+export const deleteCookie = (name) => {
+  setCookie(name, "", {
+    "max-age": -1,
+  });
+};

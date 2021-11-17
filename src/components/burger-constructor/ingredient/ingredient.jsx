@@ -8,7 +8,7 @@ import { useRef } from "react";
 import { cardPropTypes } from "../../../utils/prop-types";
 import { dndTypes } from "../../../utils/data";
 import { useDispatch, useSelector } from "react-redux";
-import { REMOVE_INGREDIENT, MOVE_INGREDIENT } from "../../../services/actions";
+import { REMOVE_INGREDIENT, MOVE_INGREDIENT } from "../../../services/actions/main";
 import { useDrop, useDrag } from "react-dnd";
 
 const Ingredient = ({ ind, data }) => {

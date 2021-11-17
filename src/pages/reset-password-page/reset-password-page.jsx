@@ -2,18 +2,25 @@ import { useState, useRef } from "react";
 import Container from "../../components/generic/container/container";
 import Form from "../../components/generic/form/form";
 import ParagraphLink from "../../components/generic/paragraph-link/paragraph-link";
-import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import PasswordInput from "../../components/generic/password-input/password-input";
-import { findEmptyInput, findErrorInput } from "../../utils/utils";
+import TextInput from "../../components/generic/text-input/text-input";
+import {
+  hasEmptyInput,
+  hasErrorInput,
+  setErrInEmptyInput,
+} from "../../utils/utils";
 import { apiRequests } from "../../utils/api-requests";
 
 const ResetPasswordPage = () => {
-  const inputRef = useRef(null);
   const [inputValue, setInputValue] = useState({
     token: "",
     password: "",
   });
-  const [isError, setIsError] = useState({});
+  const [error, setError] = useState({
+    password: false,
+    token: false,
+  });
+  const [wasSubmit, setWasSubmit] = useState(false);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +29,18 @@ const ResetPasswordPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (findEmptyInput(inputValue) || findErrorInput(isError)) return;
+    setWasSubmit(true);
+    if (hasEmptyInput(inputValue)) {
+      setWasSubmit(false);
+      setError((prev) => ({
+        ...prev,
+        ...setErrInEmptyInput(inputValue),
+      }));
+      return;
+    }
+    if (wasSubmit || hasErrorInput(error)) {
+      return setWasSubmit(false);
+    }
 
     apiRequests
       .resetPassword(inputValue)
@@ -30,10 +48,11 @@ const ResetPasswordPage = () => {
         if (res.success) {
           alert("Пароль успешно изменён");
         } else {
-          alert("Произошла ошибка");
+          throw new Error("Произошла ошибка");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert(`Error ${err.status ?? ""}: ${err.message}`))
+      .finally(() => setWasSubmit(false));
   };
 
   return (
@@ -48,15 +67,16 @@ const ResetPasswordPage = () => {
           value={inputValue.password}
           name={"password"}
           placeholder={"Введите новый пароль"}
-          setIsError={setIsError}
+          error={error.password}
+          setError={setError}
         />
-        <Input
-          type={"text"}
+        <TextInput
           placeholder={"Введите код из письма"}
           onChange={onChange}
           value={inputValue.token}
           name={"token"}
-          ref={inputRef}
+          error={error.token}
+          setError={setError}
         />
       </Form>
       <ParagraphLink link="Войти" to="/login">

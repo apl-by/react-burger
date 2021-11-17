@@ -8,7 +8,7 @@ import { menuSectionPropType } from "../../../utils/prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { sortData } from "../../../utils/utils";
 import throttle from "lodash/throttle";
-import { CLOSE_INGR_DETAILS } from "../../../services/actions";
+import { CLOSE_INGR_DETAILS } from "../../../services/actions/main";
 
 const BurgIngrScroll = ({
   sections,

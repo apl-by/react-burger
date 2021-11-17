@@ -14,7 +14,7 @@ import {
   ORDER_SUCCESS,
   ORDER_ERROR,
   CLOSE_ORDER_DETAILS
-} from "../actions/index";
+} from "../actions/main";
 
 const initialMenu = {
   menu: [],

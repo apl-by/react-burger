@@ -8,7 +8,7 @@ import { dndTypes } from "../../../../utils/data";
 import { memo, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
-import { SHOW_INGR_DETAILS } from "../../../../services/actions";
+import { SHOW_INGR_DETAILS } from "../../../../services/actions/main";
 
 const BurgIngrCard = memo(({ cardData }) => {
   const bunId = useSelector((store) => store.burgConstructor.bun?._id);
