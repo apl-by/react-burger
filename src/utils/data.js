@@ -20,12 +20,6 @@ export const dndTypes = {
   ingrConstructor: "ingrConstructor",
 };
 
-export const profileNavLinks = [
-  { id: 0, link: "Профиль", to: "/profile" },
-  { id: 1, link: "История заказов", to: "/profile/orders" },
-  { id: 2, link: "Выход", to: "/login" },
-];
-
 export const cookiesSettings = {
   accessToken: {
     name: "accessToken",

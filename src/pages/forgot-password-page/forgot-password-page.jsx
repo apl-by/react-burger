@@ -9,9 +9,13 @@ import {
   hasErrorInput,
   setErrInEmptyInput,
 } from "../../utils/utils";
-import { useNavigate } from "react-router";
+import { useNavigate, Navigate } from "react-router";
+import { useSelector } from "react-redux";
 
 const ForgotPasswordPage = () => {
+  const { isAuthorized, wasInitialRequest } = useSelector(
+    (state) => state.userData
+  );
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({ email: "" });
   const [error, setError] = useState({ email: false });
@@ -41,7 +45,7 @@ const ForgotPasswordPage = () => {
       .confirmEmail(inputValue)
       .then((res) => {
         if (res.success) {
-          navigate("/reset-password");
+          navigate("/reset-password", { state: { from: "/reset-password" } });
         } else {
           setWasSubmit(false);
           throw new Error("Произошла Ошибка");
@@ -52,6 +56,12 @@ const ForgotPasswordPage = () => {
         alert(`Error ${err.status ?? ""}: ${err.message}`);
       });
   };
+
+  if (isAuthorized) {
+    return <Navigate to={"/"} />;
+  } else if (!wasInitialRequest) {
+    return null;
+  }
 
   return (
     <Container>

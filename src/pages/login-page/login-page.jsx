@@ -9,8 +9,18 @@ import {
   hasErrorInput,
   setErrInEmptyInput,
 } from "../../utils/utils";
+import { apiRequests } from "../../utils/api-requests";
+import { setCookie } from "../../utils/utils";
+import { cookiesSettings } from "../../utils/data";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../../services/thunks/auth";
+import { useLocation, Navigate } from "react-router";
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const { isAuthorized, wasInitialRequest } = useSelector((state) => state.userData);
+
   const [inputValue, setInputValue] = useState({ email: "", password: "" });
   const [error, setError] = useState({ email: false, password: false });
   const [wasSubmit, setWasSubmit] = useState(false);
@@ -35,9 +45,31 @@ const LoginPage = () => {
        return setWasSubmit(false);
      }
      
-    
-    console.log(777)
+    apiRequests
+      .login(inputValue)
+      .then((res) => {
+        if (res.success) {
+          const { accessToken, refreshToken } = cookiesSettings;
+          setCookie(
+            accessToken.name,
+            res.accessToken.replace("Bearer ", ""),
+            accessToken.options
+          );
+          setCookie(refreshToken.name, res.refreshToken, refreshToken.options);
+            dispatch(getUser());
+        } else {
+          throw new Error("Произошла ошибка");
+        }
+      })
+      .catch((err) => alert(`Error ${err.status ?? ""}: ${err.message}`))
+      .finally(() => setWasSubmit(false));
   };
+
+  if (isAuthorized) {
+    return <Navigate to={location.state ? location.state.from : "/"} />;
+  } else if (!wasInitialRequest) {
+    return null;
+  }
 
   return (
     <Container>

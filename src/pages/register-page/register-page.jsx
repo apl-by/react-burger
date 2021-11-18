@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Container from "../../components/generic/container/container";
 import Form from "../../components/generic/form/form";
 import ParagraphLink from "../../components/generic/paragraph-link/paragraph-link";
@@ -14,10 +14,16 @@ import { apiRequests } from "../../utils/api-requests";
 import { setCookie } from "../../utils/utils";
 import { cookiesSettings } from "../../utils/data";
 import { getUser } from "../../services/thunks/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, Navigate } from "react-router";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const { isAuthorized, wasInitialRequest } = useSelector(
+    (state) => state.userData
+  );
+
   const [inputValue, setInputValue] = useState({
     name: "",
     email: "",
@@ -71,6 +77,12 @@ const RegisterPage = () => {
       .catch((err) => alert(`Error ${err.status ?? ""}: ${err.message}`))
       .finally(() => setWasSubmit(false));
   };
+
+  if (isAuthorized) {
+    return <Navigate to={location.state ? location.state.from : "/"} />;
+  } else if (!wasInitialRequest) {
+    return null;
+  }
 
   return (
     <Container>

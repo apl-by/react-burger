@@ -83,11 +83,11 @@ class ApiRequests {
       .then(this._handleResponse);
   }
 
-  logout(data) {
+  logout(token) {
     return fetch(`${this._baseUrl}/auth/logout`, {
       method: "POST",
       headers: this._headers,
-      body: JSON.stringify(data),
+      body: JSON.stringify({ token }),
     })
       .then(this._handleResToJson)
       .then(this._handleResponse);
@@ -109,6 +109,19 @@ class ApiRequests {
         ...this._headers,
         Authorization: "Bearer " + token,
       },
+    })
+      .then(this._handleResToJson)
+      .then(this._handleResponse);
+  }
+
+  patchUser(token, data) {
+    return fetch(`${this._baseUrl}/auth/user`, {
+      method: "PATCH",
+      headers: {
+        ...this._headers,
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(data),
     })
       .then(this._handleResToJson)
       .then(this._handleResponse);

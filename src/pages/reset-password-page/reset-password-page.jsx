@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Container from "../../components/generic/container/container";
 import Form from "../../components/generic/form/form";
 import ParagraphLink from "../../components/generic/paragraph-link/paragraph-link";
@@ -10,8 +10,14 @@ import {
   setErrInEmptyInput,
 } from "../../utils/utils";
 import { apiRequests } from "../../utils/api-requests";
+import { Navigate, useLocation } from "react-router";
+import { useSelector } from "react-redux";
 
 const ResetPasswordPage = () => {
+  const location = useLocation();
+  const { isAuthorized, wasInitialRequest } = useSelector(
+    (state) => state.userData
+  );
   const [inputValue, setInputValue] = useState({
     token: "",
     password: "",
@@ -46,6 +52,10 @@ const ResetPasswordPage = () => {
       .resetPassword(inputValue)
       .then((res) => {
         if (res.success) {
+          setInputValue({
+            token: "",
+            password: "",
+          });
           alert("Пароль успешно изменён");
         } else {
           throw new Error("Произошла ошибка");
@@ -54,6 +64,15 @@ const ResetPasswordPage = () => {
       .catch((err) => alert(`Error ${err.status ?? ""}: ${err.message}`))
       .finally(() => setWasSubmit(false));
   };
+
+  if (isAuthorized) {
+    return <Navigate to={"/"} />;
+  } else if (location.state?.from !== "/reset-password") {
+    return <Navigate to={"/forgot-password"} />;
+  } else if (!wasInitialRequest) {
+    return null;
+  }
+
 
   return (
     <Container>

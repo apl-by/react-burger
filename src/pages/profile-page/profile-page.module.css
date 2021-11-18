@@ -7,7 +7,8 @@
 .form {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
+  min-width: 345px;
 }
 
 .form__list {

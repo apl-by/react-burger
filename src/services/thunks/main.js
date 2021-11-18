@@ -19,7 +19,6 @@ export const getMenu = () => (dispatch) => {
       if (res.success) {
         dispatch({ type: MENU_SUCCESS, payload: res.data });
       } else {
-        dispatch({ type: MENU_ERROR });
         throw new Error("Произошла ошибка");
       }
     })
@@ -40,7 +39,6 @@ export const postOrder = (order) => (dispatch) => {
           dispatch({ type: CLEAR_CONSTRUCTOR });
         });
       } else {
-        dispatch({ type: ORDER_ERROR });
         throw new Error("Произошла ошибка");
       }
     })

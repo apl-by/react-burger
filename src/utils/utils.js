@@ -35,7 +35,7 @@ export const setErrInEmptyInput = (data) =>
       .map(([k, v]) => (v === "" ? [k, true] : undefined))
       .filter((i) => i)
   );
-  
+
 export const hasErrorInput = (data) => Object.values(data).some((i) => i);
 
 export const getCookie = (name) => {
@@ -74,8 +74,10 @@ export const setCookie = (name, value, options = {}) => {
   document.cookie = updatedCookie;
 };
 
-export const deleteCookie = (name) => {
-  setCookie(name, "", {
-    "max-age": -1,
-  });
+export const deleteCookie = (...args) => {
+  args.forEach((i) =>
+    setCookie(i, "", {
+      "max-age": -1,
+    })
+  );
 };
