@@ -4,7 +4,7 @@
   margin-right: 148px;
 }
 
-.nav__list { 
+.nav__list {
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -36,6 +36,3 @@
   width: 320px;
   margin-bottom: 0;
 }
-
-
-

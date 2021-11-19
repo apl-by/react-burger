@@ -73,7 +73,6 @@ const ResetPasswordPage = () => {
     return null;
   }
 
-
   return (
     <Container>
       <Form

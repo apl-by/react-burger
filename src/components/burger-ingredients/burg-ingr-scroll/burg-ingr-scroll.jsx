@@ -1,7 +1,7 @@
 import styles from "./burg-ingr-scroll.module.css";
 import BurgIngrCard from "./burg-ingr-card/burg-ingr-card";
 import PropTypes from "prop-types";
-import {  useMemo } from "react";
+import { useMemo } from "react";
 import { menuSectionPropType } from "../../../utils/prop-types";
 import { useSelector } from "react-redux";
 import { sortData } from "../../../utils/utils";

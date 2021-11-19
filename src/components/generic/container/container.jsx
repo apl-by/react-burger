@@ -1,8 +1,7 @@
 import styles from "./container.module.css";
 import PropTypes from "prop-types";
 
-
-const Container = ({children, mod = ""}) => {
+const Container = ({ children, mod = "" }) => {
   return <div className={`${styles.container} ${mod}`}>{children}</div>;
 };
 

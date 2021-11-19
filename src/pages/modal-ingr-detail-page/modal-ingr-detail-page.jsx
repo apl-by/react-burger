@@ -5,7 +5,7 @@ import { useParams, useNavigate } from "react-router";
 const ModalIngrDetailPage = () => {
   const param = useParams();
   const navigate = useNavigate();
-  
+
   const closeModal = () => {
     navigate("/", { replace: true });
   };

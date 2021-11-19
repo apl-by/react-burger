@@ -29,12 +29,12 @@ const ProfileNav = () => {
         console.log(`Error ${err.status ?? ""}: ${err.message}`);
       })
       .finally(() => {
-        deleteCookie("refreshToken", "accessToken")
+        deleteCookie("refreshToken", "accessToken");
         dispatch({ type: LOGOUT });
         navigate("/login", { replace: true });
       });
-  }
-    
+  };
+
   return (
     <nav className={styles[`profile-nav`]}>
       <ul className={styles.nav__list}>

@@ -58,9 +58,7 @@ const EmailInput = ({
       error={error}
       disabled={fieldDisabled}
       onIconClick={onIconClick}
-      errorText={
-        value === "" ? "Укажите Ваш email" : "Ой, произошла ошибка!"
-      }
+      errorText={value === "" ? "Укажите Ваш email" : "Ой, произошла ошибка!"}
       size={size}
     />
   );

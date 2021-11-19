@@ -19,12 +19,14 @@ import { useLocation, Navigate } from "react-router";
 const LoginPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { isAuthorized, wasInitialRequest } = useSelector((state) => state.userData);
+  const { isAuthorized, wasInitialRequest } = useSelector(
+    (state) => state.userData
+  );
 
   const [inputValue, setInputValue] = useState({ email: "", password: "" });
   const [error, setError] = useState({ email: false, password: false });
   const [wasSubmit, setWasSubmit] = useState(false);
-  
+
   const onChange = (e) => {
     const { name, value } = e.target;
     setInputValue({ ...inputValue, [name]: value });
@@ -42,9 +44,9 @@ const LoginPage = () => {
       return;
     }
     if (wasSubmit || hasErrorInput(error)) {
-       return setWasSubmit(false);
-     }
-     
+      return setWasSubmit(false);
+    }
+
     apiRequests
       .login(inputValue)
       .then((res) => {
@@ -56,7 +58,7 @@ const LoginPage = () => {
             accessToken.options
           );
           setCookie(refreshToken.name, res.refreshToken, refreshToken.options);
-            dispatch(getUser());
+          dispatch(getUser());
         } else {
           throw new Error("Произошла ошибка");
         }

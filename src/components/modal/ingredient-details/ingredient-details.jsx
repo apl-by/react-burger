@@ -3,7 +3,7 @@ import { modalCardTemplate } from "../../../utils/data";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-const IngredientDetails = ({ id = "60d3b41abdacab0026a733c8" }) => {
+const IngredientDetails = ({ id }) => {
   const menu = useSelector((store) => store.menu.menu);
   const ingredient = useSelector((store) =>
     store.menu.menu.find((ingr) => ingr._id === id)

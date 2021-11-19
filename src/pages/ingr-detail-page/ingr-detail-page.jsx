@@ -6,8 +6,10 @@ const IngrDetailPage = () => {
   const param = useParams();
   return (
     <div className={styles.container}>
-      <h1 className={`${styles.title} text text_type_main-large`}>Детали ингредиента</h1>
-      <IngredientDetails id={param.id}/>
+      <h1 className={`${styles.title} text text_type_main-large`}>
+        Детали ингредиента
+      </h1>
+      <IngredientDetails id={param.id} />
     </div>
   );
 };

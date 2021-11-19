@@ -9,11 +9,7 @@ const Page404 = () => {
       >
         Страница не найдена
       </h1>
-      <p
-        className={`${styles.text} text text_type_digits-large`}
-      >
-        404
-      </p>
+      <p className={`${styles.text} text text_type_digits-large`}>404</p>
       <Link to="/" className={`${styles.link} text text_type_main-default`}>
         На главную &#10132;
       </Link>

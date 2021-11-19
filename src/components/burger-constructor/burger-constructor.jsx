@@ -23,7 +23,7 @@ import { useNavigate, useLocation } from "react-router";
 const BurgerConstructor = memo(() => {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const { isAuthorized } = useSelector((state) => state.userData);
   const { ingredients, bun, empty } = useSelector(
     (store) => store.burgConstructor

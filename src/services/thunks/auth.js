@@ -58,17 +58,14 @@ export const getUser = () => async (dispatch) => {
 };
 
 // Thunk для обновления user
-
 const _reusePatchUser = (dispatch, data) => {
-  return apiRequests
-    .patchUser(getCookie("accessToken"), data)
-    .then((res) => {
-      if (res.success) {
-        dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
-      } else {
-        throw new Error("Ошибка получения данных");
-      }
-    });
+  return apiRequests.patchUser(getCookie("accessToken"), data).then((res) => {
+    if (res.success) {
+      dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
+    } else {
+      throw new Error("Ошибка получения данных");
+    }
+  });
 };
 
 const _reusePatchUserError = (dispatch, err) => {

@@ -13,7 +13,7 @@ import ModalIngrDetailPage from "../../pages/modal-ingr-detail-page/modal-ingr-d
 import { useDispatch } from "react-redux";
 import { getMenu } from "../../services/thunks/main";
 import { getUser } from "../../services/thunks/auth";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Outlet } from "react-router-dom";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -38,18 +38,14 @@ const App = () => {
             path="profile"
             element={
               <ProtectedRoute to="/login">
-                <ProfilePage />
+                <Outlet />
               </ProtectedRoute>
             }
-          />
-          <Route
-            path="profile/orders"
-            element={<ProtectedRoute to="/login">{null}</ProtectedRoute>}
-          />
-          <Route
-            path="profile/orders/:id"
-            element={<ProtectedRoute to="/login">{null}</ProtectedRoute>}
-          />
+          >
+            <Route index element={<ProfilePage />} />
+            <Route path="profile/orders" element={null} />
+            <Route path="profile/orders/:id" element={null} />
+          </Route>
           <Route path="ingredients/:id" element={<IngrDetailPage />} />
         </Route>
         <Route path="*" element={<Page404 />} />

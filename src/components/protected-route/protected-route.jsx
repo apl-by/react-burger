@@ -4,14 +4,14 @@ import PropTypes from "prop-types";
 
 const ProtectedRoute = ({ children, to }) => {
   let location = useLocation();
-  const isAuthorized = useSelector(state => state.userData.isAuthorized);
+  const isAuthorized = useSelector((state) => state.userData.isAuthorized);
 
   if (!isAuthorized) {
     return <Navigate to={to} state={{ from: location.pathname }} />;
   }
 
   return children;
-}
+};
 
 export default ProtectedRoute;
 
