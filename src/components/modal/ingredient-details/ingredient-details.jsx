@@ -2,12 +2,11 @@ import styles from "./ingredient-details.module.css";
 import { modalCardTemplate } from "../../../utils/data";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import { useMemo } from "react";
 
 const IngredientDetails = ({ id }) => {
   const menu = useSelector((store) => store.menu.menu);
-  const ingredient = useSelector((store) =>
-    store.menu.menu.find((ingr) => ingr._id === id)
-  );
+  const ingredient = useMemo(() => menu.find((ingr) => ingr._id === id), [menu, id])
 
   if (menu.length === 0) {
     return null;

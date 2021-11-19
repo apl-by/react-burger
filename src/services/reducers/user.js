@@ -5,15 +5,16 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
+  LOGOUT_REQUEST,
   LOGOUT,
-} from "../actions/auth";
+} from "../actions/user";
 
 const initialUser = {
   user: undefined,
   isAuthorized: false,
   userRequest: false,
   userFailed: false,
-  wasInitialRequest: false,
+  wasInitialAuth: false,
 };
 
 export const userData = (state = initialUser, action) => {
@@ -30,14 +31,14 @@ export const userData = (state = initialUser, action) => {
         isAuthorized: true,
         userRequest: false,
         user: action.payload,
-        wasInitialRequest: true,
+        wasInitialAuth: true,
       };
     case USER_ERROR:
       return {
         ...initialUser,
         isAuthorized: false,
         userFailed: true,
-        wasInitialRequest: true,
+        wasInitialAuth: true,
       };
     case UPDATE_USER_REQUEST:
       return {
@@ -56,10 +57,16 @@ export const userData = (state = initialUser, action) => {
         ...state,
         userFailed: true,
       };
+    case LOGOUT_REQUEST:
+      return {
+        ...state,
+        userRequest: true,
+        userFailed: false,
+      };
     case LOGOUT:
       return {
         ...initialUser,
-        wasInitialRequest: true,
+        wasInitialAuth: true,
       };
     default:
       return state;

@@ -9,15 +9,18 @@ import {
   hasErrorInput,
   setErrInEmptyInput,
 } from "../../utils/utils";
-import { apiRequests } from "../../utils/api-requests";
 import { Navigate, useLocation } from "react-router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { resetPassword } from "../../services/thunks/requests";
 
 const ResetPasswordPage = () => {
   const location = useLocation();
-  const { isAuthorized, wasInitialRequest } = useSelector(
+  const dispatch = useDispatch();
+  const { isAuthorized, wasInitialAuth } = useSelector(
     (state) => state.userData
   );
+  const isRequest = useSelector((state) => state.request.isRequest);
+
   const [inputValue, setInputValue] = useState({
     token: "",
     password: "",
@@ -26,7 +29,6 @@ const ResetPasswordPage = () => {
     password: false,
     token: false,
   });
-  const [wasSubmit, setWasSubmit] = useState(false);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -35,41 +37,28 @@ const ResetPasswordPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setWasSubmit(true);
     if (hasEmptyInput(inputValue)) {
-      setWasSubmit(false);
       setError((prev) => ({
         ...prev,
         ...setErrInEmptyInput(inputValue),
       }));
       return;
     }
-    if (wasSubmit || hasErrorInput(error)) {
-      return setWasSubmit(false);
-    }
+    if (isRequest || hasErrorInput(error)) return;
 
-    apiRequests
-      .resetPassword(inputValue)
-      .then((res) => {
-        if (res.success) {
-          setInputValue({
-            token: "",
-            password: "",
-          });
-          alert("Пароль успешно изменён");
-        } else {
-          throw new Error("Произошла ошибка");
-        }
-      })
-      .catch((err) => alert(`Error ${err.status ?? ""}: ${err.message}`))
-      .finally(() => setWasSubmit(false));
+    dispatch(resetPassword(inputValue));
+    
+    setInputValue({
+      token: "",
+      password: "",
+    });
   };
 
   if (isAuthorized) {
     return <Navigate to={"/"} />;
   } else if (location.state?.from !== "/reset-password") {
     return <Navigate to={"/forgot-password"} />;
-  } else if (!wasInitialRequest) {
+  } else if (!wasInitialAuth) {
     return null;
   }
 

@@ -9,23 +9,20 @@ import {
   hasErrorInput,
   setErrInEmptyInput,
 } from "../../utils/utils";
-import { apiRequests } from "../../utils/api-requests";
-import { setCookie } from "../../utils/utils";
-import { cookiesSettings } from "../../utils/data";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../../services/thunks/auth";
+import { login } from "../../services/thunks/requests";
 import { useLocation, Navigate } from "react-router";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { isAuthorized, wasInitialRequest } = useSelector(
+  const { isAuthorized, wasInitialAuth } = useSelector(
     (state) => state.userData
   );
+  const isRequest = useSelector((state) => state.request.isRequest);
 
   const [inputValue, setInputValue] = useState({ email: "", password: "" });
   const [error, setError] = useState({ email: false, password: false });
-  const [wasSubmit, setWasSubmit] = useState(false);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -34,42 +31,21 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setWasSubmit(true);
     if (hasEmptyInput(inputValue)) {
-      setWasSubmit(false);
       setError((prev) => ({
         ...prev,
         ...setErrInEmptyInput(inputValue),
       }));
       return;
     }
-    if (wasSubmit || hasErrorInput(error)) {
-      return setWasSubmit(false);
-    }
+    if (isRequest || hasErrorInput(error)) return;
 
-    apiRequests
-      .login(inputValue)
-      .then((res) => {
-        if (res.success) {
-          const { accessToken, refreshToken } = cookiesSettings;
-          setCookie(
-            accessToken.name,
-            res.accessToken.replace("Bearer ", ""),
-            accessToken.options
-          );
-          setCookie(refreshToken.name, res.refreshToken, refreshToken.options);
-          dispatch(getUser());
-        } else {
-          throw new Error("Произошла ошибка");
-        }
-      })
-      .catch((err) => alert(`Error ${err.status ?? ""}: ${err.message}`))
-      .finally(() => setWasSubmit(false));
+    dispatch(login(inputValue));
   };
 
   if (isAuthorized) {
     return <Navigate to={location.state ? location.state?.from : "/"} />;
-  } else if (!wasInitialRequest) {
+  } else if (!wasInitialAuth) {
     return null;
   }
 

@@ -5,9 +5,11 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
-} from "../actions/auth";
+  LOGOUT_REQUEST,
+  LOGOUT,
+} from "../actions/user";
 import { apiRequests } from "../../utils/api-requests";
-import { getCookie, setCookie } from "../../utils/utils";
+import { getCookie, setCookie, deleteCookie } from "../../utils/utils";
 import { cookiesSettings } from "../../utils/data";
 
 // Thunk для получения user
@@ -102,4 +104,25 @@ export const patchUser = (data) => async (dispatch) => {
       _reusePatchUserError(dispatch, err);
     }
   }
+};
+
+// Выход из профиля
+export const logout = () => (dispatch) => {
+  dispatch({ type: LOGOUT_REQUEST });
+  return apiRequests
+    .logout(getCookie("refreshToken"))
+    .then((res) => {
+      if (res.success) {
+        console.log("Выход из аккаунта успешный");
+      } else {
+        throw new Error("Произошла ошибка");
+      }
+    })
+    .catch((err) => {
+      console.log(`Error ${err.status ?? ""}: ${err.message}`);
+    })
+    .finally(() => {
+      deleteCookie("refreshToken", "accessToken");
+      dispatch({ type: LOGOUT });
+    });
 };

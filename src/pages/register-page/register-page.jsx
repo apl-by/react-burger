@@ -10,19 +10,17 @@ import {
   hasErrorInput,
   setErrInEmptyInput,
 } from "../../utils/utils";
-import { apiRequests } from "../../utils/api-requests";
-import { setCookie } from "../../utils/utils";
-import { cookiesSettings } from "../../utils/data";
-import { getUser } from "../../services/thunks/auth";
+import { register } from "../../services/thunks/requests";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, Navigate } from "react-router";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { isAuthorized, wasInitialRequest } = useSelector(
+  const { isAuthorized, wasInitialAuth } = useSelector(
     (state) => state.userData
   );
+  const isRequest = useSelector((state) => state.request.isRequest);
 
   const [inputValue, setInputValue] = useState({
     name: "",
@@ -34,7 +32,6 @@ const RegisterPage = () => {
     email: false,
     password: false,
   });
-  const [wasSubmit, setWasSubmit] = useState(false);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -43,44 +40,21 @@ const RegisterPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setWasSubmit(true);
     if (hasEmptyInput(inputValue)) {
-      setWasSubmit(false);
       setError((prev) => ({
         ...prev,
         ...setErrInEmptyInput(inputValue),
       }));
       return;
     }
-    if (wasSubmit || hasErrorInput(error)) {
-      return setWasSubmit(false);
-    }
+    if (isRequest || hasErrorInput(error)) return;
 
-    apiRequests
-      .register(inputValue)
-      .then((res) => {
-        if (res.success) {
-          const { accessToken, refreshToken } = cookiesSettings;
-          setCookie(
-            accessToken.name,
-            res.accessToken.replace("Bearer ", ""),
-            accessToken.options
-          );
-          setCookie(refreshToken.name, res.refreshToken, refreshToken.options);
-          if (window.confirm("Вы успешно зарегистрировались! Войти?")) {
-            dispatch(getUser());
-          }
-        } else {
-          throw new Error("Произошла ошибка");
-        }
-      })
-      .catch((err) => alert(`Error ${err.status ?? ""}: ${err.message}`))
-      .finally(() => setWasSubmit(false));
+    dispatch(register(inputValue));
   };
 
   if (isAuthorized) {
     return <Navigate to={location.state ? location.state?.from : "/"} />;
-  } else if (!wasInitialRequest) {
+  } else if (!wasInitialAuth) {
     return null;
   }
 

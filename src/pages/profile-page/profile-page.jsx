@@ -11,7 +11,7 @@ import {
   setErrInEmptyInput,
 } from "../../utils/utils";
 import { useSelector, useDispatch } from "react-redux";
-import { patchUser } from "../../services/thunks/auth";
+import { patchUser } from "../../services/thunks/user";
 import isEqual from "lodash/isEqual";
 
 const ProfilePage = () => {

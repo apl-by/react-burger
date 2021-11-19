@@ -6,7 +6,7 @@ import {
   ProfileIcon,
   Logo,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 const setClassName = ({ isActive }) =>
   `${styles.nav__link} ${
@@ -17,7 +17,9 @@ const AppHeader = memo(() => {
   return (
     <header className={`${styles.header} pt-4 pb-4`}>
       <div className={styles.header__logo}>
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
       </div>
       <nav className={styles.nav}>
         <ul className={styles.nav__list}>

@@ -1,9 +1,7 @@
 import styles from "./profile-nav.module.css";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { apiRequests } from "../../../utils/api-requests";
-import { getCookie, deleteCookie } from "../../../utils/utils";
-import { LOGOUT } from "../../../services/actions/auth";
+import { logout } from "../../../services/thunks/user";
 
 const setClassName = ({ isActive }) =>
   `${styles.nav__link} ${
@@ -12,27 +10,10 @@ const setClassName = ({ isActive }) =>
 
 const ProfileNav = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleLogout = (e) => {
     e.preventDefault();
-    apiRequests
-      .logout(getCookie("refreshToken"))
-      .then((res) => {
-        if (res.success) {
-          console.log("Выход из аккаунта успешный");
-        } else {
-          throw new Error("Произошла ошибка");
-        }
-      })
-      .catch((err) => {
-        console.log(`Error ${err.status ?? ""}: ${err.message}`);
-      })
-      .finally(() => {
-        deleteCookie("refreshToken", "accessToken");
-        dispatch({ type: LOGOUT });
-        navigate("/login", { replace: true });
-      });
+    dispatch(logout());
   };
 
   return (
