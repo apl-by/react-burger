@@ -66,7 +66,7 @@ const LoginPage = () => {
   };
 
   if (isAuthorized) {
-    return <Navigate to={location.state ? location.state.from : "/"} />;
+    return <Navigate to={location.state ? location.state?.from : "/"} />;
   } else if (!wasInitialRequest) {
     return null;
   }

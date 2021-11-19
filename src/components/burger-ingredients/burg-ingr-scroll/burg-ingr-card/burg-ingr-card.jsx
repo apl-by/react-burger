@@ -6,16 +6,16 @@ import {
 import { cardPropTypes } from "../../../../utils/prop-types";
 import { dndTypes } from "../../../../utils/data";
 import { memo, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
-import { SHOW_INGR_DETAILS } from "../../../../services/actions/main";
+import { useNavigate } from "react-router";
 
 const BurgIngrCard = memo(({ cardData }) => {
+  const navigate = useNavigate();
   const bunId = useSelector((store) => store.burgConstructor.bun?._id);
   const ingrCount = useSelector(
     (store) => store.burgConstructor.ingrCounter?.[cardData._id]
   );
-  const dispatch = useDispatch();
 
   const [, dragRef] = useDrag({
     type: dndTypes.burgIngredient,
@@ -31,7 +31,9 @@ const BurgIngrCard = memo(({ cardData }) => {
   }, [bunId, ingrCount, cardData._id, cardData.type]);
 
   const handleClick = () => {
-    dispatch({ type: SHOW_INGR_DETAILS, payload: { ...cardData } });
+    navigate(`/ingredients/${cardData._id}`, {
+      state: { background: { pathname: "/", key: cardData._id } },
+    });
   };
 
   return (

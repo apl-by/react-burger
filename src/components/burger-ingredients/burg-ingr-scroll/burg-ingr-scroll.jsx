@@ -1,14 +1,11 @@
 import styles from "./burg-ingr-scroll.module.css";
 import BurgIngrCard from "./burg-ingr-card/burg-ingr-card";
-import Modal from "../../modal/modal";
-import IngredientDetails from "../../modal/ingredient-details/ingredient-details";
 import PropTypes from "prop-types";
-import { useCallback, useMemo } from "react";
+import {  useMemo } from "react";
 import { menuSectionPropType } from "../../../utils/prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { sortData } from "../../../utils/utils";
 import throttle from "lodash/throttle";
-import { CLOSE_INGR_DETAILS } from "../../../services/actions/main";
 
 const BurgIngrScroll = ({
   sections,
@@ -16,15 +13,9 @@ const BurgIngrScroll = ({
   containerAnchor,
   onScroll,
 }) => {
-  const dispatch = useDispatch();
   const { menu } = useSelector((store) => store.menu);
-  const { isModalOpen } = useSelector((store) => store.ingrDetails);
 
   const sortedMenu = useMemo(() => sortData(menu), [menu]);
-
-  const closeModal = useCallback(() => {
-    dispatch({ type: CLOSE_INGR_DETAILS });
-  }, [dispatch]);
 
   return (
     <div
@@ -51,11 +42,6 @@ const BurgIngrScroll = ({
           </li>
         ))}
       </ul>
-      {isModalOpen && (
-        <Modal title="Детали ингредиента" dispatchAction={closeModal}>
-          <IngredientDetails />
-        </Modal>
-      )}
     </div>
   );
 };

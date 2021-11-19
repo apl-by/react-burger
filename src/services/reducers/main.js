@@ -8,8 +8,6 @@ import {
   REMOVE_INGREDIENT,
   MOVE_INGREDIENT,
   CLEAR_CONSTRUCTOR,
-  SHOW_INGR_DETAILS,
-  CLOSE_INGR_DETAILS,
   ORDER_REQUEST,
   ORDER_SUCCESS,
   ORDER_ERROR,
@@ -27,11 +25,6 @@ const initialConstructor = {
   bun: null,
   empty: true,
   ingrCounter: {},
-};
-
-const initialIngrDetails = {
-  ingredient: {},
-  isModalOpen: false,
 };
 
 const initialOrderDetails = {
@@ -117,21 +110,6 @@ export const burgConstructor = (state = initialConstructor, action) => {
       };
     case CLEAR_CONSTRUCTOR:
       return initialConstructor;
-    default:
-      return state;
-  }
-};
-
-export const ingrDetails = (state = initialIngrDetails, action) => {
-  switch (action.type) {
-    case SHOW_INGR_DETAILS:
-      return {
-        ...state,
-        ingredient: action.payload,
-        isModalOpen: true,
-      };
-    case CLOSE_INGR_DETAILS:
-      return initialIngrDetails;
     default:
       return state;
   }

@@ -104,7 +104,7 @@ const BurgerConstructor = memo(() => {
         </>
       )}
       {isModalOpen && (
-        <Modal dispatchAction={closeModal} mod="pb-30">
+        <Modal onClose={closeModal} mod="pb-30">
           <OrderDetails />
         </Modal>
       )}
