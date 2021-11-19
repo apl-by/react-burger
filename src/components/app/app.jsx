@@ -43,8 +43,8 @@ const App = () => {
             }
           >
             <Route index element={<ProfilePage />} />
-            <Route path="profile/orders" element={null} />
-            <Route path="profile/orders/:id" element={null} />
+            <Route path="orders" element={null} />
+            <Route path="orders/:id" element={null} />
           </Route>
           <Route path="ingredients/:id" element={<IngrDetailPage />} />
         </Route>
