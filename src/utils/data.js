@@ -19,3 +19,18 @@ export const dndTypes = {
   burgIngredient: "burgIngredient",
   ingrConstructor: "ingrConstructor",
 };
+
+export const cookiesSettings = {
+  accessToken: {
+    name: "accessToken",
+    options: {
+      "max-age": 3600,
+    },
+  },
+  refreshToken: {
+    name: "refreshToken",
+    options: {
+      "max-age": 604_800,
+    },
+  },
+};

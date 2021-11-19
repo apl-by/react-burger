@@ -1,9 +1,17 @@
 import styles from "./ingredient-details.module.css";
 import { modalCardTemplate } from "../../../utils/data";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
+import { useMemo } from "react";
 
-const IngredientDetails = () => {
-  const ingredient = useSelector(store => store.ingrDetails.ingredient)
+const IngredientDetails = ({ id }) => {
+  const menu = useSelector((store) => store.menu.menu);
+  const ingredient = useMemo(() => menu.find((ingr) => ingr._id === id), [menu, id])
+
+  if (menu.length === 0) {
+    return null;
+  }
+
   return (
     <div className={styles.details}>
       <img
@@ -38,3 +46,6 @@ const IngredientDetails = () => {
 
 export default IngredientDetails;
 
+IngredientDetails.propTypes = {
+  id: PropTypes.string.isRequired,
+};

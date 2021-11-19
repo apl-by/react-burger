@@ -1,11 +1,13 @@
 import { combineReducers } from "redux";
-import { menu, burgConstructor, ingrDetails, orderDetails } from "./reducers";
-
+import { menu, burgConstructor, orderDetails } from "./main";
+import { userData } from "./user";
+import { request } from "./requests";
 const rootReducer = combineReducers({
   menu,
   burgConstructor,
-  ingrDetails,
   orderDetails,
+  userData,
+  request
 });
 
 export default rootReducer;

@@ -1,0 +1,38 @@
+.profile-nav {
+  display: flex;
+  flex-direction: column;
+  margin-right: 148px;
+}
+
+.nav__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+}
+
+.nav__item {
+  display: flex;
+  width: 320px;
+  height: 64px;
+}
+
+.nav__link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav__link:hover {
+  opacity: 0.8;
+}
+
+.nav__link_active {
+  color: inherit;
+}
+
+.description {
+  width: 320px;
+  margin-bottom: 0;
+}

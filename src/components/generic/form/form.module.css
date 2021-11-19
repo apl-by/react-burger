@@ -1,0 +1,17 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form__list {
+  padding: 0;
+}
+
+.form__input {
+  list-style: none;
+}
+
+.form__input:last-child {
+  margin-bottom: 0;
+}

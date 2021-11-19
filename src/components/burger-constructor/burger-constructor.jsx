@@ -9,17 +9,22 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { memo, useCallback, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { postOrder } from "../../services/thunks";
+import { postOrder } from "../../services/thunks/main";
 import { useDrop } from "react-dnd";
 import {
   ADD_BUN,
   ADD_INGREDIENT,
   CLOSE_ORDER_DETAILS,
-} from "../../services/actions";
+} from "../../services/actions/main";
 import { setTotalPrice, generateId } from "../../utils/utils";
 import { dndTypes } from "../../utils/data";
+import { useNavigate, useLocation } from "react-router";
 
 const BurgerConstructor = memo(() => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { isAuthorized } = useSelector((state) => state.userData);
   const { ingredients, bun, empty } = useSelector(
     (store) => store.burgConstructor
   );
@@ -49,7 +54,10 @@ const BurgerConstructor = memo(() => {
 
   const submitOrder = (e) => {
     e.preventDefault();
-    if(!canSubmit) return;
+    if (!isAuthorized) {
+      return navigate("/login", { state: { from: location.pathname } });
+    }
+    if (!canSubmit) return;
     if (!bun) {
       alert("Выберите булку");
       return;
@@ -96,7 +104,7 @@ const BurgerConstructor = memo(() => {
         </>
       )}
       {isModalOpen && (
-        <Modal dispatchAction={closeModal} mod="pb-30">
+        <Modal onClose={closeModal} mod="pb-30">
           <OrderDetails />
         </Modal>
       )}

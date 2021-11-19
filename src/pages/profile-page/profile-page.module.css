@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  width: 100%;
+  padding-top: 120px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 345px;
+}
+
+.form__list {
+  padding: 0;
+  margin: 0;
+}
+
+.form__input {
+  list-style: none;
+}
