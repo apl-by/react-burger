@@ -47,7 +47,6 @@ const ForgotPasswordPage = () => {
         if (res.success) {
           navigate("/reset-password", { state: { from: "/reset-password" } });
         } else {
-          setWasSubmit(false);
           throw new Error("Произошла Ошибка");
         }
       })
