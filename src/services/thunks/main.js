@@ -7,6 +7,7 @@ import {
   ORDER_ERROR,
   CLEAR_CONSTRUCTOR,
 } from "../actions/main";
+import { ALERT_ERROR } from "../actions/interaction";
 import { apiRequests } from "../../utils/api-requests";
 import { setOrderRequestBody } from "../../utils/utils";
 import { batch } from "react-redux";
@@ -43,7 +44,9 @@ export const postOrder = (order) => (dispatch) => {
       }
     })
     .catch((err) => {
-      dispatch({ type: ORDER_ERROR });
-      alert(`Error ${err.status ?? ""}: ${err.message}`);
+      batch(() => {
+        dispatch({ type: ORDER_ERROR });
+        dispatch({ type: ALERT_ERROR, payload: err });
+      });
     });
 };

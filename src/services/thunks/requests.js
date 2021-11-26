@@ -1,4 +1,5 @@
 import { START_REQUEST, END_REQUEST } from "../actions/requests";
+import { ALERT_ERROR } from "../actions/interaction";
 import { apiRequests } from "../../utils/api-requests";
 import { cookiesSettings } from "../../utils/data";
 import { setCookie } from "../../utils/utils";
@@ -24,7 +25,7 @@ export const register = (data) => (dispatch) => {
         throw new Error("Произошла ошибка");
       }
     })
-    .catch((err) => alert(`Error ${err.status ?? ""}: ${err.message}`))
+    .catch((err) => dispatch({ type: ALERT_ERROR, payload: err }))
     .finally(() => dispatch({ type: END_REQUEST }));
 };
 
@@ -46,28 +47,26 @@ export const login = (data) => (dispatch) => {
         throw new Error("Произошла ошибка");
       }
     })
-    .catch((err) => alert(`Error ${err.status ?? ""}: ${err.message}`))
+    .catch((err) => dispatch({ type: ALERT_ERROR, payload: err }))
     .finally(() => dispatch({ type: END_REQUEST }));
 };
 
-export const confirmEmail =
-  (data, navigate) =>
-  (dispatch) => {
-    dispatch({ type: START_REQUEST });
-    return apiRequests
-      .confirmEmail(data)
-      .then((res) => {
-        if (res.success) {
-          navigate("/reset-password", { state: { from: "/reset-password" } });
-        } else {
-          throw new Error("Произошла Ошибка");
-        }
-      })
-      .catch((err) => {
-        alert(`Error ${err.status ?? ""}: ${err.message}`);
-      })
-      .finally(() => dispatch({ type: END_REQUEST }));
-  };
+export const confirmEmail = (data, navigate) => (dispatch) => {
+  dispatch({ type: START_REQUEST });
+  return apiRequests
+    .confirmEmail(data)
+    .then((res) => {
+      if (res.success) {
+        navigate("/reset-password", { state: { from: "/reset-password" } });
+      } else {
+        throw new Error("Произошла Ошибка");
+      }
+    })
+    .catch((err) => {
+      dispatch({ type: ALERT_ERROR, payload: err });
+    })
+    .finally(() => dispatch({ type: END_REQUEST }));
+};
 
 export const resetPassword = (data) => (dispatch) => {
   dispatch({ type: START_REQUEST });
@@ -80,6 +79,6 @@ export const resetPassword = (data) => (dispatch) => {
         throw new Error("Произошла ошибка");
       }
     })
-    .catch((err) => alert(`Error ${err.status ?? ""}: ${err.message}`))
+    .catch((err) => dispatch({ type: ALERT_ERROR, payload: err }))
     .finally(() => dispatch({ type: END_REQUEST }));
 };
