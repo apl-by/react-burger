@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.text {
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+.buttons {
+  display: flex;
+}
+
+.buttons button:first-child {
+  margin-right: 100px;
+}

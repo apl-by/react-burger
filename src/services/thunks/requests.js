@@ -5,21 +5,26 @@ import { cookiesSettings } from "../../utils/data";
 import { setCookie } from "../../utils/utils";
 import { getUser } from "./user";
 
-export const register = (data) => (dispatch) => {
+export const register = (data, confirm) => (dispatch) => {
   dispatch({ type: START_REQUEST });
   return apiRequests
     .register(data)
-    .then((res) => {
+    .then(async (res) => {
       if (res.success) {
-        const { accessToken, refreshToken } = cookiesSettings;
-        setCookie(
-          accessToken.name,
-          res.accessToken.replace("Bearer ", ""),
-          accessToken.options
+        const isConfirmed = await confirm(
+          "Вы успешно зарегистрировались! \n Желаете войти?"
         );
-        setCookie(refreshToken.name, res.refreshToken, refreshToken.options);
-        if (window.confirm("Вы успешно зарегистрировались! Войти?")) {
+        if (isConfirmed) {
+          const { accessToken, refreshToken } = cookiesSettings;
+          setCookie(
+            accessToken.name,
+            res.accessToken.replace("Bearer ", ""),
+            accessToken.options
+          );
+          setCookie(refreshToken.name, res.refreshToken, refreshToken.options);
           dispatch(getUser());
+        } else {
+          return;
         }
       } else {
         throw new Error("Произошла ошибка");

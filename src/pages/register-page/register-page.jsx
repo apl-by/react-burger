@@ -13,6 +13,9 @@ import {
 import { register } from "../../services/thunks/requests";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, Navigate } from "react-router";
+import Modal from "../../components/modal/modal";
+import Confirm from "../../components/modal/confirm/confirm";
+import useConfirm from "../../hooks/useConfirm";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -21,6 +24,9 @@ const RegisterPage = () => {
     (state) => state.userData
   );
   const isRequest = useSelector((state) => state.request.isRequest);
+  const { show, text } = useSelector((state) => state.confirmation);
+
+  const { confirm, onConfirm, onCancel } = useConfirm();
 
   const [inputValue, setInputValue] = useState({
     name: "",
@@ -49,7 +55,7 @@ const RegisterPage = () => {
     }
     if (isRequest || hasErrorInput(error)) return;
 
-    dispatch(register(inputValue));
+    dispatch(register(inputValue, confirm));
   };
 
   if (isAuthorized) {
@@ -59,38 +65,51 @@ const RegisterPage = () => {
   }
 
   return (
-    <Container>
-      <Form
-        btnName="Зарегистрироваться"
-        title="Регистрация"
-        onSubmit={handleSubmit}
-      >
-        <TextInput
-          onChange={onChange}
-          value={inputValue.name}
-          name={"name"}
-          error={error.name}
-          setError={setError}
-        />
-        <EmailInput
-          onChange={onChange}
-          value={inputValue.email}
-          name={"email"}
-          error={error.email}
-          setError={setError}
-        />
-        <PasswordInput
-          onChange={onChange}
-          value={inputValue.password}
-          name={"password"}
-          error={error.password}
-          setError={setError}
-        />
-      </Form>
-      <ParagraphLink link="Войти" to="/login">
-        Уже зарегистрированы?
-      </ParagraphLink>
-    </Container>
+    <>
+      <Container>
+        <Form
+          btnName="Зарегистрироваться"
+          title="Регистрация"
+          onSubmit={handleSubmit}
+        >
+          <TextInput
+            onChange={onChange}
+            value={inputValue.name}
+            name={"name"}
+            error={error.name}
+            setError={setError}
+          />
+          <EmailInput
+            onChange={onChange}
+            value={inputValue.email}
+            name={"email"}
+            error={error.email}
+            setError={setError}
+          />
+          <PasswordInput
+            onChange={onChange}
+            value={inputValue.password}
+            name={"password"}
+            error={error.password}
+            setError={setError}
+          />
+        </Form>
+        <ParagraphLink link="Войти" to="/login">
+          Уже зарегистрированы?
+        </ParagraphLink>
+      </Container>
+      {show && (
+        <Modal onClose={onCancel}>
+          <Confirm
+            text={text}
+            btnTrue={"Войти"}
+            btnFalse={"Спасибо, не сейчас"}
+            onConfirm={onConfirm}
+            onCancel={onCancel}
+          />
+        </Modal>
+      )}
+    </>
   );
 };
 
