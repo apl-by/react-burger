@@ -16,6 +16,7 @@ import {
   ADD_INGREDIENT,
   CLOSE_ORDER_DETAILS,
 } from "../../services/actions/main";
+import { SHOW_ALERT } from "../../services/actions/interaction";
 import { setTotalPrice, generateId } from "../../utils/utils";
 import { dndTypes } from "../../utils/data";
 import { useNavigate, useLocation } from "react-router";
@@ -59,8 +60,10 @@ const BurgerConstructor = memo(() => {
     }
     if (!canSubmit) return;
     if (!bun) {
-      alert("Выберите булку");
-      return;
+      return dispatch({
+        type: SHOW_ALERT,
+        payload: "Кажется, вы забыли булку...",
+      });
     }
 
     dispatch(postOrder([bun, ...ingredients]));
@@ -75,6 +78,13 @@ const BurgerConstructor = memo(() => {
       className={`${styles.constructor} pt-25 pr-2 pl-4 ml-10`}
       ref={dropTarget}
     >
+      {empty && (
+        <p
+          className={`${styles.constructor__text} text text_type_main-medium text_color_inactive`}
+        >
+          {`Выберите ингредиенты и перетащите\n в данное поле`}
+        </p>
+      )}
       {!empty && (
         <>
           <div className={styles.constructor__container}>

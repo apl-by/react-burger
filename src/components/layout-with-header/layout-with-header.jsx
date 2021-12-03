@@ -1,19 +1,21 @@
 import styles from "./layout-with-header.module.css";
 import AppHeader from "../app-header/app-header";
 import Modal from "../modal/modal";
-import ErrorAlert from "../modal/error-alert/error-alert";
+import Alert from "../modal/alert/alert";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Outlet } from "react-router";
 import { memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { CLEAR_ERROR } from "../../services/actions/interaction";
+import { CLEAR_ERROR, HIDE_ALERT } from "../../services/actions/interaction";
 
 const LayoutWithHeader = memo(() => {
   const dispatch = useDispatch();
   const errors = useSelector((state) => state.errorAlert.errors);
+  const alertMessage = useSelector((state) => state.alert.message);
 
-  const handleAlertClose = () => dispatch({ type: CLEAR_ERROR });
+  const handleErrAlertClose = () => dispatch({ type: CLEAR_ERROR });
+  const handleAlertClose = () => dispatch({ type: HIDE_ALERT });
 
   return (
     <>
@@ -26,8 +28,16 @@ const LayoutWithHeader = memo(() => {
         </DndProvider>
       </div>
       {errors.length > 0 && (
+        <Modal onClose={handleErrAlertClose}>
+          <Alert
+            title={`Ошибка ${errors[0].status}`}
+            message={errors[0].message}
+          />
+        </Modal>
+      )}
+      {alertMessage && (
         <Modal onClose={handleAlertClose}>
-          <ErrorAlert error={errors[0]} />
+          <Alert message={alertMessage} />
         </Modal>
       )}
     </>
