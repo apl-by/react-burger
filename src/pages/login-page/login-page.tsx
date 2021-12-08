@@ -14,6 +14,11 @@ import { login } from "../../services/thunks/requests";
 import { useLocation, Navigate } from "react-router";
 import { ErrorSetter } from "../../types/common";
 
+type TInputValue<T> = {
+  email: T;
+  password: T;
+};
+
 const LoginPage: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -24,8 +29,14 @@ const LoginPage: FC = () => {
   // используется any (до типизации useSelector)
   const isRequest = useSelector((state: any) => state.request.isRequest);
 
-  const [inputValue, setInputValue] = useState({ email: "", password: "" });
-  const [error, setError] = useState({ email: false, password: false });
+  const [inputValue, setInputValue] = useState<TInputValue<string>>({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState<TInputValue<boolean>>({
+    email: false,
+    password: false,
+  });
   const setErr = setError as ErrorSetter;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {

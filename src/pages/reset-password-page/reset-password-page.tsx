@@ -14,6 +14,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { resetPassword } from "../../services/thunks/requests";
 import { ErrorSetter } from "../../types/common";
 
+type TInputValue<T> = {
+  token: T;
+  password: T;
+};
+
 const ResetPasswordPage: FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -24,11 +29,11 @@ const ResetPasswordPage: FC = () => {
   // используется any (до типизации useSelector)
   const isRequest = useSelector((state: any) => state.request.isRequest);
 
-  const [inputValue, setInputValue] = useState({
+  const [inputValue, setInputValue] = useState<TInputValue<string>>({
     token: "",
     password: "",
   });
-  const [error, setError] = useState({
+  const [error, setError] = useState<TInputValue<boolean>>({
     password: false,
     token: false,
   });
@@ -63,7 +68,7 @@ const ResetPasswordPage: FC = () => {
   } else if (location.state?.from !== "/reset-password") {
     return <Navigate to={"/forgot-password"} />;
   } else if (!wasInitialAuth) {
-    return null;
+    return <>{null}</>;
   }
 
   return (

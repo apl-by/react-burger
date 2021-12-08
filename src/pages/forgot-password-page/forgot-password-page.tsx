@@ -13,6 +13,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { confirmEmail } from "../../services/thunks/requests";
 import { ErrorSetter } from "../../types/common";
 
+type TInputValue<T> = {
+  email: T;
+};
+
+
 const ForgotPasswordPage: FC = () => {
   const dispatch = useDispatch();
   // используется any (до типизации useSelector)
@@ -23,10 +28,10 @@ const ForgotPasswordPage: FC = () => {
   const isRequest = useSelector((state: any) => state.request.isRequest);
 
   const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState({
+  const [inputValue, setInputValue] = useState<TInputValue<string>>({
     email: "",
   });
-  const [error, setError] = useState({ email: false });
+  const [error, setError] = useState<TInputValue<boolean>>({ email: false });
   const setErr = setError as ErrorSetter;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {

@@ -15,32 +15,32 @@ import { patchUser } from "../../services/thunks/user";
 import isEqual from "lodash/isEqual";
 import { ErrorSetter } from "../../types/common";
 
-type TInputValue = {
-  name: string;
-  email: string;
-  password: string;
+type TInputValue<T> = {
+  name: T;
+  email: T;
+  password: T;
 };
 
 const ProfilePage: FC = () => {
-  const refState = useRef<TInputValue | null>(null);
+  const refState = useRef<TInputValue<string> | null>(null);
   const dispatch = useDispatch();
   // используется any (до типизации useSelector)
   const { name, email } = useSelector((state: any) => state.userData.user);
   // используется any (до типизации useSelector)
   const userRequest = useSelector((state: any) => state.userData.userRequest);
 
-  const [inputValue, setInputValue] = useState<TInputValue>({
+  const [inputValue, setInputValue] = useState<TInputValue<string>>({
     name,
     email,
     password: "123456",
   });
-  const [error, setError] = useState({
+  const [error, setError] = useState<TInputValue<boolean>>({
     name: false,
     email: false,
     password: false,
   });
   const setErr = setError as ErrorSetter;
-  const [wasEdition, setWasEdition] = useState(false);
+  const [wasEdition, setWasEdition] = useState<boolean>(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => setInputValue({ ...inputValue, name, email }), [name, email]);

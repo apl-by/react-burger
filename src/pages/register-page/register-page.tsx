@@ -18,6 +18,12 @@ import Confirm from "../../components/modal/confirm/confirm";
 import useConfirm from "../../hooks/useConfirm";
 import { ErrorSetter } from "../../types/common";
 
+type TInputValue<T> = {
+  name: T;
+  email: T;
+  password: T;
+};
+
 const RegisterPage: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -32,12 +38,12 @@ const RegisterPage: FC = () => {
 
   const { confirm, onConfirm, onCancel } = useConfirm();
 
-  const [inputValue, setInputValue] = useState({
+  const [inputValue, setInputValue] = useState<TInputValue<string>>({
     name: "",
     email: "",
     password: "",
   });
-  const [error, setError] = useState({
+  const [error, setError] = useState<TInputValue<boolean>>({
     name: false,
     email: false,
     password: false,
@@ -66,7 +72,7 @@ const RegisterPage: FC = () => {
   if (isAuthorized) {
     return <Navigate to={location.state ? location.state?.from : "/"} />;
   } else if (!wasInitialAuth) {
-    return null;
+    return <>{null}</>;
   }
 
   return (
