@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import { menu, burgConstructor, orderDetails } from "./main";
 import { userData } from "./user";
 import { request } from "./requests";
-import { errorAlert, confirmation } from "./interaction";
+import { errorAlert, confirmation, alert } from "./interaction";
 
 const rootReducer = combineReducers({
   menu,
@@ -12,6 +12,7 @@ const rootReducer = combineReducers({
   request,
   errorAlert,
   confirmation,
+  alert,
 });
 
 export default rootReducer;

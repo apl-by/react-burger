@@ -3,8 +3,9 @@ import {
   CLEAR_ERROR,
   SHOW_CONFIRM,
   HIDE_CONFIRM,
+  SHOW_ALERT,
+  HIDE_ALERT,
 } from "../actions/interaction";
-
 
 const initialErrState = {
   errors: [],
@@ -25,6 +26,24 @@ export const errorAlert = (state = initialErrState, action) => {
   }
 };
 
+const initialAlertState = {
+  message: "",
+};
+
+export const alert = (state = initialAlertState, action) => {
+  switch (action.type) {
+    case SHOW_ALERT:
+      return {
+        message: action.payload,
+      };
+    case HIDE_ALERT:
+      return {
+        message: "",
+      };
+    default:
+      return state;
+  }
+};
 
 const initialConfirmState = {
   show: false,

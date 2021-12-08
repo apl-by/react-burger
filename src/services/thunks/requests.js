@@ -1,5 +1,5 @@
 import { START_REQUEST, END_REQUEST } from "../actions/requests";
-import { ALERT_ERROR } from "../actions/interaction";
+import { ALERT_ERROR, SHOW_ALERT } from "../actions/interaction";
 import { apiRequests } from "../../utils/api-requests";
 import { cookiesSettings } from "../../utils/data";
 import { setCookie } from "../../utils/utils";
@@ -79,7 +79,10 @@ export const resetPassword = (data) => (dispatch) => {
     .resetPassword(data)
     .then((res) => {
       if (res.success) {
-        alert("Пароль успешно изменён");
+        dispatch({
+          type: SHOW_ALERT,
+          payload: "Пароль успешно изменён",
+        });
       } else {
         throw new Error("Произошла ошибка");
       }
