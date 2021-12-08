@@ -23,7 +23,7 @@ npm start
 - Redux;
 - React-DnD;
 - React-router@6;
-- PropTypes
+- Typescript
 
  ### План по доработке
  В соответствии с учебной программой курса, планируется типизация проекта на TypeScript и покрытие приложения тестами с помощью Jest.
