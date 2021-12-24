@@ -10,24 +10,19 @@ import {
   setErrInEmptyInput,
 } from "../../utils/utils";
 import { Navigate, useLocation } from "react-router";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../hooks/reduxHooks";
 import { resetPassword } from "../../services/thunks/requests";
-import { ErrorSetter } from "../../types/common";
+import { ErrorSetter, IAllInputs } from "../../types/common";
 
-type TInputValue<T> = {
-  token: T;
-  password: T;
-};
+type TInputValue<T> = Required<Pick<IAllInputs<T>, "token" | "password">>;
 
 const ResetPasswordPage: FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  // используется any (до типизации useSelector)
   const { isAuthorized, wasInitialAuth } = useSelector(
-    (state: any) => state.userData
+    (state) => state.userData
   );
-  // используется any (до типизации useSelector)
-  const isRequest = useSelector((state: any) => state.request.isRequest);
+  const isRequest = useSelector((state) => state.request.isRequest);
 
   const [inputValue, setInputValue] = useState<TInputValue<string>>({
     token: "",

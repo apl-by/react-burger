@@ -1,11 +1,13 @@
 import { BASE_URL_API } from "./data";
+import { IAllInputs } from "../types/common";
 import {
-  IAllInputs,
   ICommonResBody,
-  IAuthRes,
   IGetMenuRes,
   IPostOrderRes,
-} from "../types/common";
+  IAuthRes,
+  IUserRes,
+  IRefreshTokenRes,
+} from "../types/api-responses";
 
 interface IApiOptions {
   readonly _headers: { "Content-type": string };
@@ -74,8 +76,8 @@ class ApiRequests implements IApiOptions {
       headers: this._headers,
       body: JSON.stringify(email),
     })
-      .then((res) => this._handleResToJson<Required<ICommonResBody>>(res))
-      .then((res) => this._handleResponse<Required<ICommonResBody>>(res));
+      .then((res) => this._handleResToJson<ICommonResBody>(res))
+      .then((res) => this._handleResponse<ICommonResBody>(res));
   }
 
   resetPassword(data: Pick<IAllInputs<string>, "password" | "token">) {
@@ -84,8 +86,8 @@ class ApiRequests implements IApiOptions {
       headers: this._headers,
       body: JSON.stringify(data),
     })
-      .then((res) => this._handleResToJson<Required<ICommonResBody>>(res))
-      .then((res) => this._handleResponse<Required<ICommonResBody>>(res));
+      .then((res) => this._handleResToJson<ICommonResBody>(res))
+      .then((res) => this._handleResponse<ICommonResBody>(res));
   }
 
   login(data: Pick<IAllInputs<string>, "email" | "password">) {
@@ -108,39 +110,39 @@ class ApiRequests implements IApiOptions {
       .then((res) => this._handleResponse<IAuthRes>(res));
   }
 
-  logout(token: string) {
+  logout(token: string | undefined) {
     return fetch(`${this._baseUrl}/auth/logout`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({ token }),
     })
-      .then((res) => this._handleResToJson<Required<ICommonResBody>>(res))
-      .then((res) => this._handleResponse<Required<ICommonResBody>>(res));
+      .then((res) => this._handleResToJson<ICommonResBody>(res))
+      .then((res) => this._handleResponse<ICommonResBody>(res));
   }
 
-  refreshToken(token: string) {
+  refreshToken(token: string | undefined) {
     return fetch(`${this._baseUrl}/auth/token`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({ token }),
     })
-      .then((res) => this._handleResToJson<IAuthRes>(res))
-      .then((res) => this._handleResponse<IAuthRes>(res));
+      .then((res) => this._handleResToJson<IRefreshTokenRes>(res))
+      .then((res) => this._handleResponse<IRefreshTokenRes>(res));
   }
 
-  getUser(token: string) {
+  getUser(token: string | undefined) {
     return fetch(`${this._baseUrl}/auth/user`, {
       headers: {
         ...this._headers,
         Authorization: "Bearer " + token,
       },
     })
-      .then((res) => this._handleResToJson<IAuthRes>(res))
-      .then((res) => this._handleResponse<IAuthRes>(res));
+      .then((res) => this._handleResToJson<IUserRes>(res))
+      .then((res) => this._handleResponse<IUserRes>(res));
   }
 
   patchUser(
-    token: string,
+    token: string | undefined,
     data: Partial<Pick<IAllInputs<string>, "email" | "password" | "name">>
   ) {
     return fetch(`${this._baseUrl}/auth/user`, {
@@ -151,8 +153,8 @@ class ApiRequests implements IApiOptions {
       },
       body: JSON.stringify(data),
     })
-      .then((res) => this._handleResToJson<IAuthRes>(res))
-      .then((res) => this._handleResponse<IAuthRes>(res));
+      .then((res) => this._handleResToJson<IUserRes>(res))
+      .then((res) => this._handleResponse<IUserRes>(res));
   }
 }
 

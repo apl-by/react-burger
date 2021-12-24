@@ -11,9 +11,15 @@ import {
 import { apiRequests } from "../../utils/api-requests";
 import { getCookie, setCookie, deleteCookie } from "../../utils/utils";
 import { cookiesSettings } from "../../utils/data";
+import {
+  AppThunk,
+  AppDispatch,
+  TErrorAlertPayload,
+} from "../../types/services";
+import { IAllInputs } from "../../types/common";
 
 // Thunk для получения user
-const _reuseGetUser = (dispatch) => {
+const _reuseGetUser = (dispatch: AppDispatch) => {
   return apiRequests.getUser(getCookie("accessToken")).then((res) => {
     if (res.success) {
       dispatch({ type: USER_SUCCESS, payload: res.user });
@@ -23,16 +29,16 @@ const _reuseGetUser = (dispatch) => {
   });
 };
 
-const _reuseUserError = (dispatch, err) => {
+const _reuseUserError = (dispatch: AppDispatch, err: TErrorAlertPayload) => {
   dispatch({ type: USER_ERROR });
   console.log(`Error ${err.status ?? ""}: ${err.message}`);
 };
 
-export const getUser = () => async (dispatch) => {
+export const getUser: AppThunk = () => async (dispatch: AppDispatch) => {
   dispatch({ type: USER_REQUEST });
   try {
     await _reuseGetUser(dispatch);
-  } catch (err) {
+  } catch (err: any) {
     if (err.message === "jwt expired") {
       try {
         const newToken = await apiRequests.refreshToken(
@@ -50,7 +56,7 @@ export const getUser = () => async (dispatch) => {
           refreshToken.options
         );
         await _reuseGetUser(dispatch);
-      } catch (err) {
+      } catch (err: any) {
         _reuseUserError(dispatch, err);
       }
     } else {
@@ -60,7 +66,7 @@ export const getUser = () => async (dispatch) => {
 };
 
 // Thunk для обновления user
-const _reusePatchUser = (dispatch, data) => {
+const _reusePatchUser = (dispatch: AppDispatch, data: IAllInputs<string>) => {
   return apiRequests.patchUser(getCookie("accessToken"), data).then((res) => {
     if (res.success) {
       dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
@@ -70,44 +76,48 @@ const _reusePatchUser = (dispatch, data) => {
   });
 };
 
-const _reusePatchUserError = (dispatch, err) => {
+const _reusePatchUserError = (
+  dispatch: AppDispatch,
+  err: TErrorAlertPayload
+) => {
   dispatch({ type: UPDATE_USER_ERROR });
   console.log(`Error ${err.status ?? ""}: ${err.message}`);
 };
 
-export const patchUser = (data) => async (dispatch) => {
-  dispatch({ type: UPDATE_USER_REQUEST });
-  try {
-    await _reusePatchUser(dispatch, data);
-  } catch (err) {
-    if (err.message === "jwt expired") {
-      try {
-        const newToken = await apiRequests.refreshToken(
-          getCookie("refreshToken")
-        );
-        const { accessToken, refreshToken } = cookiesSettings;
-        setCookie(
-          accessToken.name,
-          newToken.accessToken.replace("Bearer ", ""),
-          accessToken.options
-        );
-        setCookie(
-          refreshToken.name,
-          newToken.refreshToken,
-          refreshToken.options
-        );
-        await _reusePatchUser(dispatch, data);
-      } catch (err) {
+export const patchUser: AppThunk =
+  (data: IAllInputs<string>) => async (dispatch: AppDispatch) => {
+    dispatch({ type: UPDATE_USER_REQUEST });
+    try {
+      await _reusePatchUser(dispatch, data);
+    } catch (err: any) {
+      if (err.message === "jwt expired") {
+        try {
+          const newToken = await apiRequests.refreshToken(
+            getCookie("refreshToken")
+          );
+          const { accessToken, refreshToken } = cookiesSettings;
+          setCookie(
+            accessToken.name,
+            newToken.accessToken.replace("Bearer ", ""),
+            accessToken.options
+          );
+          setCookie(
+            refreshToken.name,
+            newToken.refreshToken,
+            refreshToken.options
+          );
+          await _reusePatchUser(dispatch, data);
+        } catch (err: any) {
+          _reusePatchUserError(dispatch, err);
+        }
+      } else {
         _reusePatchUserError(dispatch, err);
       }
-    } else {
-      _reusePatchUserError(dispatch, err);
     }
-  }
-};
+  };
 
 // Выход из профиля
-export const logout = () => (dispatch) => {
+export const logout: AppThunk = () => (dispatch: AppDispatch) => {
   dispatch({ type: LOGOUT_REQUEST });
   return apiRequests
     .logout(getCookie("refreshToken"))
@@ -118,7 +128,7 @@ export const logout = () => (dispatch) => {
         throw new Error("Произошла ошибка");
       }
     })
-    .catch((err) => {
+    .catch((err: TErrorAlertPayload) => {
       console.log(`Error ${err.status ?? ""}: ${err.message}`);
     })
     .finally(() => {

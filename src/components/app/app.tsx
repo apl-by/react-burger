@@ -10,7 +10,7 @@ import Page404 from "../../pages/page-404/page-404";
 import ProtectedRoute from "../protected-route/protected-route";
 import IngrDetailPage from "../../pages/ingr-detail-page/ingr-detail-page";
 import ModalIngrDetailPage from "../../pages/modal-ingr-detail-page/modal-ingr-detail-page";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../hooks/reduxHooks";
 import { getMenu } from "../../services/thunks/main";
 import { getUser } from "../../services/thunks/user";
 import { Routes, Route, useLocation, Outlet } from "react-router-dom";

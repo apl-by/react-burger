@@ -9,25 +9,20 @@ import {
   hasErrorInput,
   setErrInEmptyInput,
 } from "../../utils/utils";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/reduxHooks";
 import { login } from "../../services/thunks/requests";
 import { useLocation, Navigate } from "react-router";
-import { ErrorSetter } from "../../types/common";
+import { ErrorSetter, IAllInputs } from "../../types/common";
 
-type TInputValue<T> = {
-  email: T;
-  password: T;
-};
+type TInputValue<T> = Required<Pick<IAllInputs<T>, "email" | "password">>;
 
 const LoginPage: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  // используется any (до типизации useSelector)
   const { isAuthorized, wasInitialAuth } = useSelector(
-    (state: any) => state.userData
+    (state) => state.userData
   );
-  // используется any (до типизации useSelector)
-  const isRequest = useSelector((state: any) => state.request.isRequest);
+  const isRequest = useSelector((state) => state.request.isRequest);
 
   const [inputValue, setInputValue] = useState<TInputValue<string>>({
     email: "",

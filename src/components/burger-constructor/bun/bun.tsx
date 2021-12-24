@@ -1,6 +1,6 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC } from "react";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../../hooks/reduxHooks";
 
 interface IBun {
   type: "top" | "bottom" | undefined;
@@ -8,8 +8,10 @@ interface IBun {
 }
 
 const Bun: FC<IBun> = ({ type, text }) => {
-  // используется any (до типизации useSelector)
-  const bun = useSelector((store: any) => store.burgConstructor.bun);
+  const bun = useSelector((store) => store.burgConstructor.bun);
+
+  if (bun === null) return <>{null}</>;
+  
   return (
     <ConstructorElement
       type={type}

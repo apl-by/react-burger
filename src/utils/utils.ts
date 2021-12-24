@@ -28,7 +28,7 @@ export const setOrderRequestBody = (
   ingredients: [...order.map((i: IMenuItem) => i._id)],
 });
 
-export const setTotalPrice = (bun: IMenuItem, ingrArr: IMenuItem[]): number => {
+export const setTotalPrice = (bun: IMenuItem | null, ingrArr: IMenuItem[]): number => {
   const ingrSum = ingrArr.reduce(
     (prev: number, i: IMenuItem) => prev + i.price,
     0
@@ -69,9 +69,10 @@ export const getCookie = (name: string): string | undefined => {
 export const setCookie = (
   name: string,
   value: string,
-  options: ICookieOptions = { path: "/" }
+  options: ICookieOptions
 ): void => {
   options = {
+    path: "/",
     ...options,
   };
 

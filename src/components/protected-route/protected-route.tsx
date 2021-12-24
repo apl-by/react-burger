@@ -1,5 +1,5 @@
 import { useLocation, Navigate, RouteProps } from "react-router";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks/reduxHooks";
 
 interface IProtectedRoute extends RouteProps {
   to: string;
@@ -8,8 +8,7 @@ interface IProtectedRoute extends RouteProps {
 const ProtectedRoute = ({ children, to }: IProtectedRoute) => {
   let location = useLocation();
 
-  // используется any (до типизации useSelector)
-  const isAuthorized = useSelector((state: any) => state.userData.isAuthorized);
+  const isAuthorized = useSelector((state) => state.userData.isAuthorized);
 
   if (!isAuthorized) {
     return <Navigate to={to} state={{ from: location.pathname }} />;

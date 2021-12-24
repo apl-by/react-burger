@@ -1,15 +1,23 @@
 import {
   START_REQUEST,
   END_REQUEST,
-} from "../actions/requests";
+  TRequestActions,
+} from "../actions";
 
-const initialState = {
+interface IState {
+  isRequest: boolean;
+}
+
+const initialState: IState = {
   isRequest: false,
 };
 
-export const request = (state = initialState, action) => {
+export const requestReducer = (
+  state = initialState,
+  action: TRequestActions
+): IState => {
   switch (action.type) {
-  case START_REQUEST:
+    case START_REQUEST:
       return {
         isRequest: true,
       };

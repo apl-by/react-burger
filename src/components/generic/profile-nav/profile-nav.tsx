@@ -1,6 +1,6 @@
 import styles from "./profile-nav.module.css";
 import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../../hooks/reduxHooks";
 import { logout } from "../../../services/thunks/user";
 import { FC, SyntheticEvent } from "react";
 

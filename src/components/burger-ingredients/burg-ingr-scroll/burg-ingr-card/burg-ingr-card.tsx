@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { dndTypes } from "../../../../utils/data";
 import { memo, useMemo, FC } from "react";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../../../hooks/reduxHooks";
 import { useDrag } from "react-dnd";
 import { useNavigate } from "react-router";
 import { IMenuItem } from "../../../../types/common";
@@ -16,11 +16,9 @@ interface IBurgIngrCard {
 
 const BurgIngrCard: FC<IBurgIngrCard> = memo(({ cardData }) => {
   const navigate = useNavigate();
-  // используется any (до типизации useSelector)
-  const bunId = useSelector((store: any) => store.burgConstructor.bun?._id);
-  // используется any (до типизации useSelector)
+  const bunId = useSelector((store) => store.burgConstructor.bun?._id);
   const ingrCount = useSelector(
-    (store: any) => store.burgConstructor.ingrCounter?.[cardData._id]
+    (store) => store.burgConstructor.ingrCounter?.[cardData._id]
   );
 
   const [, dragRef] = useDrag({

@@ -7,17 +7,30 @@ import {
   UPDATE_USER_ERROR,
   LOGOUT_REQUEST,
   LOGOUT,
-} from "../actions/user";
+  TUserDataActions,
+} from "../actions";
+import { TUserSuccessPayload } from "../../types/services";
 
-const initialUser = {
-  user: undefined,
+interface IUser {
+  user: TUserSuccessPayload | undefined;
+  isAuthorized: boolean;
+  userRequest: boolean;
+  userFailed: boolean;
+  wasInitialAuth: boolean;
+}
+
+const initialUser: IUser = {
+  user: { name: "", email: "" },
   isAuthorized: false,
   userRequest: false,
   userFailed: false,
   wasInitialAuth: false,
 };
 
-export const userData = (state = initialUser, action) => {
+export const userDataReducer = (
+  state = initialUser,
+  action: TUserDataActions
+): IUser => {
   switch (action.type) {
     case USER_REQUEST:
       return {
