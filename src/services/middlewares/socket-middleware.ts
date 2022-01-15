@@ -10,7 +10,6 @@ import { IWsActionTypes } from "../actions";
 import { apiRequests } from "../../utils/api-requests";
 import { getCookie } from "../../utils/utils";
 import { ORDER_ERROR } from "../actions";
-import { getUser } from "../thunks/user";
 import { ALERT_ERROR } from "../actions";
 
 export const socketMiddleware = (
