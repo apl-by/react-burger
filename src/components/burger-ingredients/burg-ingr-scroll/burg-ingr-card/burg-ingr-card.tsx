@@ -7,7 +7,7 @@ import { dndTypes } from "../../../../utils/data";
 import { memo, useMemo, FC } from "react";
 import { useSelector } from "../../../../hooks/reduxHooks";
 import { useDrag } from "react-dnd";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { IMenuItem } from "../../../../types/common";
 
 interface IBurgIngrCard {
@@ -16,6 +16,8 @@ interface IBurgIngrCard {
 
 const BurgIngrCard: FC<IBurgIngrCard> = memo(({ cardData }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const backgroundPath = location.pathname;
   const bunId = useSelector((store) => store.burgConstructor.bun?._id);
   const ingrCount = useSelector(
     (store) => store.burgConstructor.ingrCounter?.[cardData._id]
@@ -36,7 +38,7 @@ const BurgIngrCard: FC<IBurgIngrCard> = memo(({ cardData }) => {
 
   const handleClick = (): void => {
     navigate(`/ingredients/${cardData._id}`, {
-      state: { background: { pathname: "/", key: cardData._id } },
+      state: { background: { pathname: backgroundPath, key: cardData._id } },
     });
   };
 

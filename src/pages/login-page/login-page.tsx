@@ -78,7 +78,7 @@ const LoginPage: FC = () => {
         />
       </Form>
       <ParagraphLink link="Зарегистрироваться" to="/register" mod="mb-4">
-        Вы — новый пользователь?
+        Вы — новый пользователь?
       </ParagraphLink>
       <ParagraphLink link="Восстановить пароль" to="/forgot-password">
         Забыли пароль?

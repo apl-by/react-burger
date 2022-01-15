@@ -11,6 +11,7 @@ import {
   confirmationReducer,
   alertReducer,
 } from "./interaction";
+import { ordersReducer } from "./ws";
 
 const rootReducer = combineReducers({
   menu: menuReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   errorAlert: errorAlertReducer,
   confirmation: confirmationReducer,
   alert: alertReducer,
+  orders: ordersReducer,
 });
 
 export default rootReducer;

@@ -1,0 +1,82 @@
+.item {
+  width: 100%;
+  min-height: 214px;
+  padding: 24px;
+  margin-bottom: 16px;
+  background: #1c1c21;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06),
+    0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
+  box-sizing: border-box;
+}
+
+.item__data-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item__name {
+  padding: 0;
+}
+
+.item__name_color_green {
+  color: #00cccc;
+}
+
+.item__result {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.item__ingredients {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.item__ingredient {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.item__img {
+  object-fit: cover;
+  object-position: center;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(#131316, #131316) padding-box,
+    linear-gradient(to left, #4d1dfd, #753ab4) border-box;
+  border: solid 2px transparent;
+  border-radius: 100%;
+  box-sizing: border-box;
+}
+
+.item__count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  border-radius: 100%;
+  box-sizing: border-box;
+}
+
+.item__ellipsis {
+  font-size: 50px;
+  margin-left: 15px;
+}
+
+.item__price {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+}

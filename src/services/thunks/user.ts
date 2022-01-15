@@ -9,17 +9,16 @@ import {
   LOGOUT,
 } from "../actions/user";
 import { apiRequests } from "../../utils/api-requests";
-import { getCookie, setCookie, deleteCookie } from "../../utils/utils";
-import { cookiesSettings } from "../../utils/data";
+import { getCookie, deleteCookie } from "../../utils/utils";
 import {
-  AppThunk,
-  AppDispatch,
+  TAppThunk,
+  TAppDispatch,
   TErrorAlertPayload,
 } from "../../types/services";
 import { IAllInputs } from "../../types/common";
 
 // Thunk для получения user
-const _reuseGetUser = (dispatch: AppDispatch) => {
+const _reuseGetUser = (dispatch: TAppDispatch) => {
   return apiRequests.getUser(getCookie("accessToken")).then((res) => {
     if (res.success) {
       dispatch({ type: USER_SUCCESS, payload: res.user });
@@ -29,32 +28,19 @@ const _reuseGetUser = (dispatch: AppDispatch) => {
   });
 };
 
-const _reuseUserError = (dispatch: AppDispatch, err: TErrorAlertPayload) => {
+const _reuseUserError = (dispatch: TAppDispatch, err: TErrorAlertPayload) => {
   dispatch({ type: USER_ERROR });
   console.log(`Error ${err.status ?? ""}: ${err.message}`);
 };
 
-export const getUser: AppThunk = () => async (dispatch: AppDispatch) => {
+export const getUser: TAppThunk = () => async (dispatch: TAppDispatch) => {
   dispatch({ type: USER_REQUEST });
   try {
     await _reuseGetUser(dispatch);
   } catch (err: any) {
     if (err.message === "jwt expired") {
       try {
-        const newToken = await apiRequests.refreshToken(
-          getCookie("refreshToken")
-        );
-        const { accessToken, refreshToken } = cookiesSettings;
-        setCookie(
-          accessToken.name,
-          newToken.accessToken.replace("Bearer ", ""),
-          accessToken.options
-        );
-        setCookie(
-          refreshToken.name,
-          newToken.refreshToken,
-          refreshToken.options
-        );
+        await apiRequests.refreshToken(getCookie("refreshToken"));
         await _reuseGetUser(dispatch);
       } catch (err: any) {
         _reuseUserError(dispatch, err);
@@ -66,7 +52,7 @@ export const getUser: AppThunk = () => async (dispatch: AppDispatch) => {
 };
 
 // Thunk для обновления user
-const _reusePatchUser = (dispatch: AppDispatch, data: IAllInputs<string>) => {
+const _reusePatchUser = (dispatch: TAppDispatch, data: IAllInputs<string>) => {
   return apiRequests.patchUser(getCookie("accessToken"), data).then((res) => {
     if (res.success) {
       dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
@@ -77,35 +63,22 @@ const _reusePatchUser = (dispatch: AppDispatch, data: IAllInputs<string>) => {
 };
 
 const _reusePatchUserError = (
-  dispatch: AppDispatch,
+  dispatch: TAppDispatch,
   err: TErrorAlertPayload
 ) => {
   dispatch({ type: UPDATE_USER_ERROR });
   console.log(`Error ${err.status ?? ""}: ${err.message}`);
 };
 
-export const patchUser: AppThunk =
-  (data: IAllInputs<string>) => async (dispatch: AppDispatch) => {
+export const patchUser: TAppThunk =
+  (data: IAllInputs<string>) => async (dispatch: TAppDispatch) => {
     dispatch({ type: UPDATE_USER_REQUEST });
     try {
       await _reusePatchUser(dispatch, data);
     } catch (err: any) {
       if (err.message === "jwt expired") {
         try {
-          const newToken = await apiRequests.refreshToken(
-            getCookie("refreshToken")
-          );
-          const { accessToken, refreshToken } = cookiesSettings;
-          setCookie(
-            accessToken.name,
-            newToken.accessToken.replace("Bearer ", ""),
-            accessToken.options
-          );
-          setCookie(
-            refreshToken.name,
-            newToken.refreshToken,
-            refreshToken.options
-          );
+          await apiRequests.refreshToken(getCookie("refreshToken"));
           await _reusePatchUser(dispatch, data);
         } catch (err: any) {
           _reusePatchUserError(dispatch, err);
@@ -117,7 +90,7 @@ export const patchUser: AppThunk =
   };
 
 // Выход из профиля
-export const logout: AppThunk = () => (dispatch: AppDispatch) => {
+export const logout: TAppThunk = () => (dispatch: TAppDispatch) => {
   dispatch({ type: LOGOUT_REQUEST });
   return apiRequests
     .logout(getCookie("refreshToken"))

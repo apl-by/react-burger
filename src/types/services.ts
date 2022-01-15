@@ -10,12 +10,15 @@ import {
   TOrderDetailsActions,
   TRequestActions,
   TUserDataActions,
+  TWsActions,
 } from "../services/actions";
+import { IWsResApi } from "./common";
+
 
 export type TRootState = ReturnType<typeof store.getState>;
 
 // Типизация всех экшенов приложения
-type TApplicationActions =
+export type TApplicationActions =
   | TErrorAlertActions
   | TConfirmationActions
   | TAlertActions
@@ -23,15 +26,16 @@ type TApplicationActions =
   | TBurgConstructorActions
   | TOrderDetailsActions
   | TRequestActions
-  | TUserDataActions;
+  | TUserDataActions
+  | TWsActions;
 
 // Типизация thunk'ов
-export type AppThunk<TReturn = void> = ActionCreator<
+export type TAppThunk<TReturn = void> = ActionCreator<
   ThunkAction<TReturn, Action, TRootState, TApplicationActions>
 >;
 
 // Типизация метода dispatch
-export type AppDispatch = Dispatch<TApplicationActions> | AppThunk<void>;
+export type TAppDispatch = Dispatch<TApplicationActions>;
 
 // общие типы для services
 export type TActionTemplate<Type, Payload = undefined> = {
@@ -52,3 +56,8 @@ export type TOrderSuccessPayload = {
 };
 
 export type TUserSuccessPayload = { email: string; name: string };
+
+export type TWsOrdersSuccessPayload = {
+  resApi: IWsResApi;
+  url: string
+};

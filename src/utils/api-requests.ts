@@ -8,6 +8,8 @@ import {
   IUserRes,
   IRefreshTokenRes,
 } from "../types/api-responses";
+import { setCookie } from "../utils/utils";
+import { cookiesSettings } from "../utils/data";
 
 interface IApiOptions {
   readonly _headers: { "Content-type": string };
@@ -60,10 +62,13 @@ class ApiRequests implements IApiOptions {
       .then((res) => this._handleResponse<IGetMenuRes>(res));
   }
 
-  postOrder(data: { ingredients: string[] }) {
+  postOrder(data: { ingredients: string[] }, token: string | undefined) {
     return fetch(`${this._baseUrl}/orders`, {
       method: "POST",
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: "Bearer " + token,
+      },
       body: JSON.stringify(data),
     })
       .then((res) => this._handleResToJson<IPostOrderRes>(res))
@@ -127,7 +132,19 @@ class ApiRequests implements IApiOptions {
       body: JSON.stringify({ token }),
     })
       .then((res) => this._handleResToJson<IRefreshTokenRes>(res))
-      .then((res) => this._handleResponse<IRefreshTokenRes>(res));
+      .then((res) => {
+        const { accessToken, refreshToken } = cookiesSettings;
+        setCookie(
+          accessToken.name,
+          res.body.accessToken.replace("Bearer ", ""),
+          accessToken.options
+        );
+        setCookie(
+          refreshToken.name,
+          res.body.refreshToken,
+          refreshToken.options
+        );
+      });
   }
 
   getUser(token: string | undefined) {

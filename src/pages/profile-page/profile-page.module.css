@@ -9,6 +9,7 @@
   flex-direction: column;
   align-items: flex-end;
   min-width: 345px;
+  margin-left: 148px;
 }
 
 .form__list {

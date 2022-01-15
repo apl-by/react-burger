@@ -11,6 +11,7 @@ export interface IMenuItem {
   type: string;
   _id: string;
   uniqueId?: string;
+  count?: number;
   __v?: number;
 }
 
@@ -76,3 +77,30 @@ export type TIcons =
   | "ShowIcon"
   | "HideIcon"
   | "LogoutIcon";
+
+export interface IOrder {
+  ingredients: string[];
+  _id: string;
+  status: string;
+  name: string;
+  number: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IHandeledOrder {
+  ingrForRender: IMenuItem[];
+  _id: string;
+  status: string;
+  name: string;
+  number: number;
+  totalPrice: number;
+  time: string;
+}
+
+export interface IWsResApi {
+  success: boolean;
+  orders: IOrder[];
+  total: number;
+  totalToday: number;
+}

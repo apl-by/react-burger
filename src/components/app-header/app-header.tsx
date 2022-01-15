@@ -8,7 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, Link } from "react-router-dom";
 
-const setClassName = ({ isActive }: {isActive: boolean}): string =>
+const setClassName = ({ isActive }: { isActive: boolean }): string =>
   `${styles.nav__link} ${
     isActive ? styles.nav__link_active : "text_color_inactive"
   }`;
@@ -39,7 +39,7 @@ const AppHeader: FC = memo(() => {
               <span
                 className={`${styles.nav__text} ml-2 text text_type_main-default`}
               >
-                Лента заказа
+                Лента заказов
               </span>
             </NavLink>
           </li>

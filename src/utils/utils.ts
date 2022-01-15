@@ -3,7 +3,13 @@ import {
   ISortedMenu,
   IAllInputs,
   ICookieOptions,
+  IOrder,
+  IHandeledOrder,
 } from "../types/common";
+import formatRelative from "date-fns/formatRelative";
+import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
+import parseISO from "date-fns/parseISO";
+import ru from "date-fns/locale/ru";
 
 export const sortData = (data: IMenuItem[]): ISortedMenu => {
   return data.reduce(
@@ -28,7 +34,10 @@ export const setOrderRequestBody = (
   ingredients: [...order.map((i: IMenuItem) => i._id)],
 });
 
-export const setTotalPrice = (bun: IMenuItem | null, ingrArr: IMenuItem[]): number => {
+export const setTotalPrice = (
+  bun: IMenuItem | null,
+  ingrArr: IMenuItem[]
+): number => {
   const ingrSum = ingrArr.reduce(
     (prev: number, i: IMenuItem) => prev + i.price,
     0
@@ -100,4 +109,80 @@ export const deleteCookie = (...args: string[]): void => {
       "max-age": -1,
     })
   );
+};
+
+export const handleOrder = (
+  order: IOrder,
+  menu: IMenuItem[]
+): IHandeledOrder => {
+  // установить статус
+  const { _id, name, number } = order;
+  const status =
+    order.status === "created"
+      ? "Создан"
+      : order.status === "pending"
+      ? "Готовится"
+      : order.status === "done"
+      ? "Выполнен"
+      : "Не определен";
+
+  // установить время
+  const date = new Date();
+  const orderDate = parseISO(order.createdAt);
+  const diff = differenceInCalendarDays(date, orderDate);
+  const signature =
+    diff === 2 ? "2 дня назад," : diff === 3 ? "3 дня назад," : "P','";
+
+  const formatRelativeLocale: { [key: string]: string } = {
+    lastWeek: signature + " p 'i-'O",
+    yesterday: "'Вчера,' p 'i-'O",
+    today: "'Сегодня,' p 'i-'O",
+    tomorrow: "'Завтра,' p 'i-'O",
+    nextWeek: "P',' p 'i-'O",
+    other: signature + " p 'i-'O",
+  };
+
+  const time = formatRelative(orderDate, date, {
+    locale: {
+      ...ru,
+      formatRelative: (token: string) => formatRelativeLocale[token],
+    },
+  });
+
+  // колличество уникальных ингредиентов
+  const countIngr = order.ingredients.reduce(
+    (obj: { [key: string]: number }, el: string) => {
+      if (obj[el]) {
+        obj[el] += 1;
+      } else {
+        obj[el] = 1;
+      }
+      return obj;
+    },
+    {}
+  );
+
+  // массив ингредиентов с данными
+  const ingrForRender = Object.entries(countIngr)
+    .map(([k, v]) => {
+      const ingr = menu.find((el) => el._id === k);
+      if (ingr) ingr.count = v;
+      return ingr;
+    })
+    .filter((i) => i) as IMenuItem[];
+
+  // суммарная цена
+  const totalPrice = ingrForRender.reduce((total, value) => {
+    return total + value.price * (value.count as number);
+  }, 0);
+
+  return {
+    _id,
+    name,
+    number,
+    status,
+    time,
+    ingrForRender,
+    totalPrice,
+  };
 };

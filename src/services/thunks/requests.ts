@@ -5,16 +5,16 @@ import { cookiesSettings } from "../../utils/data";
 import { setCookie } from "../../utils/utils";
 import { getUser } from "./user";
 import {
-  AppThunk,
-  AppDispatch,
+  TAppThunk,
+  TAppDispatch,
   TErrorAlertPayload,
 } from "../../types/services";
 import { IAllInputs } from "../../types/common";
 import { NavigateFunction } from "react-router-dom";
 
-export const register: AppThunk =
+export const register: TAppThunk =
   (data: IAllInputs<string>, confirm: (text: string) => Promise<boolean>) =>
-  (dispatch: AppDispatch) => {
+  (dispatch: TAppDispatch | TAppThunk<void>) => {
     dispatch({ type: START_REQUEST });
     return apiRequests
       .register(data)
@@ -49,8 +49,8 @@ export const register: AppThunk =
       .finally(() => dispatch({ type: END_REQUEST }));
   };
 
-export const login: AppThunk =
-  (data: IAllInputs<string>) => (dispatch: AppDispatch) => {
+export const login: TAppThunk =
+  (data: IAllInputs<string>) => (dispatch: TAppDispatch | TAppThunk<void>) => {
     dispatch({ type: START_REQUEST });
     return apiRequests
       .login(data)
@@ -74,9 +74,9 @@ export const login: AppThunk =
       .finally(() => dispatch({ type: END_REQUEST }));
   };
 
-export const confirmEmail: AppThunk =
+export const confirmEmail: TAppThunk =
   (data: IAllInputs<string>, navigate: NavigateFunction) =>
-  (dispatch: AppDispatch) => {
+  (dispatch: TAppDispatch) => {
     dispatch({ type: START_REQUEST });
     return apiRequests
       .confirmEmail(data)
@@ -93,8 +93,8 @@ export const confirmEmail: AppThunk =
       .finally(() => dispatch({ type: END_REQUEST }));
   };
 
-export const resetPassword: AppThunk =
-  (data: IAllInputs<string>) => (dispatch: AppDispatch) => {
+export const resetPassword: TAppThunk =
+  (data: IAllInputs<string>) => (dispatch: TAppDispatch) => {
     dispatch({ type: START_REQUEST });
     return apiRequests
       .resetPassword(data)

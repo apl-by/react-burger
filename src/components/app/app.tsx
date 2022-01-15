@@ -10,16 +10,32 @@ import Page404 from "../../pages/page-404/page-404";
 import ProtectedRoute from "../protected-route/protected-route";
 import IngrDetailPage from "../../pages/ingr-detail-page/ingr-detail-page";
 import ModalIngrDetailPage from "../../pages/modal-ingr-detail-page/modal-ingr-detail-page";
+import ModalOrderInfoPage from "../../pages/modal-order-info-page/modal-order-info-page";
+import LayoutFeed from "../layout-feed/layout-feed";
+import FeedPage from "../../pages/feed-page/feed-page";
+import ProfileOrdersPage from "../../pages/profile-orders-page/profile-orders-page";
+import OrderInfoPage from "../../pages/order-info-page/order-info-page";
 import { useDispatch } from "../../hooks/reduxHooks";
 import { getMenu } from "../../services/thunks/main";
 import { getUser } from "../../services/thunks/user";
-import { Routes, Route, useLocation, Outlet } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useLocation,
+  Outlet,
+  useNavigationType,
+} from "react-router-dom";
 
 const App: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const background: { pathname: string; key: string } | undefined =
-    location.state?.background;
+  const navigationType = useNavigationType();
+  const background = location.state?.background;
+  const condition =
+    (Boolean(background) && location.pathname.startsWith("/ingredients")) ||
+    (Boolean(background) &&
+      !location.pathname.startsWith("/ingredients") &&
+      navigationType !== "POP");
 
   useEffect(() => {
     dispatch(getUser());
@@ -28,13 +44,18 @@ const App: FC = () => {
 
   return (
     <>
-      <Routes location={background ?? location}>
+      <Routes location={condition ? background : location}>
         <Route path="/" element={<LayoutWithHeader />}>
           <Route index element={<MainPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="forgot-password" element={<ForgotPasswordPage />} />
           <Route path="reset-password" element={<ResetPasswordPage />} />
+          <Route path="ingredients/:id" element={<IngrDetailPage />} />
+          <Route path="feed" element={<LayoutFeed />}>
+            <Route index element={<FeedPage />} />
+            <Route path=":id" element={<OrderInfoPage />} />
+          </Route>
           <Route
             path="profile"
             element={
@@ -44,16 +65,17 @@ const App: FC = () => {
             }
           >
             <Route index element={<ProfilePage />} />
-            <Route path="orders" element={null} />
-            <Route path="orders/:id" element={null} />
+            <Route path="orders" element={<ProfileOrdersPage />} />
+            <Route path="orders/:id" element={<OrderInfoPage />} />
           </Route>
-          <Route path="ingredients/:id" element={<IngrDetailPage />} />
         </Route>
         <Route path="*" element={<Page404 />} />
       </Routes>
 
-      <Routes location={background ? location : "/"}>
+      <Routes location={condition ? location : "/"}>
         <Route path="ingredients/:id" element={<ModalIngrDetailPage />} />
+        <Route path="profile/orders/:id" element={<ModalOrderInfoPage />} />
+        <Route path="feed/:id" element={<ModalOrderInfoPage />} />
         <Route path="*" element={null} />
       </Routes>
     </>
