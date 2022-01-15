@@ -1,12 +1,11 @@
 import styles from "./order-details.module.css";
 import image from "../../../images/modal-done.png";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../../hooks/reduxHooks";
 import { FC } from "react";
 
 const OrderDetails: FC = () => {
-  // используется any (до типизации useSelector)
   const number = useSelector(
-    (store: any) => store.orderDetails.orderRes.order.number
+    (store) => store.orderDetails?.orderRes?.order?.number
   );
 
   return (

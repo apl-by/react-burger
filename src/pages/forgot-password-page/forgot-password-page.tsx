@@ -9,23 +9,18 @@ import {
   setErrInEmptyInput,
 } from "../../utils/utils";
 import { useNavigate, Navigate } from "react-router";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../hooks/reduxHooks";
 import { confirmEmail } from "../../services/thunks/requests";
-import { ErrorSetter } from "../../types/common";
+import { ErrorSetter, IAllInputs } from "../../types/common";
 
-type TInputValue<T> = {
-  email: T;
-};
-
+type TInputValue<T> = Required<Pick<IAllInputs<T>, "email">>;
 
 const ForgotPasswordPage: FC = () => {
   const dispatch = useDispatch();
-  // используется any (до типизации useSelector)
   const { isAuthorized, wasInitialAuth } = useSelector(
-    (state: any) => state.userData
+    (state) => state.userData
   );
-  // используется any (до типизации useSelector)
-  const isRequest = useSelector((state: any) => state.request.isRequest);
+  const isRequest = useSelector((state) => state.request.isRequest);
 
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState<TInputValue<string>>({

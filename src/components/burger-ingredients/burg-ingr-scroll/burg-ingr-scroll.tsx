@@ -1,7 +1,7 @@
 import styles from "./burg-ingr-scroll.module.css";
 import BurgIngrCard from "./burg-ingr-card/burg-ingr-card";
 import { useMemo, FC, MutableRefObject, RefObject } from "react";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../../hooks/reduxHooks";
 import { sortData } from "../../../utils/utils";
 import throttle from "lodash/throttle";
 import { ISortedMenu, IMenuSection } from "../../../types/common";
@@ -19,8 +19,7 @@ const BurgIngrScroll: FC<IBurgIngrScroll> = ({
   containerAnchor,
   onScroll,
 }) => {
-  // используется any (до типизации useSelector)
-  const { menu } = useSelector((store: any) => store.menu);
+  const { menu } = useSelector((store) => store.menu);
 
   const sortedMenu = useMemo<ISortedMenu>(() => sortData(menu), [menu]);
 

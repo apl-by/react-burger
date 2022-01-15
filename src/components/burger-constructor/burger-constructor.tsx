@@ -8,7 +8,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { memo, useCallback, useMemo, FC, SyntheticEvent } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../hooks/reduxHooks";
 import { postOrder } from "../../services/thunks/main";
 import { useDrop } from "react-dnd";
 import {
@@ -26,15 +26,12 @@ const BurgerConstructor: FC = memo(() => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // используется any (до типизации useSelector)
-  const { isAuthorized } = useSelector((state: any) => state.userData);
-  // используется any (до типизации useSelector)
+  const { isAuthorized } = useSelector((state) => state.userData);
   const { ingredients, bun, empty } = useSelector(
-    (store: any) => store.burgConstructor
+    (store) => store.burgConstructor
   );
-  // используется any (до типизации useSelector)
   const { isModalOpen, canSubmit } = useSelector(
-    (store: any) => store.orderDetails
+    (store) => store.orderDetails
   );
   const dispatch = useDispatch();
 

@@ -6,15 +6,13 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Outlet } from "react-router";
 import { memo, FC } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../hooks/reduxHooks";
 import { CLEAR_ERROR, HIDE_ALERT } from "../../services/actions/interaction";
 
 const LayoutWithHeader: FC = memo(() => {
   const dispatch = useDispatch();
-  // используется any (до типизации useSelector)
-  const errors = useSelector((state: any) => state.errorAlert.errors);
-  // используется any (до типизации useSelector)
-  const alertMessage = useSelector((state: any) => state.alert.message);
+  const errors = useSelector((state) => state.errorAlert.errors);
+  const alertMessage = useSelector((state) => state.alert.message);
 
   const handleErrAlertClose = (): void => {
     dispatch({ type: CLEAR_ERROR });

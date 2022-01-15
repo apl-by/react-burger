@@ -1,0 +1,25 @@
+.feed {
+  list-style: none;
+  padding: 0 8px 0 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  overflow-y: auto;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
+.feed_type_profile {
+  max-width: 860px;
+}
+
+.feed::-webkit-scrollbar {
+  width: 8px;
+  background-color: #2f2f37;
+}
+
+.feed::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+  border: 3px solid #8585ad;
+  box-sizing: border-box;
+}

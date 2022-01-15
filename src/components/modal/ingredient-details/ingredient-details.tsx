@@ -1,6 +1,6 @@
 import styles from "./ingredient-details.module.css";
 import { modalCardTemplate } from "../../../utils/data";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../../hooks/reduxHooks";
 import { useMemo, FC } from "react";
 import { IMenuItem } from "../../../types/common";
 
@@ -9,8 +9,7 @@ interface IIngredientDetails {
 }
 
 const IngredientDetails: FC<IIngredientDetails> = ({ id }) => {
-  // используется any (до типизации useSelector)
-  const menu: IMenuItem[] = useSelector((store: any ) => store.menu.menu);
+  const menu: IMenuItem[] = useSelector((store) => store.menu.menu);
   const ingredient = useMemo(
     () => menu.find((ingr) => ingr._id === id),
     [menu, id]

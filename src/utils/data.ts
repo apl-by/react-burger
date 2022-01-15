@@ -1,5 +1,7 @@
 export const BASE_URL_API = "https://norma.nomoreparties.space/api";
 
+export const BASE_URL_WS = "wss://norma.nomoreparties.space";
+
 export const SECTION_TOP_MARGIN = 40;
 
 export const menuSections = [
@@ -24,7 +26,7 @@ export const cookiesSettings = {
   accessToken: {
     name: "accessToken",
     options: {
-      "max-age": 3600,
+      "max-age": 604_800,
     },
   },
   refreshToken: {

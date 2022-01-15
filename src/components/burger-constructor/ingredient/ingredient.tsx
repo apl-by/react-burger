@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useRef, FC } from "react";
 import { dndTypes } from "../../../utils/data";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../../hooks/reduxHooks";
 import {
   REMOVE_INGREDIENT,
   MOVE_INGREDIENT,
@@ -19,9 +19,8 @@ interface IIngredient {
 }
 
 const Ingredient: FC<IIngredient> = ({ ind, data }) => {
-  // используется any (до типизации useSelector)
   const ingredients = useSelector(
-    (store: any) => store.burgConstructor.ingredients
+    (store) => store.burgConstructor.ingredients
   );
   const dispatch = useDispatch();
 

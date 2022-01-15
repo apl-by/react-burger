@@ -1,7 +1,6 @@
 .profile-nav {
   display: flex;
   flex-direction: column;
-  margin-right: 148px;
 }
 
 .nav__list {

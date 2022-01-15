@@ -1,0 +1,18 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 640px;
+  padding-top: 122px;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  height: calc(100% - 100px);
+}

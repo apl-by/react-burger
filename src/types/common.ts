@@ -10,7 +10,8 @@ export interface IMenuItem {
   proteins: number;
   type: string;
   _id: string;
-  uniqueId: string;
+  uniqueId?: string;
+  count?: number;
   __v?: number;
 }
 
@@ -77,23 +78,29 @@ export type TIcons =
   | "HideIcon"
   | "LogoutIcon";
 
-// Типы body-ответов на api запросы
-export interface ICommonResBody {
+export interface IOrder {
+  ingredients: string[];
+  _id: string;
+  status: string;
+  name: string;
+  number: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IHandeledOrder {
+  ingrForRender: IMenuItem[];
+  _id: string;
+  status: string;
+  name: string;
+  number: number;
+  totalPrice: number;
+  time: string;
+}
+
+export interface IWsResApi {
   success: boolean;
-  message?: string;
-}
-
-export interface IAuthRes extends ICommonResBody {
-  accessToken?: string;
-  refreshToken?: string;
-  user?: { email: string; name: string };
-}
-
-export interface IGetMenuRes extends ICommonResBody {
-  data?: Array<IMenuItem>;
-}
-
-export interface IPostOrderRes extends ICommonResBody {
-  name?: string;
-  order?: { number: number };
+  orders: IOrder[];
+  total: number;
+  totalToday: number;
 }

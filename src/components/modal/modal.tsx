@@ -7,10 +7,17 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 interface IModal {
   title?: string;
   mod?: string;
+  modTitle?: string
   onClose: () => void;
 }
 
-const Modal: FC<IModal> = ({ children, title, onClose, mod = "pb-15" }) => {
+const Modal: FC<IModal> = ({
+  children,
+  title,
+  onClose,
+  mod = "pb-15",
+  modTitle = "text_type_main-large",
+}) => {
   const closeByEsc = useCallback<(e: KeyboardEvent) => void>(
     (e) => {
       if (e.key === "Escape") {
@@ -34,7 +41,7 @@ const Modal: FC<IModal> = ({ children, title, onClose, mod = "pb-15" }) => {
       <div className={`${styles.modal} pt-10 pr-10 pl-10 ${mod}`}>
         <div className={styles.modal__container}>
           {title && (
-            <h2 className={`${styles.modal__title} text text_type_main-large`}>
+            <h2 className={`${styles.modal__title} text ${modTitle}`}>
               {title}
             </h2>
           )}

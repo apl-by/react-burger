@@ -11,30 +11,25 @@ import {
   setErrInEmptyInput,
 } from "../../utils/utils";
 import { register } from "../../services/thunks/requests";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/reduxHooks";
 import { useLocation, Navigate } from "react-router";
 import Modal from "../../components/modal/modal";
 import Confirm from "../../components/modal/confirm/confirm";
 import useConfirm from "../../hooks/useConfirm";
-import { ErrorSetter } from "../../types/common";
+import { ErrorSetter, IAllInputs } from "../../types/common";
 
-type TInputValue<T> = {
-  name: T;
-  email: T;
-  password: T;
-};
+type TInputValue<T> = Required<
+  Pick<IAllInputs<T>, "name" | "email" | "password">
+>;
 
 const RegisterPage: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  // используется any (до типизации useSelector)
   const { isAuthorized, wasInitialAuth } = useSelector(
-    (state: any) => state.userData
+    (state) => state.userData
   );
-  // используется any (до типизации useSelector)
-  const isRequest = useSelector((state: any) => state.request.isRequest);
-  // используется any (до типизации useSelector)
-  const { show, text } = useSelector((state: any) => state.confirmation);
+  const isRequest = useSelector((state) => state.request.isRequest);
+  const { show, text } = useSelector((state) => state.confirmation);
 
   const { confirm, onConfirm, onCancel } = useConfirm();
 

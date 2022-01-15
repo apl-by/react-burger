@@ -10,24 +10,22 @@ import {
   hasErrorInput,
   setErrInEmptyInput,
 } from "../../utils/utils";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../hooks/reduxHooks";
 import { patchUser } from "../../services/thunks/user";
 import isEqual from "lodash/isEqual";
-import { ErrorSetter } from "../../types/common";
+import { ErrorSetter, IAllInputs } from "../../types/common";
 
-type TInputValue<T> = {
-  name: T;
-  email: T;
-  password: T;
-};
+type TInputValue<T> = Required<
+  Pick<IAllInputs<T>, "name" | "email" | "password">
+>;
 
 const ProfilePage: FC = () => {
   const refState = useRef<TInputValue<string> | null>(null);
   const dispatch = useDispatch();
-  // используется any (до типизации useSelector)
-  const { name, email } = useSelector((state: any) => state.userData.user);
-  // используется any (до типизации useSelector)
-  const userRequest = useSelector((state: any) => state.userData.userRequest);
+  const { name, email } = useSelector((state) =>
+    state.userData.user ? state.userData.user : { name: "", email: "" }
+  );
+  const userRequest = useSelector((state) => state.userData.userRequest);
 
   const [inputValue, setInputValue] = useState<TInputValue<string>>({
     name,

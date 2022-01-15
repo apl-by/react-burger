@@ -12,31 +12,61 @@ import {
   ORDER_SUCCESS,
   ORDER_ERROR,
   CLOSE_ORDER_DETAILS,
-} from "../actions/main";
+  TMenuActions,
+  TBurgConstructorActions,
+  TOrderDetailsActions,
+} from "../actions";
+import { IMenuItem } from "../../types/common";
+import { TOrderSuccessPayload } from "../../types/services";
 
-const initialMenu = {
+interface IMenu {
+  menu: IMenuItem[];
+  menuRequest: boolean;
+  menuFailed: boolean;
+}
+
+interface IConstructor {
+  ingredients: IMenuItem[];
+  bun: IMenuItem | null;
+  empty: boolean;
+  ingrCounter: { [key: string]: number | undefined };
+}
+
+interface IOrderDetails {
+  isModalOpen: boolean;
+  orderList: IMenuItem[];
+  orderRes: TOrderSuccessPayload | undefined;
+  orderRequest: boolean;
+  orderFailed: boolean;
+  canSubmit: boolean;
+}
+
+const initialMenu: IMenu = {
   menu: [],
   menuRequest: false,
   menuFailed: false,
 };
 
-const initialConstructor = {
+const initialConstructor: IConstructor = {
   ingredients: [],
   bun: null,
   empty: true,
   ingrCounter: {},
 };
 
-const initialOrderDetails = {
+const initialOrderDetails: IOrderDetails = {
   isModalOpen: false,
   orderList: [],
-  orderRes: {},
+  orderRes: undefined,
   orderRequest: false,
   orderFailed: false,
   canSubmit: true,
 };
 
-export const menu = (state = initialMenu, action) => {
+export const menuReducer = (
+  state = initialMenu,
+  action: TMenuActions
+): IMenu => {
   switch (action.type) {
     case MENU_REQUEST:
       return {
@@ -60,7 +90,10 @@ export const menu = (state = initialMenu, action) => {
   }
 };
 
-export const burgConstructor = (state = initialConstructor, action) => {
+export const burgConstructorReducer = (
+  state = initialConstructor,
+  action: TBurgConstructorActions
+): IConstructor => {
   switch (action.type) {
     case ADD_BUN:
       return {
@@ -99,7 +132,9 @@ export const burgConstructor = (state = initialConstructor, action) => {
         ingrCounter: {
           ...state.ingrCounter,
           [ingrCounterKey]:
-            ingrCounterValue > 1 ? ingrCounterValue - 1 : undefined,
+            ingrCounterValue as number > 1 && ingrCounterValue !== undefined
+              ? ingrCounterValue - 1
+              : undefined,
         },
       };
     }
@@ -115,7 +150,10 @@ export const burgConstructor = (state = initialConstructor, action) => {
   }
 };
 
-export const orderDetails = (state = initialOrderDetails, action) => {
+export const orderDetailsReducer = (
+  state = initialOrderDetails,
+  action: TOrderDetailsActions
+): IOrderDetails => {
   switch (action.type) {
     case ORDER_REQUEST:
       return {
