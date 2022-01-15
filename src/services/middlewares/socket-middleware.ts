@@ -20,10 +20,15 @@ export const socketMiddleware = (
   return (store: MiddlewareAPI<TAppDispatch, TRootState>) => {
     let socket: WebSocket | null = null;
     return (next) => (action: TApplicationActions) => {
-      const dispatch = store.dispatch as TAppDispatch | TAppThunk<void>;
+      // const dispatch = store.dispatch as TAppDispatch | TAppThunk<void>;
+      const dispatch = store.dispatch;
       const { type, payload } = action;
       const { wsInit, onMessage, onOpen, onClose, onError } = wsActions;
-
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      if (false) {
+        dispatch(getUser());
+      }
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       if (type === wsInit) {
         const url = payload ? wsUrl + payload : wsUrl;
         socket = new WebSocket(url);
@@ -46,7 +51,7 @@ export const socketMiddleware = (
           if (parsedData.success) {
             dispatch({
               type: onMessage,
-              payload: { resApi: parsedData, url: socket?.url },
+              payload: { resApi: parsedData, url: socket?.url } as any,
             });
           }
           if (parsedData.message === "Invalid or missing token") {
