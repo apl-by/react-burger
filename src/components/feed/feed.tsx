@@ -10,7 +10,7 @@ interface IFeed {
 const Feed: FC<IFeed> = ({ mod }) => {
   const allOrders = useSelector((state) => state.orders.resAll?.orders);
   const ownerOrders = useSelector((state) =>
-    state.orders.resOwner?.orders.reverse()
+    state.orders.resOwner?.orders
   );
 
   const feedArr = mod === "profile" ? ownerOrders : allOrders;

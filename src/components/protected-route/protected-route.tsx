@@ -1,6 +1,6 @@
 import { useLocation, Navigate, RouteProps } from "react-router";
 import { useSelector, useDispatch } from "../../hooks/reduxHooks";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import {
   WS_CONNECTION_START,
   WS_CONNECTION_CLOSED,
@@ -16,10 +16,7 @@ const ProtectedRoute = ({ children, to }: IProtectedRoute) => {
   const dispatch = useDispatch();
   const isAuthorized = useSelector((state) => state.userData.isAuthorized);
 
-  const isTrueWsPath = useMemo(
-    () => location.pathname.includes("/orders"),
-    [location]
-  );
+  const isTrueWsPath = location.pathname.includes("/orders");
 
   useEffect(() => {
     if (!isAuthorized || !isTrueWsPath) return;

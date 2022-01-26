@@ -166,8 +166,9 @@ export const handleOrder = (
   const ingrForRender = Object.entries(countIngr)
     .map(([k, v]) => {
       const ingr = menu.find((el) => el._id === k);
-      if (ingr) ingr.count = v;
-      return ingr;
+      const clone = { ...ingr };
+      if (clone) clone.count = v;
+      return clone;
     })
     .filter((i) => i) as IMenuItem[];
 
