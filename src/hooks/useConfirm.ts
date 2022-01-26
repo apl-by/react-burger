@@ -1,4 +1,4 @@
-import { HIDE_CONFIRM, SHOW_CONFIRM } from "../services/actions/interaction";
+import { HIDE_CONFIRM, SHOW_CONFIRM } from "../services/actions";
 import { useDispatch } from "react-redux";
 
 let resolveCallback: (value: boolean) => void;

@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "../../../hooks/reduxHooks";
 import {
   REMOVE_INGREDIENT,
   MOVE_INGREDIENT,
-} from "../../../services/actions/main";
+} from "../../../services/actions";
 import { useDrop, useDrag } from "react-dnd";
 import { IMenuItem } from "../../../types/common";
 

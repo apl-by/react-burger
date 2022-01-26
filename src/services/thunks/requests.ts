@@ -1,5 +1,9 @@
-import { START_REQUEST, END_REQUEST } from "../actions/requests";
-import { ALERT_ERROR, SHOW_ALERT } from "../actions/interaction";
+import {
+  START_REQUEST,
+  END_REQUEST,
+  ALERT_ERROR,
+  SHOW_ALERT,
+} from "../actions";
 import { apiRequests } from "../../utils/api-requests";
 import { cookiesSettings } from "../../utils/data";
 import { setCookie } from "../../utils/utils";

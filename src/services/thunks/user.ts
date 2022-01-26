@@ -7,7 +7,7 @@ import {
   UPDATE_USER_ERROR,
   LOGOUT_REQUEST,
   LOGOUT,
-} from "../actions/user";
+} from "../actions";
 import { apiRequests } from "../../utils/api-requests";
 import { getCookie, deleteCookie } from "../../utils/utils";
 import {
