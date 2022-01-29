@@ -30,9 +30,7 @@ const BurgerConstructor: FC = memo(() => {
   const { ingredients, bun, empty } = useSelector(
     (store) => store.burgConstructor
   );
-  const { isModalOpen, canSubmit } = useSelector(
-    (store) => store.orderDetails
-  );
+  const { isModalOpen, canSubmit } = useSelector((store) => store.orderDetails);
   const dispatch = useDispatch();
 
   const [, dropTarget] = useDrop({
@@ -81,6 +79,7 @@ const BurgerConstructor: FC = memo(() => {
     <section
       className={`${styles.constructor} pt-25 pr-2 pl-4 ml-10`}
       ref={dropTarget}
+      data-cy="dropTargetSection"
     >
       {empty && (
         <p

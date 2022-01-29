@@ -40,7 +40,11 @@ const BurgIngrScroll: FC<IBurgIngrScroll> = ({
             </h2>
             <ul className={`${styles.cards} pr-2 pl-4`}>
               {sortedMenu[i.key as keyof ISortedMenu].map((item) => (
-                <li className={styles.cards__card} key={item._id}>
+                <li
+                  className={styles.cards__card}
+                  key={item._id}
+                  data-cy="ingredient"
+                >
                   <BurgIngrCard cardData={item} />
                 </li>
               ))}
