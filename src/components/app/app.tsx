@@ -16,7 +16,7 @@ import FeedPage from "../../pages/feed-page/feed-page";
 import ProfileOrdersPage from "../../pages/profile-orders-page/profile-orders-page";
 import OrderInfoPage from "../../pages/order-info-page/order-info-page";
 import { useDispatch } from "../../hooks/reduxHooks";
-import { getMenu } from "../../services/thunks/main";
+import { getMenu } from "../../services/thunks/menu";
 import { getUser } from "../../services/thunks/user";
 import {
   Routes,

@@ -9,14 +9,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { memo, useCallback, useMemo, FC, SyntheticEvent } from "react";
 import { useSelector, useDispatch } from "../../hooks/reduxHooks";
-import { postOrder } from "../../services/thunks/main";
+import { postOrder } from "../../services/thunks/orderDetails";
 import { useDrop } from "react-dnd";
 import {
   ADD_BUN,
   ADD_INGREDIENT,
   CLOSE_ORDER_DETAILS,
-} from "../../services/actions/main";
-import { SHOW_ALERT } from "../../services/actions/interaction";
+  SHOW_ALERT,
+} from "../../services/actions";
 import { setTotalPrice, generateId } from "../../utils/utils";
 import { dndTypes } from "../../utils/data";
 import { useNavigate, useLocation } from "react-router";
@@ -30,9 +30,7 @@ const BurgerConstructor: FC = memo(() => {
   const { ingredients, bun, empty } = useSelector(
     (store) => store.burgConstructor
   );
-  const { isModalOpen, canSubmit } = useSelector(
-    (store) => store.orderDetails
-  );
+  const { isModalOpen, canSubmit } = useSelector((store) => store.orderDetails);
   const dispatch = useDispatch();
 
   const [, dropTarget] = useDrop({
@@ -81,6 +79,7 @@ const BurgerConstructor: FC = memo(() => {
     <section
       className={`${styles.constructor} pt-25 pr-2 pl-4 ml-10`}
       ref={dropTarget}
+      data-cy="dropTargetSection"
     >
       {empty && (
         <p

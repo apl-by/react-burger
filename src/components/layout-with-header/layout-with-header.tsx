@@ -7,7 +7,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { Outlet } from "react-router";
 import { memo, FC } from "react";
 import { useSelector, useDispatch } from "../../hooks/reduxHooks";
-import { CLEAR_ERROR, HIDE_ALERT } from "../../services/actions/interaction";
+import { CLEAR_ERROR, HIDE_ALERT } from "../../services/actions";
 
 const LayoutWithHeader: FC = memo(() => {
   const dispatch = useDispatch();

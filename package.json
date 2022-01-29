@@ -31,6 +31,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "cy:open": "cypress open",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -53,6 +54,10 @@
   },
   "devDependencies": {
     "@types/react": "^17.0.27",
+    "cypress": "^9.3.1",
+    "eslint-plugin-cypress": "^2.12.1",
+    "fetch-mock": "^9.11.0",
+    "react-test-renderer": "^17.0.2",
     "redux-devtools-extension": "^2.13.9"
   }
 }

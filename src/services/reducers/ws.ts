@@ -43,17 +43,18 @@ export const ordersReducer = (
         wsConnected: false,
       };
     case WS_GET_MESSAGE:
+      const URL_PROFILE = "wss://norma.nomoreparties.space/orders?token=";
+      const URL_All = "wss://norma.nomoreparties.space/orders/all";
+      if (action.payload.url.startsWith(URL_PROFILE)) {
+        action.payload.resApi.orders.reverse();
+      }
       return {
         ...state,
         error: undefined,
-        resAll: action.payload.url.startsWith(
-          "wss://norma.nomoreparties.space/orders/all"
-        )
+        resAll: action.payload.url.startsWith(URL_All)
           ? { ...action.payload.resApi }
           : state.resAll,
-        resOwner: action.payload.url.startsWith(
-          "wss://norma.nomoreparties.space/orders?token"
-        )
+        resOwner: action.payload.url.startsWith(URL_PROFILE)
           ? { ...action.payload.resApi }
           : state.resOwner,
       };

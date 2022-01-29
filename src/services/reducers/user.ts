@@ -52,6 +52,7 @@ export const userDataReducer = (
         isAuthorized: false,
         userFailed: true,
         wasInitialAuth: true,
+        userRequest: false,
       };
     case UPDATE_USER_REQUEST:
       return {
@@ -69,6 +70,7 @@ export const userDataReducer = (
       return {
         ...state,
         userFailed: true,
+        userRequest: false,
       };
     case LOGOUT_REQUEST:
       return {

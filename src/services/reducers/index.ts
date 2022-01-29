@@ -1,16 +1,12 @@
 import { combineReducers } from "redux";
-import {
-  menuReducer,
-  burgConstructorReducer,
-  orderDetailsReducer,
-} from "./main";
+import { menuReducer } from "./menu";
+import { burgConstructorReducer } from "./burgConstructor";
+import { orderDetailsReducer } from "./orderDetails";
 import { userDataReducer } from "./user";
 import { requestReducer } from "./requests";
-import {
-  errorAlertReducer,
-  confirmationReducer,
-  alertReducer,
-} from "./interaction";
+import { errorAlertReducer } from "./errorAlert";
+import { confirmationReducer } from "./сonfirmation";
+import { alertReducer } from "./alert";
 import { ordersReducer } from "./ws";
 
 const rootReducer = combineReducers({

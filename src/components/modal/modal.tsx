@@ -39,7 +39,7 @@ const Modal: FC<IModal> = ({
   return createPortal(
     <ModalOverlay onClick={(e) => e.target !== e.currentTarget || closeModal()}>
       <div className={`${styles.modal} pt-10 pr-10 pl-10 ${mod}`}>
-        <div className={styles.modal__container}>
+        <div className={styles.modal__container} data-cy="modalCloseBtnParent">
           {title && (
             <h2 className={`${styles.modal__title} text ${modTitle}`}>
               {title}
